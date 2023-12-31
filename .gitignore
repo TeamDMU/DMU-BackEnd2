@@ -1,7 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,intellij,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,intellij,java
 
-
+# 노출되면 안되는 설정 파일 경로 설정
+src/main/resources/application.yml
 
 
 ### Intellij ###
