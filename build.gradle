@@ -19,6 +19,9 @@ dependencies {
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.17.2'
 
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
+
 //    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //    implementation 'com.mysql:mysql-connector-j:8.1.0'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
