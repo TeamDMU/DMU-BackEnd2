@@ -1,6 +1,8 @@
 package me.gijung.DMforU.service.parser;
 
+import java.util.List;
+
 public interface HTMLParser<T> {
 
-    public T Parsing();
+    public List<T> Parsing();
 }

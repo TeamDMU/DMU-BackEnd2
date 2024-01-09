@@ -2,7 +2,6 @@ package me.gijung.DMforU.service.parser;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.domain.Diet;
-import me.gijung.DMforU.model.dto.DietDto;
 import me.gijung.DMforU.utils.WebPageLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DietParser implements HTMLParser<DietDto>{
+public class DietParser implements HTMLParser<Diet>{
 
     @Value("${dmu.url.diet}")
     private String DMU_DIET_URL;
@@ -25,7 +24,7 @@ public class DietParser implements HTMLParser<DietDto>{
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
     @Override
-    public DietDto Parsing() {
+    public List<Diet> Parsing() {
         Document document = WebPageLoader.getHTML(DMU_DIET_URL);
 
         Elements rows = document.select("div.table_1 table tbody tr");
@@ -33,18 +32,18 @@ public class DietParser implements HTMLParser<DietDto>{
         List<Diet> result = new ArrayList<>();
 
         for (Element row : rows) {
-            Diet item = createDietItemFromRow(row);
+            Diet item = parseDietItemFromRow(row);
 
             if (item != null) {
                 result.add(item);
             }
         }
 
-        return new DietDto(result);
+        return result;
     }
 
 
-    private Diet createDietItemFromRow(Element row) {
+    private Diet parseDietItemFromRow(Element row) {
         Elements columns = row.select("th, td");
 
         // 요일 출력
