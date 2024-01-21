@@ -1,0 +1,7 @@
+server:
+  time:
+    zone: Asia/Seoul
+dmu:
+  url:
+    scheduler: https://www.dongyang.ac.kr/dongyang/71/subview.do?year=
+    diet: https://www.dongyang.ac.kr/diet/dongyang/1/view.do
