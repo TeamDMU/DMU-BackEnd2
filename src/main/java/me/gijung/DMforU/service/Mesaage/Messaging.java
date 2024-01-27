@@ -21,7 +21,7 @@ public class Messaging implements FirebaseMessagingService<FirebaseMessaging>{
                         .build())
                 .setAndroidConfig(AndroidConfig.builder()
                         .setNotification(AndroidNotification.builder()
-                                .setChannelId("high_importance_channel")
+                                .setChannelId("high_importance_channel")//프론트랑 맞춰야댐
                                 .build())
                         .build()
                 )
