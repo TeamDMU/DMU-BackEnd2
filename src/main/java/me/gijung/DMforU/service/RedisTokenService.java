@@ -7,7 +7,9 @@ import me.gijung.DMforU.model.dto.TokensDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -15,21 +17,28 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class RedisService implements TokenService<TokensDto> {
+public class RedisTokenService implements TokenService<TokensDto> {
 
     private RedisTemplate<String, String> redisTemplate;
     //Redis 기기별 토큰 타임스탬프 업데이트
-    public void updateToken(TokensDto tokensDto) {
+    //Token 최초 등록
+    public void save(TokensDto tokensDto) {
         try {
             for (String token : tokensDto.getTokens()) {
-                redisTemplate.opsForList().rightPush(token, String.valueOf(LocalDateTime.now()));
-            }
+                redisTemplate.opsForValue().set(token, String.valueOf(LocalDateTime.now()), 10, TimeUnit.SECONDS);       }
         } catch (Exception e) {
             System.out.println("Redis_Update_Error = " + e);
         }
-
     }
 
+    //Token 유효시간 갱신
+    public void updateToken(TokensDto tokensDto) {
+        for (String token : tokensDto.getTokens()) {
+            redisTemplate.expire(token, 10, TimeUnit.SECONDS);
+        }
+    }
+
+    //사용자가 직접
     //Redis 기기별 토큰 삭제
     public void deleteToken(TokensDto tokensDto) {
         for (String token : tokensDto.getTokens()) {
