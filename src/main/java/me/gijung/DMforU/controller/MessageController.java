@@ -4,8 +4,8 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.AllArgsConstructor;
 import me.gijung.DMforU.model.dto.MessageDto;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.MessageService;
-import me.gijung.DMforU.service.RedisService;
+import me.gijung.DMforU.service.GoogleTokenService;
+import me.gijung.DMforU.service.RedisTokenService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +14,12 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/message")
 public class MessageController {
-    private final MessageService messageService;
-    private final RedisService redisService;
+    private final GoogleTokenService messageService;
+    private final RedisTokenService redisService;
 
     @PostMapping("/test")
     public List<String> test(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
+        redisService.save(tokensDto);
         return null;
     }
 
@@ -32,14 +33,14 @@ public class MessageController {
     //사용자 구독, 추후에 무결성 검증 로직 추가
     @PostMapping("/update_topic")
     public void update_topic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
-            redisService.updateToken(tokensDto);
+            redisService.save(tokensDto);
             messageService.updateToken(tokensDto);
     }
 
     //사용자 구독 취소, 추후에 무결성 검증 로직 추가
     @PostMapping("/delete_topic")
     public void delete_topic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
-            redisService.deleteToken(tokensDto);
+            redisService.save(tokensDto);
             messageService.deleteToken(tokensDto);
     }
 
