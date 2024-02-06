@@ -3,7 +3,6 @@ package me.gijung.DMforU.controller;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.domain.Diet;
 import me.gijung.DMforU.model.domain.schedule.YearSchedule;
-import me.gijung.DMforU.model.dto.SchedulerDto;
 import me.gijung.DMforU.service.DietService;
 import me.gijung.DMforU.service.SchedulerService;
 import org.springframework.web.bind.annotation.GetMapping;
