@@ -1,12 +1,9 @@
-package me.gijung.DMforU.auto;
+package me.gijung.DMforU.config;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.GoogleTokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
@@ -15,7 +12,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.Collections;
@@ -42,21 +38,19 @@ public class RedisConfiguration {
                 } catch (FirebaseMessagingException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("만료된 Token :: " + expiredKey);
-                // 만료된 key에 대한 추가 로직을 여기에 구현합니다.
+                System.out.println("Expired Token: " + expiredKey);
             }
         }, new PatternTopic("__keyevent@*__:expired"));
         return container;
     }
 
-
-    //RedisTemplate 재정의
+    // RedisTemplate 빈 설정
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericToStringSerializer<>(String.class));
+        redisTemplate.setValueSerializer(new StringRedisSerializer()); // 더 적합한 직렬화 방식 선택 가능
         return redisTemplate;
     }
 }
