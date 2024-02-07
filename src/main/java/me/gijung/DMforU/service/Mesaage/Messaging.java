@@ -4,6 +4,8 @@ import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class Messaging implements FirebaseMessagingService<FirebaseMessaging>{
