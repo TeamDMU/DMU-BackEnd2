@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +16,8 @@ public class RefreshToken {
 
     private static final String SERVICE_ACCOUNT_KEY_FILE = "src/main/resources/key/fire-base-key.json";
 
-    @Scheduled(fixedRate = 5000000) // Scheduled every hour
+    //Servcer AccessToken 갱신
+    @Scheduled(fixedRate = 5000000)
     private void refreshAccessToken() throws IOException {
         GoogleCredentials credentials = ServiceAccountCredentials
                 .fromStream(new FileInputStream(SERVICE_ACCOUNT_KEY_FILE))
