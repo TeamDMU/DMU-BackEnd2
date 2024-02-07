@@ -23,20 +23,20 @@ public class DepartmentNotice {
     private Long id;
 
     // 게시글 번호
-    int number;
+    private int number;
 
     // 학과명
-    String department;
+    private String department;
 
     // 작성 날짜
-    LocalDate date;
+    private LocalDate date;
 
     // 게시글 제목
-    String title;
+    private String title;
 
     // 게시글 작성자
-    String author;
+    private String author;
 
     // 게시글 URL
-    String url;
+    private String url;
 }
