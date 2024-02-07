@@ -14,34 +14,37 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/message")
 public class MessageController {
-    private final GoogleTokenService messageService;
-    private final RedisTokenService redisService;
+    private final GoogleTokenService googleTokenService;
+    private final RedisTokenService redisTokenService;
 
     @PostMapping("/test")
     public List<String> test(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
-        redisService.save(tokensDto);
+        redisTokenService.updateToken(tokensDto);
         return null;
     }
 
 
+    //알림 메세지 전송
     //추후에 자동화 시킬 예정
     @PostMapping("/send")
     public void send_message(@RequestBody MessageDto messageDto) throws FirebaseMessagingException {
-        messageService.send_message(messageDto.getTopic(), messageDto.getTitle(), messageDto.getBody());
+        googleTokenService.send_message(messageDto.getTopic(), messageDto.getTitle(), messageDto.getBody());
     }
 
-    //사용자 구독, 추후에 무결성 검증 로직 추가
+
+    //Topic 구독, 추후에 무결성 검증 로직 추가
+    //redisService.updateToken = Token 유효시간 갱신
+    //messageService.updateToken = Google FCM token & Topic 등록
     @PostMapping("/update_topic")
     public void update_topic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
-            redisService.save(tokensDto);
-            messageService.updateToken(tokensDto);
+        redisTokenService.updateToken(tokensDto);
+        googleTokenService.updateToken(tokensDto);
     }
 
-    //사용자 구독 취소, 추후에 무결성 검증 로직 추가
+    //Topic 구독 취소, 추후에 무결성 검증 로직 추가
     @PostMapping("/delete_topic")
     public void delete_topic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
-            redisService.save(tokensDto);
-            messageService.deleteToken(tokensDto);
+        googleTokenService.deleteToken(tokensDto);
     }
 
 }
