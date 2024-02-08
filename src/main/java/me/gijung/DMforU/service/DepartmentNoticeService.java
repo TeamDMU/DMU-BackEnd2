@@ -2,9 +2,13 @@ package me.gijung.DMforU.service;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Major;
+import me.gijung.DMforU.model.dto.DepartmentNoticeDto;
 import me.gijung.DMforU.model.entity.DepartmentNotice;
 import me.gijung.DMforU.repository.DepartmentNoticeRepository;
 import me.gijung.DMforU.service.parser.DepartmentNoticeParser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +24,28 @@ public class DepartmentNoticeService {
     /**
      * Major 열거형의 모든 값을 반복하여 모든 학과의 공지사항을 크롤링한다. <br>
      * 데이터베이스에 저장된 공지사항이 존재한다면, 최신 공지사항만 크롤링하여 업데이트 한다. <br>
-     * 평일 오전 9시 50분, 오후 17시 10분 자동으로 메서드를 실행한다.
+     * 평일 오전 10시, 오후 17시 자동으로 메서드를 실행한다.
      */
     @Scheduled(cron = "0 0 10, 17 * * MON-FRI")
     public void crawling() {
         for (Major major : Major.values()) {
             crawlMajorDepartment(major);
         }
+    }
+
+    /**
+     * 학과 이름을 기반으로 해당 학과의 페이지네이션된 공지사항 목록을 가져온다.
+     *
+     * @param page 검색할 페이지 번호 (1번부터 시작)
+     * @param size 페이지 당 공지사항의 수
+     * @param department 학과 이름
+     * @return 페이지에 해당하는 공지사항 목록
+     */
+    public List<DepartmentNoticeDto> findDepartmentNotices(int page, int size, String department) {
+        Page<DepartmentNotice> departmentNoticePage = departmentNoticeRepository.findByDepartment(
+                department, PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "number")));
+
+        return departmentNoticePage.map(this::mapToDto).stream().toList();
     }
 
     /**
@@ -60,7 +79,7 @@ public class DepartmentNoticeService {
      * 위의 조건을 만족하기 전까지 true를 반환하고, 만족하게 되면 false를 반환한다.
      *
      * @param departmentNotices 저장할 학과의 공지사항 목록
-     * @param currentMaxNumber 현재 데이터베이스에 저장된 최신 공지사항의 번호
+     * @param currentMaxNumber  현재 데이터베이스에 저장된 최신 공지사항의 번호
      * @return 저장이 성공했다면 true, 그렇지 않다면 false
      */
     private boolean saveNewNotices(List<DepartmentNotice> departmentNotices, int currentMaxNumber) {
@@ -79,4 +98,18 @@ public class DepartmentNoticeService {
         return true;
     }
 
+    /**
+     * 학과 공지사항 엔티티를 dto로 변환한다.
+     *
+     * @param departmentNotice 학과 공지사항 엔티티
+     * @return 학과 공지사항 dto
+     */
+    private DepartmentNoticeDto mapToDto(DepartmentNotice departmentNotice) {
+        return DepartmentNoticeDto.builder()
+                .date(departmentNotice.getDate())
+                .title(departmentNotice.getTitle())
+                .author(departmentNotice.getAuthor())
+                .url(departmentNotice.getUrl())
+                .build();
+    }
 }
