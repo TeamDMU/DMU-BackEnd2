@@ -7,7 +7,6 @@ import me.gijung.DMforU.model.dto.DepartmentNoticeDto;
 import me.gijung.DMforU.service.DepartmentNoticeService;
 import me.gijung.DMforU.service.DietService;
 import me.gijung.DMforU.service.SchedulerService;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
