@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-public class DepartmentNoticeDto {
+public class NoticeDto {
 
     private LocalDate date;
     private String title;
