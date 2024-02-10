@@ -1,11 +1,13 @@
 package me.gijung.DMforU.service;
 
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.config.Major;
-import me.gijung.DMforU.model.entity.DepartmentNotice;
+import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.model.entity.UniversityNotice;
 import me.gijung.DMforU.repository.UniversityNoticeRepository;
 import me.gijung.DMforU.service.parser.UniversityNoticeParser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,12 @@ public class UniversityNoticeService {
         }
     }
 
+    public List<NoticeDto> findUniversityNotices(int page, int size) {
+        Page<UniversityNotice> universityNoticePage = universityNoticeRepository.findAll(
+                PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "number")));
+        return universityNoticePage.map(this::mapToDto).stream().toList();
+    }
+
     private boolean saveNewNotices(List<UniversityNotice> universityNotices, int currentMaxNumber) {
         for (UniversityNotice universityNotice : universityNotices) {
             if (universityNotice.getNumber() <= currentMaxNumber) {
@@ -48,5 +56,14 @@ public class UniversityNoticeService {
         }
 
         return true;
+    }
+
+    private NoticeDto mapToDto(UniversityNotice universityNotice) {
+        return NoticeDto.builder()
+                .date(universityNotice.getDate())
+                .title(universityNotice.getTitle())
+                .author(universityNotice.getAuthor())
+                .url(universityNotice.getUrl())
+                .build();
     }
 }
