@@ -102,7 +102,7 @@ public class DepartmentNoticeService {
      * 학과 공지사항 엔티티를 dto로 변환한다.
      *
      * @param departmentNotice 학과 공지사항 엔티티
-     * @return 학과 공지사항 dto
+     * @return 공지사항 dto
      */
     private NoticeDto mapToDto(DepartmentNotice departmentNotice) {
         return NoticeDto.builder()
