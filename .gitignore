@@ -4,6 +4,10 @@
 # 노출되면 안되는 설정 파일 경로 설정
 src/main/resources/application.yml
 
+# Custom
+.gradle/8.0/cheㅌcksums/md5-checksums.bin
+.gradle/8.0/checksums/sha1-checksums.bin
+.idea/
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
