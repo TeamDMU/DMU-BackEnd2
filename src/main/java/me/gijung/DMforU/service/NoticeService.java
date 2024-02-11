@@ -22,8 +22,8 @@ public class NoticeService {
      * 키워드를 기반으로 해당 페이지네이션된 전체 공지사항 목록을 가져온다.
      *
      * @param keyword 검색 키워드
-     * @param page 검색할 페이지 번호 (1번부터 시작)
-     * @param size 페이지당 공지사항의 수
+     * @param page    검색할 페이지 번호 (1번부터 시작)
+     * @param size    페이지당 공지사항의 수
      * @return 페이지에 해당하는 공지사항 목록
      */
     public List<NoticeDto> getNotices(String keyword, int page, int size) {

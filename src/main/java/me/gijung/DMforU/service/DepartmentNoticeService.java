@@ -36,8 +36,8 @@ public class DepartmentNoticeService {
     /**
      * 학과 이름을 기반으로 해당 학과의 페이지네이션된 공지사항 목록을 가져온다.
      *
-     * @param page 검색할 페이지 번호 (1번부터 시작)
-     * @param size 페이지 당 공지사항의 수
+     * @param page       검색할 페이지 번호 (1번부터 시작)
+     * @param size       페이지 당 공지사항의 수
      * @param department 학과 이름
      * @return 페이지에 해당하는 공지사항 목록
      */

@@ -19,19 +19,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DietParser implements HTMLParser<Diet>{
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
     @Value("${dmu.url.diet}")
     private String DMU_DIET_URL;
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-
     @Override
     public List<Diet> Parsing() {
-        Document document = WebPageLoader.getHTML(DMU_DIET_URL);
-
-        Elements rows = document.select("div.table_1 table tbody tr");
 
         List<Diet> result = new ArrayList<>();
 
+        Document document = WebPageLoader.getHTML(DMU_DIET_URL);
+
+        Elements rows = document.select("div.table_1 table tbody tr");
         for (Element row : rows) {
             Diet item = parseDietItemFromRow(row);
 

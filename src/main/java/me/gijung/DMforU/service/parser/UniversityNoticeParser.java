@@ -19,10 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UniversityNoticeParser implements HTMLParser<UniversityNotice> {
 
-    private static final String SUFFIX_NEW_POST = " 새글";
     private static final String SEARCH_URL = "https://www.dongyang.ac.kr/dongyang/129/subview.do?page=%d";
     private static final String RESULT_URL = "https://www.dongyang.ac.kr%s?layout=unknown";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+    private static final String SUFFIX_NEW_POST = " 새글";
 
     private int pageNumber;
 
