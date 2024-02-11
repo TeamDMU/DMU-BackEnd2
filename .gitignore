@@ -5,8 +5,9 @@
 src/main/resources/application.yml
 
 # Custom
-.gradle/8.0/cheㅌcksums/md5-checksums.bin
+.gradle/8.0/checksums/md5-checksums.bin
 .gradle/8.0/checksums/sha1-checksums.bin
+.gradle/8.0/checksums/checksums.lock
 .idea/
 
 ### Intellij ###
