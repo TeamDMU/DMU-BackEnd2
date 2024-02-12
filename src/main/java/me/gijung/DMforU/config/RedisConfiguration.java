@@ -31,14 +31,15 @@ public class RedisConfiguration {
             @Override
             public void onMessage(Message message, byte[] pattern) {
                 String expiredKey = new String(message.getBody());
-                TokensDto tokensDto = new TokensDto();
-                tokensDto.setTokens(Collections.singletonList(expiredKey));
+                TokensDto tokensDto = TokensDto
+                        .builder()
+                        .tokens(Collections.singletonList(expiredKey))
+                        .build();
                 try {
-                    googleTokenService.deleteToken(tokensDto);
+                    googleTokenService.AlldeleteTopic(tokensDto);
                 } catch (FirebaseMessagingException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("Expired Token: " + expiredKey);
             }
         }, new PatternTopic("__keyevent@*__:expired"));
         return container;
