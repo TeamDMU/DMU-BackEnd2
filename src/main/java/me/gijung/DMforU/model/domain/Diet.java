@@ -14,5 +14,5 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Diet {
     private LocalDate date;
-    private String menus;
+    private String[] menus;
 }
