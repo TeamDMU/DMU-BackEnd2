@@ -7,42 +7,69 @@ import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.Mesaage.FirebaseMessagingService;
 import org.springframework.stereotype.Service;
 
+import java.util.EnumSet;
+
 @Service
 @RequiredArgsConstructor
 public class GoogleTokenService implements TokenService<TokensDto> {
 
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
-    public void send_message(String topic, String title, String body) throws FirebaseMessagingException {
-        Message message = firebaseMessaging.sendMessage(topic, title, body);
-        FirebaseMessaging.getInstance().send(message);
 
 
-    }
-
-
+    /**
+     * FCM Topic 기기별 구독 메서드
+     * 여러대가 동시에 여러개의 토픽을 구독한다는 가정
+     * Token - List<Token>
+     * Topic - List<Topic>
+     */
     //Google FCM서버에 기기별 구독 업데이트
     public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
 
-        for (Topic topic : tokensDto.getTopic()) {
+        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+        for (Topic topic : topics) {
             TopicManagementResponse topicManagementResponse = instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
-            System.out.println("업데이트 성공갯수 :: " +topicManagementResponse.getSuccessCount() );
+            System.out.println("Google Save Token Count :: " +topicManagementResponse.getSuccessCount() );
         }
-
-
     }
 
-
+    /**
+     * FCM Topic 기기별 삭제 메서드
+     * 여러대가 동시에 여러개의 토픽을 삭제한다는 가정
+     * Token - List<Token>
+     * Topic - List<Topic>
+     */
     //Google FCM서버에 기기별 구독 삭제
     public void deleteToken(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
 
-        for (Topic topic : Topic.values()) {
+        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+        for (Topic topic : topics) {
             TopicManagementResponse topicManagementResponse = instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
-            System.out.println("삭제 성공갯수 :: " +topicManagementResponse.getSuccessCount() );
+            System.out.println("Google Delete Token Count :: " +topicManagementResponse.getSuccessCount() );
+        }
+    }
+    /**
+     * FCM Topic 기기별  모두 삭제 메서드 ( 유효기간 만료에 사용 )
+     * Token - List<Token>
+     * Topic - List<Topic>
+     */
+    //모든 카테고리 삭제
+    public void AlldeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
+        FirebaseMessaging instance = firebaseMessaging
+                .getInstance();
+        try {
+            EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+            for (Topic topic : topics) {
+                TopicManagementResponse topicManagementResponse = instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
+            }
+        }catch (Exception e){
+            System.out.println("Error ::: " + e);
+        }finally {
+            System.out.println("AlldeleteTopic 실행 완료");
         }
     }
 }

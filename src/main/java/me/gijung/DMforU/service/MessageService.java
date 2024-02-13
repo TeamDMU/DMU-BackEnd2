@@ -30,12 +30,8 @@ public class MessageService {
             boolean contains = departmentNoticeDto
                     .getTitle()
                     .contains(String.valueOf(topic.getKoreanName()));
-            if(contains){
-                MessageDto messagedto = MessageDto.builder()
-                        .topic(topic.getEnglishName())
-                        .title(departmentNoticeDto.getTitle())
-                        .body(departmentNoticeDto.getUrl())
-                        .build();
+            if (contains) {
+                MessageDto messagedto = new MessageDto(topic.getEnglishName(), String.valueOf(topic.getKoreanName()));
                 Message message = firebaseMessaging.sendMessage(messagedto);
                 FirebaseMessaging.getInstance().send(message);
             }
@@ -50,11 +46,5 @@ public class MessageService {
                 .author(departmentNotice.getAuthor())
                 .url(departmentNotice.getUrl())
                 .build();
-    }
-
-
-    //
-    private Boolean Category_extraction(String topic) {
-        return topic.contains(String.valueOf(topic));
     }
 }

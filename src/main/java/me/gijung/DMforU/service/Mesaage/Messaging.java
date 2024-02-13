@@ -2,6 +2,7 @@ package me.gijung.DMforU.service.Mesaage;
 
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
+import me.gijung.DMforU.model.dto.MessageDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +15,12 @@ public class Messaging implements FirebaseMessagingService<FirebaseMessaging>{
         return FirebaseMessaging.getInstance();
     }
 
-    public Message sendMessage(String topic, String title, String body) {
+    public Message sendMessage(MessageDto messageDto) {
         return Message.builder()
-                .setTopic(topic)
+                .setTopic(messageDto.getTopic())
                 .setNotification(Notification.builder()
-                        .setTitle(title)
-                        .setBody(body)
+                        .setTitle(messageDto.getTitle())
+                        .setBody(messageDto.getBody())
                         .build())
                 .setAndroidConfig(AndroidConfig.builder()
                         .setNotification(AndroidNotification.builder()

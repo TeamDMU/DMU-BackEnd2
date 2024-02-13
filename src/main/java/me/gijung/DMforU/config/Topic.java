@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Topic {
     menu("학식", "menu"),
-    schedule("일정", "menu");
+    schedule("일정", "schedule");
+
 
     private final String koreanName;
     private final String englishName;
