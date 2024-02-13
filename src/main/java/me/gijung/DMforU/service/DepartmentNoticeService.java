@@ -27,7 +27,7 @@ public class DepartmentNoticeService {
      * 평일 오전 10시, 오후 17시 자동으로 메서드를 실행한다.
      */
 
-    @Scheduled(cron = "0 0 10, 17 * * MON-FRI")
+    @Scheduled(cron = "0 0 10,17 * * MON-FRI")
     public void crawling() {
         for (Major major : Major.values()) {
             crawlMajorDepartment(major);
