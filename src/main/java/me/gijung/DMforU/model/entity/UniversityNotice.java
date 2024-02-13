@@ -1,13 +1,13 @@
 package me.gijung.DMforU.model.entity;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.gijung.DMforU.service.Listener.DepartmentNoticeListener;
-
 
 import java.time.LocalDate;
 
@@ -16,8 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EntityListeners(DepartmentNoticeListener.class)
-public class DepartmentNotice {
+public class UniversityNotice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +24,6 @@ public class DepartmentNotice {
 
     // 게시글 번호
     private int number;
-
-    // 학과명
-    private String department;
 
     // 작성 날짜
     private LocalDate date;

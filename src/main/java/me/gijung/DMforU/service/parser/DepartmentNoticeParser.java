@@ -22,13 +22,13 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
 
-    private Major major;
-
-    private int pageNumber;
 
     private static final Pattern pattern = Pattern.compile("\\('([^']+)'\\,'([^']+)'\\,'([^']+)'\\,'([^']+)'");
-
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+    private Major major;
+    private int pageNumber;
+
 
     /**
      * HTML을 파싱하여 학과 공지사항 목록을 반환한다.
@@ -43,10 +43,8 @@ public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
         Document document = WebPageLoader.getHTML(generateSearchUrl());
 
         Elements rows = document.select(".board-table tbody tr");
-
         // 각 행을 순회하면서 공지사항 정보를 파싱한다.
         for (Element row : rows) {
-
             String checkNumber = row.select(".td-num").text();
 
             // 게시글 번호가 비어있거나, 일반 공지인 경우 스킵한다.

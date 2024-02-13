@@ -11,10 +11,11 @@ public class WebPageLoader {
 
     /**
      * Jsoup을 사용하여 URL에 해당하는 웹 페이지의 HTML을 가져온다.
+     *
      * @param url HTML을 가져오고자 하는 웹 페이지의 URL
      * @return URL에 접속하면 볼 수 있는 HTML을 반환
      */
-    public static Document getHTML(String url)  {
+    public static Document getHTML(String url) {
         try {
             return Jsoup.connect(url).get();
         } catch (IOException e) {
