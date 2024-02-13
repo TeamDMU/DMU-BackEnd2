@@ -26,6 +26,7 @@ public class DepartmentNoticeService {
      * 데이터베이스에 저장된 공지사항이 존재한다면, 최신 공지사항만 크롤링하여 업데이트 한다. <br>
      * 평일 오전 10시, 오후 17시 자동으로 메서드를 실행한다.
      */
+
     @Scheduled(cron = "0 0 10, 17 * * MON-FRI")
     public void crawling() {
         for (Major major : Major.values()) {

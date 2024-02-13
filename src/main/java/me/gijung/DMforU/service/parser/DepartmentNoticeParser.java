@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
 
+
     private static final Pattern pattern = Pattern.compile("\\('([^']+)'\\,'([^']+)'\\,'([^']+)'\\,'([^']+)'");
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
