@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -59,7 +60,9 @@ public class DietParser implements HTMLParser<Diet>{
 
 
         Element menuElement = (columns.size() > 3) ? columns.get(3) : null;
-        String menus = (menuElement != null && !menuElement.text().isEmpty()) ? menuElement.text() : "없음";
+        String menuValue = (menuElement != null && !menuElement.text().isEmpty()) ? menuElement.text() : "없음";
+
+        String[] menus = menuValue.split(", ");
 
         Diet item = new Diet();
         item.setDate(parsedDate);
