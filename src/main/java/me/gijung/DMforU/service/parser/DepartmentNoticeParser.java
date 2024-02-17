@@ -59,7 +59,7 @@ public class DepartmentNoticeParser extends UrlGenerator implements Parser<Notic
             LocalDate date = LocalDate.parse(row.select(".td-date").text(), formatter);
 
             Notice departmentNotice = Notice.builder()
-                    .notice_type(major.getName())
+                    .type(major.getName())
                     .number(number)
                     .date(date)
                     .title(title)

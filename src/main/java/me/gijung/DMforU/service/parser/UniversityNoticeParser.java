@@ -58,7 +58,7 @@ public class UniversityNoticeParser extends UrlGenerator implements Parser<Notic
             LocalDate date = LocalDate.parse(row.select(".td-date").text(), DATE_FORMATTER);
 
             Notice universityNotice = new Notice().builder()
-                    .notice_type(NOTICE_TYPE)
+                    .type(NOTICE_TYPE)
                     .number(number)
                     .date(date)
                     .title(title)

@@ -26,7 +26,7 @@ public class Notice {
     private int number;
 
     // 공지사항 종류
-    private String notice_type;
+    private String type;
 
     // 공지사항 날짜
     private LocalDate date;
