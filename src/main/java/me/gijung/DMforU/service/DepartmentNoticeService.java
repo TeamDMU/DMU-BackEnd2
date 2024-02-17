@@ -3,9 +3,10 @@ package me.gijung.DMforU.service;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Major;
 import me.gijung.DMforU.model.dto.NoticeDto;
-import me.gijung.DMforU.model.entity.DepartmentNotice;
-import me.gijung.DMforU.repository.DepartmentNoticeRepository;
+import me.gijung.DMforU.model.entity.Notice;
+import me.gijung.DMforU.repository.NoticeRepository;
 import me.gijung.DMforU.service.parser.DepartmentNoticeParser;
+import me.gijung.DMforU.utils.NoticeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,7 @@ import java.util.List;
 public class DepartmentNoticeService {
 
     private final DepartmentNoticeParser parser;
-    private final DepartmentNoticeRepository departmentNoticeRepository;
+    private final NoticeRepository noticeRepository;
 
     /**
      * Major 열거형의 모든 값을 반복하여 모든 학과의 공지사항을 크롤링한다. <br>
@@ -43,10 +44,10 @@ public class DepartmentNoticeService {
      * @return 페이지에 해당하는 공지사항 목록
      */
     public List<NoticeDto> findDepartmentNotices(int page, int size, String department) {
-        Page<DepartmentNotice> departmentNoticePage = departmentNoticeRepository.findByDepartment(
+        Page<Notice> departmentNoticePage = noticeRepository.findByType(
                 department, PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "number")));
 
-        return departmentNoticePage.map(this::mapToDto).stream().toList();
+        return departmentNoticePage.map(NoticeMapper::mapToDto).stream().toList();
     }
 
     /**
@@ -60,12 +61,12 @@ public class DepartmentNoticeService {
     private void crawlMajorDepartment(Major major) {
         parser.setMajor(major);
         parser.setPageNumber(1);
-        Integer maxNumber = departmentNoticeRepository.findMaxNumberByDepartmentName(major.getName());
+        Integer maxNumber = noticeRepository.findMaxNumberByType(major.getName());
         int currentMaxNumber = maxNumber != null ? maxNumber : 0;
 
         while (true) {
-            List<DepartmentNotice> departmentNotices = parser.Parsing();
-            boolean isNewNoticeFound = saveNewNotices(departmentNotices, currentMaxNumber);
+            List<Notice> notices = parser.parse();
+            boolean isNewNoticeFound = saveNewNotices(notices, currentMaxNumber);
 
             if (!isNewNoticeFound) {
                 return;
@@ -79,38 +80,23 @@ public class DepartmentNoticeService {
      * 데이터베이스에 저장된 공지사항이 존재하지 않아 currentMaxNumber가 0이라면 게시글의 번호가 1번이 될 때 까지 저장한다. <br>
      * 위의 조건을 만족하기 전까지 true를 반환하고, 만족하게 되면 false를 반환한다.
      *
-     * @param departmentNotices 저장할 학과의 공지사항 목록
+     * @param notices           저장할 학과의 공지사항 목록
      * @param currentMaxNumber  현재 데이터베이스에 저장된 최신 공지사항의 번호
      * @return 저장이 성공했다면 true, 그렇지 않다면 false
      */
-    private boolean saveNewNotices(List<DepartmentNotice> departmentNotices, int currentMaxNumber) {
-        for (DepartmentNotice departmentNotice : departmentNotices) {
-            if (departmentNotice.getNumber() <= currentMaxNumber) {
+    private boolean saveNewNotices(List<Notice> notices, int currentMaxNumber) {
+        for (Notice notice : notices) {
+            if (notice.getNumber() <= currentMaxNumber) {
                 return false;
             }
 
-            departmentNoticeRepository.save(departmentNotice);
+            noticeRepository.save(notice);
 
-            if (departmentNotice.getNumber() == 1) {
+            if (notice.getNumber() == 1) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    /**
-     * 학과 공지사항 엔티티를 dto로 변환한다.
-     *
-     * @param departmentNotice 학과 공지사항 엔티티
-     * @return 공지사항 dto
-     */
-    private NoticeDto mapToDto(DepartmentNotice departmentNotice) {
-        return NoticeDto.builder()
-                .date(departmentNotice.getDate())
-                .title(departmentNotice.getTitle())
-                .author(departmentNotice.getAuthor())
-                .url(departmentNotice.getUrl())
-                .build();
     }
 }

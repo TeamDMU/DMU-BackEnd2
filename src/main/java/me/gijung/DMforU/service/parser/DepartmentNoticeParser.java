@@ -3,7 +3,7 @@ package me.gijung.DMforU.service.parser;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.gijung.DMforU.config.Major;
-import me.gijung.DMforU.model.entity.DepartmentNotice;
+import me.gijung.DMforU.model.entity.Notice;
 import me.gijung.DMforU.utils.WebPageLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,8 +20,7 @@ import java.util.regex.Pattern;
 @Service
 @Setter
 @RequiredArgsConstructor
-public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
-
+public class DepartmentNoticeParser extends UrlGenerator implements Parser<Notice> {
 
     private static final Pattern pattern = Pattern.compile("\\('([^']+)'\\,'([^']+)'\\,'([^']+)'\\,'([^']+)'");
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
@@ -36,38 +35,36 @@ public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
      * @return 학과 공지사항 목록
      */
     @Override
-    public List<DepartmentNotice> Parsing() {
+    public List<Notice> parse() {
 
-        List<DepartmentNotice> departmentNotices = new ArrayList<>();
+        List<Notice> departmentNotices = new ArrayList<>();
 
         Document document = WebPageLoader.getHTML(generateSearchUrl());
 
         Elements rows = document.select(".board-table tbody tr");
-        // 각 행을 순회하면서 공지사항 정보를 파싱한다.
-        for (Element row : rows) {
-            String checkNumber = row.select(".td-num").text();
 
-            // 게시글 번호가 비어있거나, 일반 공지인 경우 스킵한다.
-            if (checkNumber.isEmpty() || checkNumber.equals("일반공지")) {
+        for (Element row : rows) {
+
+            int number;
+
+            try {
+                number = Integer.parseInt(row.select(".td-num").text());
+            } catch (NumberFormatException e) {
                 continue;
             }
 
-            int number = Integer.parseInt(checkNumber);
             String title = row.select(".td-subject a").text();
             String author = row.select(".td-write").text();
             String url = row.select(".td-subject a").attr("href");
             LocalDate date = LocalDate.parse(row.select(".td-date").text(), formatter);
 
-            // URL에서 정보를 추출하기 위한 Matcher 생성
-            Matcher matcher = pattern.matcher(url);
-
-            DepartmentNotice departmentNotice = DepartmentNotice.builder()
-                    .department(major.getName())
+            Notice departmentNotice = Notice.builder()
+                    .type(major.getName())
                     .number(number)
                     .date(date)
                     .title(title)
                     .author(author)
-                    .url(generateUrlFromSearch(matcher))
+                    .url(generateUrlFromSearch(url))
                     .build();
 
             departmentNotices.add(departmentNotice);
@@ -81,7 +78,8 @@ public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
      *
      * @return URL
      */
-    private String generateSearchUrl() {
+    @Override
+    protected String generateSearchUrl() {
         return String.format("https://www.dongyang.ac.kr/%s/%s/subview.do?page=%d",
                 major.getMajorCode(), major.getNoticeCode(), pageNumber++);
     }
@@ -89,11 +87,16 @@ public class DepartmentNoticeParser implements HTMLParser<DepartmentNotice> {
     /**
      * 파싱 결과를 통해 공지사항의 URL을 생성한다.
      *
-     * @param matcher URL에서 정보를 추출하기 위한 Matcher
+     * @param url 파싱 결과
      * @return URL
      * @throws IllegalArgumentException Matcher를 통해 URL을 생성할 수 없는 경우 예외 발생
      */
-    private String generateUrlFromSearch(Matcher matcher) {
+    @Override
+    protected String generateUrlFromSearch(String url) {
+
+        // URL에서 정보를 추출하기 위한 Matcher 생성
+        Matcher matcher = pattern.matcher(url);
+
         if (!matcher.find()) {
             throw new IllegalArgumentException("Matcher did not find any match");
         }

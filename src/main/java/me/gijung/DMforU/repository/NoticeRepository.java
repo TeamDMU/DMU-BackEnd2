@@ -1,6 +1,6 @@
 package me.gijung.DMforU.repository;
 
-import me.gijung.DMforU.model.entity.DepartmentNotice;
+import me.gijung.DMforU.model.entity.Notice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +8,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 
-public interface NoticeRepository extends JpaRepository<DepartmentNotice, Long> {
+public interface NoticeRepository extends JpaRepository<Notice, Long> {
+
+    /** 원하는 타입의 가장 최신 공지사항 번호를 확인하는 메서드
+     *
+     * @Param type (학과 이름 또는 대학)
+     * @Return type에 알맞는 최신 공지사항 번호, 만약 공지사항이 존재하지 않다면 Null을 반환한다.*/
+    @Query("SELECT MAX(e.number) FROM Notice e WHERE e.type = :type")
+    Integer findMaxNumberByType(@Param("type") String type);
+
+    /**
+     * 원하는 타입의 공지사항을 페이징네이션하는 메서드
+     *
+     * @param type      공지사항 타입 (학과 이름 또는 대학)
+     * @param pageable  페이지 단위
+     * @return 학과의 공지사항을 페이지 단위에 맞게 반환한다.
+     */
+    Page<Notice> findByType(String type, Pageable pageable);
 
     /**
      * 학과, 대학 공지사항을 검색하는 메서드 <br>
@@ -18,19 +34,6 @@ public interface NoticeRepository extends JpaRepository<DepartmentNotice, Long> 
      * @param pageable 페이지 단위
      * @return 키워드에 맞는 공지사항 페이지
      */
-    @Query(value = "SELECT * FROM ( " +
-            "SELECT date, title, author, url FROM department_notice " +
-            "UNION " +
-            "SELECT date, title, author, url FROM university_notice " +
-            ") AS subquery " +
-            "WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(:keyword, ' ', ''), '%') " +
-            "ORDER BY date DESC",
-            countQuery = "SELECT COUNT(*) FROM ( " +
-                    "SELECT date, title, author, url FROM department_notice " +
-                    "UNION " +
-                    "SELECT date, title, author, url FROM university_notice " +
-                    ") AS subquery " +
-                    "WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(:keyword, ' ', ''), '%') ",
-            nativeQuery = true)
-    Page<Object> searchByTitleIgnoringSpaces(@Param("keyword") String keyword, Pageable pageable);
+    @Query(value = "SELECT * FROM Notice WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(?1, ' ', ''), '%')", nativeQuery = true)
+    Page<Notice> findByTitleContainingKeyword(String keyword, Pageable pageable);
 }

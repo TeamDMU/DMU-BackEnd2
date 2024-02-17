@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SchedulerParser implements HTMLParser<YearSchedule> {
+public class SchedulerParser implements Parser<YearSchedule> {
 
     @Value("${server.time.zone}")
     private String TIME_ZONE;
@@ -27,7 +27,7 @@ public class SchedulerParser implements HTMLParser<YearSchedule> {
     private String DMU_SCHEDULER_URL;
 
     @Override
-    public List<YearSchedule> Parsing() {
+    public List<YearSchedule> parse() {
         List<YearSchedule> yearSchedules = new ArrayList<>();
         // 서버의 위치에 따라 날짜가 다를 수 있기 때문에 선언
         // yml으로 해당 정보를 옮겨야 할듯

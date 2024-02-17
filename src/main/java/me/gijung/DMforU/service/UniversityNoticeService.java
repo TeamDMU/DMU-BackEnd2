@@ -2,9 +2,10 @@ package me.gijung.DMforU.service;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.NoticeDto;
-import me.gijung.DMforU.model.entity.UniversityNotice;
-import me.gijung.DMforU.repository.UniversityNoticeRepository;
+import me.gijung.DMforU.model.entity.Notice;
+import me.gijung.DMforU.repository.NoticeRepository;
 import me.gijung.DMforU.service.parser.UniversityNoticeParser;
+import me.gijung.DMforU.utils.NoticeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,7 +19,7 @@ import java.util.List;
 public class UniversityNoticeService {
 
     private final UniversityNoticeParser parser;
-    private final UniversityNoticeRepository universityNoticeRepository;
+    private final NoticeRepository noticeRepository;
 
     /**
      * 모든 대학 공지사항을 크롤링한다. <br>
@@ -28,11 +29,11 @@ public class UniversityNoticeService {
     @Scheduled(cron = "0 0 10,17 * * MON-FRI")
     public void crawling() {
         parser.setPageNumber(1);
-        Integer maxNumber = universityNoticeRepository.findByMaxNumber();
+        Integer maxNumber = noticeRepository.findMaxNumberByType("대학");
         int currentMaxNumber = maxNumber != null ? maxNumber : 0;
 
         while (true) {
-            List<UniversityNotice> departmentNotices = parser.Parsing();
+            List<Notice> departmentNotices = parser.parse();
             boolean isNewNoticeFound = saveNewNotices(departmentNotices, currentMaxNumber);
 
             if (!isNewNoticeFound) {
@@ -49,9 +50,9 @@ public class UniversityNoticeService {
      * @return 페이지에 해당하는 공지사항 목록
      */
     public List<NoticeDto> findUniversityNotices(int page, int size) {
-        Page<UniversityNotice> universityNoticePage = universityNoticeRepository.findAll(
+        Page<Notice> universityNoticePage = noticeRepository.findByType("대학",
                 PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "number")));
-        return universityNoticePage.map(this::mapToDto).stream().toList();
+        return universityNoticePage.map(NoticeMapper::mapToDto).stream().toList();
     }
 
 
@@ -61,19 +62,19 @@ public class UniversityNoticeService {
      * 데이터베이스에 저장된 공지사항이 존재하지 않아 currentMaxNumber가 0이라면 게시글의 번호가 1번이 될 때 까지 저장한다. <br>
      * 위의 조건을 만족하기 전까지 true를 반환하고, 만족하게 되면 false를 반환한다.
      *
-     * @param universityNotices 저장할 대학 공지사항 목록
+     * @param notices 저장할 대학 공지사항 목록
      * @param currentMaxNumber 현재 데이터베이스에 저장된 최신 공지사항의 번호
      * @return 저장에 성공했다면 true, 그렇지 않다면 false
      */
-    private boolean saveNewNotices(List<UniversityNotice> universityNotices, int currentMaxNumber) {
-        for (UniversityNotice universityNotice : universityNotices) {
-            if (universityNotice.getNumber() <= currentMaxNumber) {
+    private boolean saveNewNotices(List<Notice> notices, int currentMaxNumber) {
+        for (Notice notice : notices) {
+            if (notice.getNumber() <= currentMaxNumber) {
                 return false;
             }
 
-            universityNoticeRepository.save(universityNotice);
+            noticeRepository.save(notice);
 
-            if (universityNotice.getNumber() == 1) {
+            if (notice.getNumber() == 1) {
                 return false;
             }
         }
@@ -81,18 +82,4 @@ public class UniversityNoticeService {
         return true;
     }
 
-    /**
-     * 대학 공지사항 엔티티를 dto로 변환한다.
-     *
-     * @param universityNotice 대학 공지사항 엔티티
-     * @return 공지사항 dto
-     */
-    private NoticeDto mapToDto(UniversityNotice universityNotice) {
-        return NoticeDto.builder()
-                .date(universityNotice.getDate())
-                .title(universityNotice.getTitle())
-                .author(universityNotice.getAuthor())
-                .url(universityNotice.getUrl())
-                .build();
-    }
 }

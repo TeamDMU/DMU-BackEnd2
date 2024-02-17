@@ -1,13 +1,13 @@
 package me.gijung.DMforU.model.entity;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.gijung.DMforU.service.Listener.DepartmentNoticeListener;
-
 
 import java.time.LocalDate;
 
@@ -16,28 +16,27 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EntityListeners(DepartmentNoticeListener.class)
-public class DepartmentNotice {
+public class Notice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 게시글 번호
+    // 공지사항 번호
     private int number;
 
-    // 학과명
-    private String department;
+    // 공지사항 종류
+    private String type;
 
-    // 작성 날짜
+    // 공지사항 날짜
     private LocalDate date;
 
-    // 게시글 제목
+    // 공지사항 제목
     private String title;
 
-    // 게시글 작성자
+    // 공지사항 작성자
     private String author;
 
-    // 게시글 URL
+    // 공지사항 URL
     private String url;
 }
