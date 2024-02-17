@@ -3,8 +3,8 @@ package me.gijung.DMforU.controller;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.AllArgsConstructor;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.model.entity.DepartmentNotice;
-import me.gijung.DMforU.repository.DepartmentNoticeRepository;
+import me.gijung.DMforU.model.entity.Notice;
+import me.gijung.DMforU.repository.NoticeRepository;
 import me.gijung.DMforU.service.GoogleTokenService;
 import me.gijung.DMforU.service.RedisTokenService;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +16,14 @@ public class MessageController {
     private final GoogleTokenService googleTokenService;
     private final RedisTokenService redisTokenService;
 
-    private final DepartmentNoticeRepository departmentNoticeRepository;
+    private final NoticeRepository noticeRepository;
 
 
     //직접 DB에 데이터 저장 ( 테스트를 위한 용토 )
     @PostMapping("/test")
-    public void send_message(@RequestBody DepartmentNotice departmentNotice) throws FirebaseMessagingException {
-        System.out.println(departmentNotice.getTitle());
-        departmentNoticeRepository.save(departmentNotice);
+    public void send_message(@RequestBody Notice notice) throws FirebaseMessagingException {
+        System.out.println(notice.getTitle());
+        noticeRepository.save(notice);
     }
 
     /**
