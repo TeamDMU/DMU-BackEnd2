@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DietParser implements HTMLParser<Diet>{
+public class DietParser implements Parser<Diet> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
@@ -25,7 +24,7 @@ public class DietParser implements HTMLParser<Diet>{
     private String DMU_DIET_URL;
 
     @Override
-    public List<Diet> Parsing() {
+    public List<Diet> parse() {
 
         List<Diet> result = new ArrayList<>();
 
