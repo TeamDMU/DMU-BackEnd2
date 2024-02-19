@@ -1,4 +1,4 @@
-package me.gijung.DMforU.service.parser;
+package me.gijung.DMforU.service.parser.notice;
 
 public abstract class UrlGenerator {
 

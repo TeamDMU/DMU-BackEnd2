@@ -1,9 +1,10 @@
-package me.gijung.DMforU.service.parser;
+package me.gijung.DMforU.service.parser.notice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.gijung.DMforU.config.Major;
 import me.gijung.DMforU.model.entity.Notice;
+import me.gijung.DMforU.service.parser.Parser;
 import me.gijung.DMforU.utils.WebPageLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
