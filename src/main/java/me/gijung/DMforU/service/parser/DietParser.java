@@ -57,16 +57,13 @@ public class DietParser implements Parser<Diet> {
 
         LocalDate parsedDate = LocalDate.parse(day.substring(0, 10), formatter);
 
-
+        // 코리안 푸드 메뉴가 4번째 컬럼에 작성되기 때문에, 컬럼의 개수가 3개 이하라면 해당 날짜의 메뉴는 존재하지 않는 것으로 처리하였다.
+        // 만일 식단의 작성 방법이 변경된다면 해당 로직 또한 변경의 필요성이 존재한다.
         Element menuElement = (columns.size() > 3) ? columns.get(3) : null;
         String menuValue = (menuElement != null && !menuElement.text().isEmpty()) ? menuElement.text() : "없음";
 
         String[] menus = menuValue.split(", ");
 
-        Diet item = new Diet();
-        item.setDate(parsedDate);
-        item.setMenus(menus);
-
-        return item;
+        return new Diet(parsedDate, menus);
     }
 }
