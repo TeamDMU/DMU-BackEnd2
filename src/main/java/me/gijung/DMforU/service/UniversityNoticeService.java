@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.model.entity.Notice;
 import me.gijung.DMforU.repository.NoticeRepository;
-import me.gijung.DMforU.service.parser.UniversityNoticeParser;
+import me.gijung.DMforU.service.parser.notice.UniversityNoticeParser;
 import me.gijung.DMforU.utils.NoticeMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
