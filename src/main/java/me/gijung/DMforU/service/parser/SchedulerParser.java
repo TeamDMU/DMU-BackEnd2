@@ -29,8 +29,7 @@ public class SchedulerParser implements Parser<YearSchedule> {
     @Override
     public List<YearSchedule> parse() {
         List<YearSchedule> yearSchedules = new ArrayList<>();
-        // 서버의 위치에 따라 날짜가 다를 수 있기 때문에 선언
-        // yml으로 해당 정보를 옮겨야 할듯
+
         int currentYear = LocalDate.now(ZoneId.of(TIME_ZONE)).getYear();
 
         // 올해의 일정을 파싱하고 저장
@@ -51,8 +50,7 @@ public class SchedulerParser implements Parser<YearSchedule> {
         Elements monthTables = document.select(".yearSchdulWrap");
 
         for (Element monthTable : monthTables) {
-            MonthSchedule monthSchedule;
-            monthSchedule = fetchMonthSchedule(monthTable, year);
+            MonthSchedule monthSchedule = fetchMonthSchedule(monthTable);
 
             // 일정 정보가 업로드 되지 않는 달은 제외한다. (다음 년도 3월 이후의 정보)
             if (monthSchedule.getScheduleEntries().isEmpty()) break;
@@ -63,10 +61,14 @@ public class SchedulerParser implements Parser<YearSchedule> {
         return yearSchedules;
     }
 
-    private MonthSchedule fetchMonthSchedule(Element monthTable, int year) {
+    private MonthSchedule fetchMonthSchedule(Element monthTable) {
+
+        List<SchedulerEntry> monthEntries = new ArrayList<>();
+
+        // <p id="yearmonth20241">2024.1</p> p태그에서 "2024.1"을 문자열로 가져온다.
+        // 이때, 월 정보만 필요하기 때문에 문자열 인덱스 5부터의 정보만을 가져온다.
         String monthText = monthTable.select("p").first().text().substring(5);
         int month = Integer.parseInt(monthText);
-        List<SchedulerEntry> monthEntries = new ArrayList<>();
 
         Elements scheduleList = monthTable.select(".scheList li");
         for (Element schedule : scheduleList) {
