@@ -4,7 +4,6 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import me.gijung.DMforU.model.dto.TokensDto;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public interface TokenService<T> {

@@ -31,11 +31,15 @@ public class NoticeListener {
     }
 
     //DB에 새로운 데이터가 추가되는 순간, 아래의 메서드가 호출
-    //약 2만건 데이터, 그리고 하루에 10건의 데이터가 추가되는 상황이라면 성능이 나쁘지 않게
-    //나올 수 있음.
+    //약 2만건 데이터, 그리고 하루에 10건의 데이터가 추가되는 상황이라면 성능이 나쁘지 않게 나올 수 있음.
     @PostPersist
     public void postPersist(Notice notice) throws FirebaseMessagingException {
-        messageService.send_message(notice);
-        System.out.println(">>> 메세지 전송 :: ");
+        try{
+            messageService.send_message(notice);
+            System.out.println("메세지가 성공적으로 전송 되었습니다.");
+        }catch(Exception e) {
+            System.out.println("메세지 전송에 오류가 발생했습니다.");
+            System.out.println("Error :: " + e);
+        }
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -28,10 +29,13 @@ public class RedisTokenService implements TokenService<TokensDto> {
     public void updateToken(TokensDto tokensDto) {
         for (String token : tokensDto.getTokens()) {
             EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+            List<Topic> topic1 = tokensDto.getTopic();
             for (Topic topic : topics) {
-                redisTemplate.opsForSet().add(token, String.valueOf(topic));
-                System.out.println("Redis Save Token :::" + token);
-                redisTemplate.expire(token, 60, TimeUnit.SECONDS);
+                if (topic1.contains(topic)) {
+                    redisTemplate.opsForSet().add(token, String.valueOf(topic));
+                    System.out.println("Redis Save Token :::" + token);
+                    redisTemplate.expire(token, 30, TimeUnit.SECONDS);
+                }
             }
         }
     }
@@ -39,8 +43,13 @@ public class RedisTokenService implements TokenService<TokensDto> {
     //Redis Server Token 삭제
     public void deleteToken(TokensDto tokensDto) {
         for (String token : tokensDto.getTokens()) {
-            System.out.println("Redis Delete Token ::: " + token);
-                redisTemplate.delete(token);
+            EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+            List<Topic> topic1 = tokensDto.getTopic();
+            for (Topic topic : topics) {
+                if (topic1.contains(topic)) {
+                    redisTemplate.opsForSet().remove(token, String.valueOf(topic));
+                }
+            }
         }
     }
 }
