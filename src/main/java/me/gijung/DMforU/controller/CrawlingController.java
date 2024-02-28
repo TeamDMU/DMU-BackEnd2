@@ -63,7 +63,7 @@ public class CrawlingController {
                                               @RequestParam(name = "page", defaultValue = "1") int page,
                                               @RequestParam(name = "size", defaultValue = "20") int size) {
 
-        List<NoticeDto> notices = noticeService.getNotices(searchWord, page, size);
+        List<NoticeDto> notices = noticeService.getNotices(searchWord, department, page, size);
 
         return notices;
     }

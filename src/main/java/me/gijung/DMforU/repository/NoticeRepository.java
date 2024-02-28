@@ -34,6 +34,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
      * @param pageable 페이지 단위
      * @return 키워드에 맞는 공지사항 페이지
      */
-    @Query(value = "SELECT * FROM Notice WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(?1, ' ', ''), '%')", nativeQuery = true)
-    Page<Notice> findByTitleContainingKeyword(String keyword, Pageable pageable);
+    @Query(value = "SELECT * FROM Notice WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(?1, ' ', ''), '%') AND type IN (?2, '대학')", nativeQuery = true)
+    Page<Notice> findByTitleContainingSearchWordAndDepartment(String searchWord, String department, Pageable pageable);
 }
