@@ -7,7 +7,7 @@ import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.service.DepartmentNoticeService;
 import me.gijung.DMforU.service.DietService;
 import me.gijung.DMforU.service.NoticeService;
-import me.gijung.DMforU.service.SchedulerService;
+import me.gijung.DMforU.service.ScheduleService;
 import me.gijung.DMforU.service.UniversityNoticeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ import java.util.List;
 public class CrawlingController {
 
     private final DietService dietService;
-    private final SchedulerService schedulerService;
+    private final ScheduleService scheduleService;
     private final DepartmentNoticeService departmentNoticeService;
     private final UniversityNoticeService universityNoticeService;
     private final NoticeService noticeService;
@@ -36,7 +36,7 @@ public class CrawlingController {
 
     @GetMapping("/schedule")
     public ResponseEntity<List<YearSchedule>> getScheduler() {
-        return ResponseEntity.ok().body(schedulerService.getData());
+        return ResponseEntity.ok().body(scheduleService.getData());
     }
 
     @GetMapping("/departmentNotice/{department}")
