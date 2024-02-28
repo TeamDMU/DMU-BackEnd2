@@ -51,7 +51,6 @@ public class CrawlingController {
     @GetMapping("/universityNotice")
     public List<NoticeDto> getUniversityNotice(@RequestParam(name = "page", defaultValue = "1") int page,
                                                @RequestParam(name = "size", defaultValue = "20") int size) {
-
         List<NoticeDto> universityNotices = universityNoticeService.findUniversityNotices(page, size);
 
         return universityNotices;
@@ -62,7 +61,6 @@ public class CrawlingController {
                                               @RequestParam(name = "department") String department,
                                               @RequestParam(name = "page", defaultValue = "1") int page,
                                               @RequestParam(name = "size", defaultValue = "20") int size) {
-
         List<NoticeDto> notices = noticeService.getNotices(searchWord, department, page, size);
 
         return notices;
