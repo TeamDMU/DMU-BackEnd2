@@ -9,6 +9,7 @@ import me.gijung.DMforU.service.DietService;
 import me.gijung.DMforU.service.NoticeService;
 import me.gijung.DMforU.service.SchedulerService;
 import me.gijung.DMforU.service.UniversityNoticeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +29,14 @@ public class CrawlingController {
     private final UniversityNoticeService universityNoticeService;
     private final NoticeService noticeService;
 
-    @GetMapping("/diet")
-    public List<Diet> getDiet() {
-        return dietService.getData();
+    @GetMapping("/cafeteria")
+    public ResponseEntity<List<Diet>> getDiet() {
+        return ResponseEntity.ok().body(dietService.getData());
     }
 
-    @GetMapping("/scheduler")
-    public List<YearSchedule> getScheduler() {
-        return schedulerService.getData();
+    @GetMapping("/schedule")
+    public ResponseEntity<List<YearSchedule>> getScheduler() {
+        return ResponseEntity.ok().body(schedulerService.getData());
     }
 
     @GetMapping("/departmentNotice/{department}")
@@ -56,12 +57,13 @@ public class CrawlingController {
         return universityNotices;
     }
 
-    @GetMapping("/notice/{keyword}")
-    public List<NoticeDto> getNoticeByKeyword(@PathVariable String keyword,
+    @GetMapping("/notice/{searchWord}")
+    public List<NoticeDto> getNoticeByKeyword(@PathVariable String searchWord,
+                                              @RequestParam(name = "department") String department,
                                               @RequestParam(name = "page", defaultValue = "1") int page,
                                               @RequestParam(name = "size", defaultValue = "20") int size) {
 
-        List<NoticeDto> notices = noticeService.getNotices(keyword, page, size);
+        List<NoticeDto> notices = noticeService.getNotices(searchWord, page, size);
 
         return notices;
     }
