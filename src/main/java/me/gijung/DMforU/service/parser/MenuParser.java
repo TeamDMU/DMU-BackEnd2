@@ -1,7 +1,7 @@
 package me.gijung.DMforU.service.parser;
 
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.domain.Diet;
+import me.gijung.DMforU.model.domain.WeeklyMenu;
 import me.gijung.DMforU.utils.WebPageLoader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DietParser implements Parser<Diet> {
+public class MenuParser implements Parser<WeeklyMenu> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
@@ -25,15 +25,15 @@ public class DietParser implements Parser<Diet> {
     private String DMU_DIET_URL;
 
     @Override
-    public List<Diet> parse() {
+    public List<WeeklyMenu> parse() {
 
-        List<Diet> result = new ArrayList<>();
+        List<WeeklyMenu> result = new ArrayList<>();
 
         Document document = WebPageLoader.getHTML(DMU_DIET_URL);
 
         Elements rows = document.select("div.table_1 table tbody tr");
         for (Element row : rows) {
-            Diet item = parseDietItemFromRow(row);
+            WeeklyMenu item = parseDietItemFromRow(row);
 
             if (item != null) {
                 result.add(item);
@@ -44,7 +44,7 @@ public class DietParser implements Parser<Diet> {
     }
 
 
-    private Diet parseDietItemFromRow(Element row) {
+    private WeeklyMenu parseDietItemFromRow(Element row) {
         Elements columns = row.select("th, td");
 
         // 요일 출력
@@ -64,6 +64,6 @@ public class DietParser implements Parser<Diet> {
         String menuElement = menuColumn != null ? menuColumn.text() : null;
         String[] menus = !StringUtils.isEmpty(menuElement) ? menuElement.split(", ") : new String[] {};
 
-        return new Diet(parsedDate, menus);
+        return new WeeklyMenu(parsedDate, menus);
     }
 }

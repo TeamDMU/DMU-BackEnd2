@@ -1,11 +1,11 @@
 package me.gijung.DMforU.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.domain.Diet;
+import me.gijung.DMforU.model.domain.WeeklyMenu;
 import me.gijung.DMforU.model.domain.schedule.YearSchedule;
 import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.service.DepartmentNoticeService;
-import me.gijung.DMforU.service.DietService;
+import me.gijung.DMforU.service.MenuService;
 import me.gijung.DMforU.service.NoticeService;
 import me.gijung.DMforU.service.ScheduleService;
 import me.gijung.DMforU.service.UniversityNoticeService;
@@ -23,15 +23,15 @@ import java.util.List;
 @RequestMapping("/api/v1/dmu")
 public class CrawlingController {
 
-    private final DietService dietService;
+    private final MenuService menuService;
     private final ScheduleService scheduleService;
     private final DepartmentNoticeService departmentNoticeService;
     private final UniversityNoticeService universityNoticeService;
     private final NoticeService noticeService;
 
     @GetMapping("/cafeteria")
-    public ResponseEntity<List<Diet>> getDiet() {
-        return ResponseEntity.ok().body(dietService.getData());
+    public ResponseEntity<List<WeeklyMenu>> getDiet() {
+        return ResponseEntity.ok().body(menuService.getData());
     }
 
     @GetMapping("/schedule")

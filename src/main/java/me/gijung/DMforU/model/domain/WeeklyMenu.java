@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Diet {
+public class WeeklyMenu {
     private LocalDate date;
     private String[] menus;
 }
