@@ -30,10 +30,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
      * 학과, 대학 공지사항을 검색하는 메서드 <br>
      * 페이지네이션을 적용하여 페이지 단위에 알맞게 반환한다.
      *
-     * @param keyword  검색할 키워드
-     * @param pageable 페이지 단위
+     * @param searchWord  검색할 키워드
+     * @param pageable    페이지 단위
      * @return 키워드에 맞는 공지사항 페이지
      */
-    @Query(value = "SELECT * FROM Notice WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(?1, ' ', ''), '%') AND type IN (?2, '대학')", nativeQuery = true)
+    @Query(value = "SELECT * FROM notice WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(?1, ' ', ''), '%') AND type IN (?2, '대학')", nativeQuery = true)
     Page<Notice> findByTitleContainingSearchWordAndDepartment(String searchWord, String department, Pageable pageable);
 }
