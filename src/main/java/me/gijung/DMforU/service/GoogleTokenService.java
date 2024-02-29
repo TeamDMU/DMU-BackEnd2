@@ -8,6 +8,8 @@ import me.gijung.DMforU.service.Mesaage.FirebaseMessagingService;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +30,14 @@ public class GoogleTokenService implements TokenService<TokensDto> {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
 
-        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
-        for (Topic topic : topics) {
-            TopicManagementResponse topicManagementResponse = instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
-            System.out.println("Google Save Token Count :: " +topicManagementResponse.getSuccessCount() );
-        }
+            EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+            List<Topic> topic1 = tokensDto.getTopic();
+            for (Topic topic : topics) {
+                if (topic1.contains(topic)) {
+                    TopicManagementResponse topicManagementResponse = instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
+                    System.out.println("Google Save Token Count :: " +topicManagementResponse.getSuccessCount() );
+                }
+            }
     }
 
     /**
@@ -45,11 +50,14 @@ public class GoogleTokenService implements TokenService<TokensDto> {
     public void deleteToken(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
-
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+        List<Topic> topic1 = tokensDto.getTopic();
         for (Topic topic : topics) {
-            TopicManagementResponse topicManagementResponse = instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
-            System.out.println("Google Delete Token Count :: " +topicManagementResponse.getSuccessCount() );
+            if (topic1.contains(topic)) {
+                TopicManagementResponse topicManagementResponse = instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
+                System.out.println("Google Delete Token Count :: " + topicManagementResponse.getSuccessCount());
+
+            }
         }
     }
     /**

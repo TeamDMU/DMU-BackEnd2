@@ -18,7 +18,8 @@ import java.util.List;
 @Service
 @Setter
 @RequiredArgsConstructor
-public class UniversityNoticeParser extends UrlGenerator implements Parser<Notice> {
+public class
+UniversityNoticeParser extends UrlGenerator implements Parser<Notice> {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 

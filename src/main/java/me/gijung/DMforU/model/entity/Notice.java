@@ -1,13 +1,11 @@
 package me.gijung.DMforU.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.gijung.DMforU.service.Listener.NoticeListener;
 
 import java.time.LocalDate;
 
@@ -16,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@EntityListeners(NoticeListener.class)
 public class Notice {
 
     @Id

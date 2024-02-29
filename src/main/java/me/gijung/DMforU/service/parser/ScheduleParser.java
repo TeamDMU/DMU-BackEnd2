@@ -60,7 +60,6 @@ public class ScheduleParser implements Parser<YearSchedule> {
     }
 
     private MonthSchedule fetchMonthSchedule(Element monthTable) {
-
         List<Schedule> monthEntries = new ArrayList<>();
 
         // <p id="yearmonth20241">2024.1</p> p태그에서 "2024.1"을 문자열로 가져온다.
