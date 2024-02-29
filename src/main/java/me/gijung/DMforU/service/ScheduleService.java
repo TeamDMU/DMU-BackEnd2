@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SchedulerService implements CrawlingService<List<YearSchedule>> {
+public class ScheduleService implements CrawlingService<List<YearSchedule>> {
 
     private final Parser<YearSchedule> parser;
 

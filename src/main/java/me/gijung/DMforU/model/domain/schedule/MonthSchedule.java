@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class MonthSchedule {
     private int month;
-    private List<SchedulerEntry> scheduleEntries;
+    private List<Schedule> scheduleEntries;
 }
