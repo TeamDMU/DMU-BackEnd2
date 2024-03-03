@@ -10,11 +10,7 @@ import me.gijung.DMforU.service.NoticeService;
 import me.gijung.DMforU.service.ScheduleService;
 import me.gijung.DMforU.service.UniversityNoticeService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +24,11 @@ public class CrawlingController {
     private final DepartmentNoticeService departmentNoticeService;
     private final UniversityNoticeService universityNoticeService;
     private final NoticeService noticeService;
+
+    @PostMapping("test")
+    public void test() {
+        universityNoticeService.crawling();
+    }
 
     @GetMapping("/cafeteria")
     public ResponseEntity<List<WeeklyMenu>> getDiet() {

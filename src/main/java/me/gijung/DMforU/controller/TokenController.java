@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/message")
-public class MessageController {
+public class TokenController {
     private final GoogleTokenService googleTokenService;
     private final RedisTokenService redisTokenService;
 
