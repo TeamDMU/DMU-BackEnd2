@@ -7,18 +7,25 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Configuration
 public class FCMconfig {
+
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
-        ClassPathResource resource = new ClassPathResource("key/fire-base-key.json");
-
-        InputStream refreshToken = resource.getInputStream();
+        Resource resource = new ClassPathResource("key/fire-base-key.json");
+        InputStream inputStream = resource.getInputStream();
+        byte[] data = FileCopyUtils.copyToByteArray(inputStream);
+        String jsonString = new String(data, StandardCharsets.UTF_8);
 
         FirebaseApp firebaseApp = null;
         List<FirebaseApp> firebaseAppList = FirebaseApp.getApps();
@@ -31,7 +38,7 @@ public class FCMconfig {
             }
         } else {
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(refreshToken))
+                    .setCredentials(GoogleCredentials.fromStream(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8))))
                     .build();
 
             firebaseApp = FirebaseApp.initializeApp(options);
