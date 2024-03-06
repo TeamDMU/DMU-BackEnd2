@@ -10,7 +10,8 @@ import java.time.LocalDate;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MessageDto {
+public class
+MessageDto {
     private String topic;
     private String title;
     private String body;
