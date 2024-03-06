@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,13 +21,14 @@ public class UniversityNoticeService {
 
     private final UniversityNoticeParser parser;
     private final NoticeRepository noticeRepository;
-
+//    private ApplicationEventPublisher eventPublisher;
     /**
      * 모든 대학 공지사항을 크롤링한다. <br>
      * 데이터베이스에 저장된 공지사항이 존재한다면, 최신 공지사항만 크롤링하여 업데이트 한다. <br>
      * 평일 오전 10시, 오후 17시 자동으로 메서드를 실행한다.
      */
     @Scheduled(cron = "0 0 10,17 * * MON-FRI")
+    @Transactional
     public void crawling() {
         parser.setPageNumber(1);
         Integer maxNumber = noticeRepository.findMaxNumberByType("대학");
@@ -35,7 +37,6 @@ public class UniversityNoticeService {
         while (true) {
             List<Notice> departmentNotices = parser.parse();
             boolean isNewNoticeFound = saveNewNotices(departmentNotices, currentMaxNumber);
-
             if (!isNewNoticeFound) {
                 return;
             }
