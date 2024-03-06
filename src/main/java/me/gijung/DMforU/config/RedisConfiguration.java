@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.GoogleTokenService;
+import me.gijung.DMforU.service.RedisService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
@@ -22,6 +23,7 @@ import java.util.Collections;
 public class RedisConfiguration {
 
     private final GoogleTokenService googleTokenService;
+    private final RedisService redisService;
 
     @Value("${spring.data.redis.host}")
     private String host;
@@ -49,6 +51,7 @@ public class RedisConfiguration {
                         .build();
                 try {
                     googleTokenService.AlldeleteTopic(tokensDto);
+                    redisService.deleteDepartment(tokensDto.getTokens());
                 } catch (FirebaseMessagingException e) {
                     throw new RuntimeException(e);
                 }
