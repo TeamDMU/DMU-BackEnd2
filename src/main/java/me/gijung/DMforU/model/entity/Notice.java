@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EntityListeners(NoticeListener.class)
 public class Notice {
 
     @Id
