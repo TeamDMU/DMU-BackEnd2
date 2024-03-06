@@ -51,7 +51,7 @@ public class RedisConfiguration {
                         .build();
                 try {
                     googleTokenService.AlldeleteTopic(tokensDto);
-                    redisService.deleteDepartment(tokensDto.getTokens());
+//                    redisService.deleteDepartment(tokensDto.getTokens());
                 } catch (FirebaseMessagingException e) {
                     throw new RuntimeException(e);
                 }
