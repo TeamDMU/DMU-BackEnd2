@@ -17,8 +17,6 @@ public class GoogleTokenService implements TokenService<TokensDto> {
 
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
-
-
     /**
      * FCM Topic 기기별 구독 메서드
      * 여러대가 동시에 여러개의 토픽을 구독한다는 가정
@@ -29,13 +27,11 @@ public class GoogleTokenService implements TokenService<TokensDto> {
     public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
-
             EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
             List<Topic> topic1 = tokensDto.getTopic();
             for (Topic topic : topics) {
                 if (topic1.contains(topic)) {
-                    TopicManagementResponse topicManagementResponse = instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
-                    System.out.println("Google Save Token Count :: " +topicManagementResponse.getSuccessCount() );
+                    instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
                 }
             }
     }
@@ -54,9 +50,7 @@ public class GoogleTokenService implements TokenService<TokensDto> {
         List<Topic> topic1 = tokensDto.getTopic();
         for (Topic topic : topics) {
             if (topic1.contains(topic)) {
-                TopicManagementResponse topicManagementResponse = instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
-                System.out.println("Google Delete Token Count :: " + topicManagementResponse.getSuccessCount());
-
+                instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
             }
         }
     }
@@ -69,15 +63,9 @@ public class GoogleTokenService implements TokenService<TokensDto> {
     public void AlldeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
-        try {
-            EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
-            for (Topic topic : topics) {
-                TopicManagementResponse topicManagementResponse = instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
-            }
-        }catch (Exception e){
-            System.out.println("Error ::: " + e);
-        }finally {
-            System.out.println("AlldeleteTopic 실행 완료");
+        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+        for (Topic topic : topics) {
+            instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
         }
     }
 }

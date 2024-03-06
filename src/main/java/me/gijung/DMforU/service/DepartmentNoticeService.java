@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class DepartmentNoticeService {
      * 평일 오전 10시, 오후 17시 자동으로 메서드를 실행한다.
      */
 
+    @Transactional
     @Scheduled(cron = "0 0 10,17 * * MON-FRI")
     public void crawling() {
         for (Major major : Major.values()) {

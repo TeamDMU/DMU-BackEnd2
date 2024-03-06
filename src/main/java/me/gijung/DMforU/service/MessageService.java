@@ -12,20 +12,12 @@ import me.gijung.DMforU.service.Mesaage.FirebaseMessagingService;
 import me.gijung.DMforU.utils.NoticeMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 @Service
 @AllArgsConstructor
 public class MessageService {
 
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
-    /**
-     * 알림 메세지 메서드
-     * 정형화 필요!! [ 알림 메세지 틀 구조 ]
-     */
     public void send_message(Notice notice) throws FirebaseMessagingException {
         NoticeDto noticeDto = NoticeMapper.mapToDto(notice);
 
