@@ -18,8 +18,8 @@ public class NoticeListener {
     private final MessageService messageService;
 
     // DB에 새로운 데이터가 추가되는 순간, 아래의 메서드가 호출
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void postPersist(Notice notice) throws FirebaseMessagingException {
+    @TransactionalEventListener
+    public void messageListener(Notice notice) throws FirebaseMessagingException {
             messageService.send_message(notice);
     }
 }
