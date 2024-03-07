@@ -1,6 +1,7 @@
-package me.gijung.DMforU.service;
+package me.gijung.DMforU.service.firebase;
 
-import com.google.firebase.messaging.*;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
 import me.gijung.DMforU.model.dto.TokensDto;
@@ -9,12 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleTokenService implements TokenService<TokensDto> {
-
+public class GoogleToken{
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
     /**
@@ -27,13 +26,13 @@ public class GoogleTokenService implements TokenService<TokensDto> {
     public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
-            EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
-            List<Topic> topic1 = tokensDto.getTopic();
-            for (Topic topic : topics) {
-                if (topic1.contains(topic)) {
-                    instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
-                }
+        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+        List<Topic> topic1 = tokensDto.getTopic();
+        for (Topic topic : topics) {
+            if (topic1.contains(topic)) {
+                instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
             }
+        }
     }
 
     /**
@@ -54,18 +53,18 @@ public class GoogleTokenService implements TokenService<TokensDto> {
             }
         }
     }
+
     /**
      * FCM Topic 기기별  모두 삭제 메서드 ( 유효기간 만료에 사용 )
      * Token - List<Token>
      * Topic - List<Topic>
      */
     //모든 카테고리 삭제
-    public void AlldeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
+    public void AllDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         for (Topic topic : topics) {
             instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
         }
-    }
-}
+    }}

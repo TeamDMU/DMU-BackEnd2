@@ -11,4 +11,5 @@ import java.util.List;
 public class TokensDto {
     private List<String> tokens;
     private List<Topic> topic;
+
 }

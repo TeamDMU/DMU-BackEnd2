@@ -7,6 +7,7 @@ import me.gijung.DMforU.model.entity.Notice;
 import me.gijung.DMforU.repository.NoticeRepository;
 import me.gijung.DMforU.service.parser.notice.DepartmentNoticeParser;
 import me.gijung.DMforU.utils.NoticeMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ public class DepartmentNoticeService {
     private final DepartmentNoticeParser parser;
     private final NoticeRepository noticeRepository;
 
+    private final ApplicationEventPublisher eventPublisher;
     /**
      * Major 열거형의 모든 값을 반복하여 모든 학과의 공지사항을 크롤링한다. <br>
      * 데이터베이스에 저장된 공지사항이 존재한다면, 최신 공지사항만 크롤링하여 업데이트 한다. <br>
@@ -93,7 +95,7 @@ public class DepartmentNoticeService {
             }
 
             noticeRepository.save(notice);
-
+            eventPublisher.publishEvent(notice);
             if (notice.getNumber() == 1) {
                 return false;
             }
