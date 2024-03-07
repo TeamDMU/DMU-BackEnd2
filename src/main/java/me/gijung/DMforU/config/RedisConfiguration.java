@@ -1,11 +1,9 @@
 package me.gijung.DMforU.config;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.GoogleTokenService;
-import me.gijung.DMforU.service.RedisService;
+import me.gijung.DMforU.service.GoogleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
@@ -22,8 +20,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class RedisConfiguration {
 
-    private final GoogleTokenService googleTokenService;
-    private final RedisService redisService;
+    private final GoogleService googleService;
 
     @Value("${spring.data.redis.host}")
     private String host;
@@ -33,6 +30,7 @@ public class RedisConfiguration {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
+
         return new LettuceConnectionFactory(host, port);
     }
 
@@ -50,8 +48,8 @@ public class RedisConfiguration {
                         .tokens(Collections.singletonList(expiredKey))
                         .build();
                 try {
-                    googleTokenService.AlldeleteTopic(tokensDto);
-//                    redisService.deleteDepartment(tokensDto.getTokens());
+                    googleService.AllDeleteTopic(tokensDto);
+                    System.out.println("전부 삭제 완료");
                 } catch (FirebaseMessagingException e) {
                     throw new RuntimeException(e);
                 }
