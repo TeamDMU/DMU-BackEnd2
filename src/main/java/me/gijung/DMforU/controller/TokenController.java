@@ -6,7 +6,7 @@ import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.model.entity.Notice;
 import me.gijung.DMforU.repository.NoticeRepository;
-import me.gijung.DMforU.service.GoogleTokenService;
+import me.gijung.DMforU.service.GoogleService;
 import me.gijung.DMforU.service.RedisService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,22 +16,28 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/token/v1/dmu")
 public class TokenController {
-    private final GoogleTokenService googleTokenService;
+    private final GoogleService googleService;
     private final RedisService redisService;
-    private ApplicationEventPublisher eventPublisher;
+
+
     private final NoticeRepository noticeRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
-
-    //직접 DB에 데이터 저장 ( 테스트를 위한 용토 )
-    @PostMapping("/test")
+    @PostMapping("/db/test")
     @Transactional
-    public void send_message(@RequestBody Notice notice) throws FirebaseMessagingException {
-        System.out.println(notice.getTitle());
+    public void tset2(@RequestBody NoticeDto noticeDto) {
+        Notice notice = Notice.builder()
+                .title(noticeDto.getTitle())
+                .url(noticeDto.getUrl())
+                .type(noticeDto.getType())
+                .author(noticeDto.getAuthor())
+                .date(noticeDto.getDate())
+                .build();
+
         noticeRepository.save(notice);
         eventPublisher.publishEvent(notice);
     }
-
-
+//******************************************************************8
     /**
      * 사용자 개인 설정 Topic 구독 API
      * @RequestBody
@@ -44,7 +50,7 @@ public class TokenController {
     @PostMapping("/update_topic")
     public void update_topic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
         redisService.updateToken(tokensDto);
-        googleTokenService.updateToken(tokensDto);
+        googleService.updateToken(tokensDto);
     }
     /**
      * 사용자 개인 설정 Topic 삭제 API
@@ -55,7 +61,7 @@ public class TokenController {
     //Topic 구독 취소, 추후에 무결성 검증 로직 추가
     @PostMapping("/delete_topic")
     public void delete_topic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException {
-        googleTokenService.deleteToken(tokensDto);
+        googleService.deleteToken(tokensDto);
         redisService.deleteToken(tokensDto);
     }
 
