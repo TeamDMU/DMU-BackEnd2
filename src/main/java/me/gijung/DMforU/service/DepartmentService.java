@@ -14,4 +14,8 @@ public class DepartmentService {
     public void update_department(DepartmentDto departmentDto) {
         department.update_department(departmentDto);
     }
+
+    public void delete_department(DepartmentDto departmentDto) {
+        department.delete_department(departmentDto);
+    }
 }
