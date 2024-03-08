@@ -14,12 +14,15 @@ public class Department {
 
     public void update_department(DepartmentDto departmentDto) {
 
-        long currentTimeMillis = System.currentTimeMillis();
-        double score = currentTimeMillis + TimeUnit.SECONDS.toMillis(100);
-
         for (String token : departmentDto.getTokens()) {
-            redisTemplate.opsForZSet().add(token,departmentDto.getDepartment(), score);
-            redisTemplate.expire(token, 100, TimeUnit.SECONDS);
+            redisTemplate.opsForZSet().add(token,departmentDto.getDepartment(), 100);
+//            redisTemplate.expire(token, 100, TimeUnit.SECONDS);
+        }
+    }
+
+    public void delete_department(DepartmentDto departmentDto) {
+        for (String token : departmentDto.getTokens()) {
+            redisTemplate.opsForZSet().remove(token,departmentDto.getDepartment());
         }
     }
 }

@@ -25,11 +25,6 @@ public class CrawlingController {
     private final UniversityNoticeService universityNoticeService;
     private final NoticeService noticeService;
 
-    @PostMapping("test")
-    public void test() {
-        universityNoticeService.crawling();
-    }
-
     @GetMapping("/cafeteria")
     public ResponseEntity<List<WeeklyMenu>> getDiet() {
         return ResponseEntity.ok().body(menuService.getData());

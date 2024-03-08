@@ -15,8 +15,13 @@ public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    @PostMapping("/setting")
+    @PostMapping("/update_department")
     public void update_department(@RequestBody DepartmentDto departmentDto) {
         departmentService.update_department(departmentDto);
+    }
+
+    @PostMapping("/delete_department")
+    public void delete_department(@RequestBody DepartmentDto departmentDto) {
+        departmentService.delete_department(departmentDto);
     }
 }
