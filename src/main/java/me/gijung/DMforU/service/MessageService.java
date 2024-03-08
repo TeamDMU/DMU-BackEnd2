@@ -22,36 +22,49 @@ import java.util.Set;
 public class MessageService {
 
     private RedisTemplate<String, String> redisTemplate;
-
-
+    private Set<String> keys;
     public void send_message(Notice notice) throws FirebaseMessagingException {
+        NoticeDto noticeDto = new NoticeDto(notice);
         String value = null;
-        Set<String> keys = redisTemplate.keys("*");
+        keys = redisTemplate.keys("*");
             for (String key : keys) {
-                Set<String> values = redisTemplate.opsForZSet().range(key, 0, 0);
-                NoticeDto noticeDto = NoticeMapper.mapToDto(notice);
+                Set<String> values = redisTemplate.opsForZSet().range(key, -1, -1);
+                noticeDto = NoticeMapper.mapToDto(notice);
                 if (values != null && !values.isEmpty()) {
                     value = values.iterator().next();
                 }
-                //학과 공지사항
-                if (value.equals(noticeDto.getType())) {
-                    MulticastMessage multicastMessage = Messaging.sendMessage(keys);
-                    FirebaseMessaging.getInstance().sendEachForMulticast(multicastMessage);
-                }
-                //대학 공지사항
-                if(noticeDto.getType().equals("대학")){
-                    Topic[] TopicValues = Topic.values();
-                    for (Topic topic : TopicValues) {
-                        boolean contains = noticeDto
-                                .getTitle()
-                                .contains(String.valueOf(topic.getKoreanName()));
-                        if (contains) {
-                                MessageDto messagedto = new MessageDto(topic.getEnglishName(), String.valueOf(topic.getKoreanName()));
-                                Message message = Messaging.sendMessage(messagedto);
-                                FirebaseMessaging.getInstance().send(message);
-                        }
-                    }
-                }
             }
+        //학과 공지사항
+        if (value.equals(noticeDto.getType())) {
+            DepartmentMessaging(keys);
+        }
+        //대학 공지사항
+        if(noticeDto.getType().equals("대학")){
+            UniversityMessaging(noticeDto);
+        }
+
+    }
+    
+    //학과 공지사항
+    private void DepartmentMessaging(Set<String> keys) throws FirebaseMessagingException {
+        MulticastMessage multicastMessage = Messaging.sendMessage(keys);
+        FirebaseMessaging.getInstance().sendEachForMulticast(multicastMessage);
+    }
+
+    //대학 공지사항
+    private void UniversityMessaging(NoticeDto noticeDto) throws FirebaseMessagingException {
+        Topic[] TopicValues = Topic.values();
+        for (Topic topic : TopicValues) {
+
+            boolean contains = noticeDto
+                    .getTitle()
+                    .contains(String.valueOf(topic.getKoreanName()));
+            if (contains) {
+                MessageDto messagedto = new MessageDto(topic.getEnglishName(), String.valueOf(topic.getKoreanName()));
+                Message message = Messaging.sendMessage(messagedto);
+                FirebaseMessaging.getInstance().send(message);
+            }
+        }
+
     }
 }
