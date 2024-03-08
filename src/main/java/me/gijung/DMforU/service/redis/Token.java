@@ -17,21 +17,14 @@ import java.util.function.BiConsumer;
 public class Token {
     private final RedisTemplate<String, String> redisTemplate;
     /**
-     * Redis Server Token 유효 시간 갱신 및 등록
+     * Redis Server Token 업데이트
      * Set
      * Key - Token
      * Value - List<Topic>
      */
-
     public void updateToken(TokensDto tokensDto) {
-
-        long currentTimeMillis = System.currentTimeMillis();
-        double score = currentTimeMillis + TimeUnit.SECONDS.toMillis(100);
-
-
         processToken(tokensDto, (token, topic) -> {
-            redisTemplate.opsForZSet().add(token, String.valueOf(topic), score);
-            redisTemplate.expire(token, 100, TimeUnit.SECONDS);
+            redisTemplate.opsForZSet().add(token, String.valueOf(topic), 1);
         });
     }
 
