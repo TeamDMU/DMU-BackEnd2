@@ -19,7 +19,9 @@ public class GoogleService {
     public void deleteToken(TokensDto tokensDto) throws FirebaseMessagingException {
         googleToken.deleteToken(tokensDto);
     }
-    public void AllDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
+
+    @Deprecated()
+    public void allDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         googleToken.AllDeleteTopic(tokensDto);
     }
 }
