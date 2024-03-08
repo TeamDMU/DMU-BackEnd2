@@ -13,7 +13,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleToken{
+public class GoogleToken {
+
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
     /**
@@ -67,4 +68,5 @@ public class GoogleToken{
         for (Topic topic : topics) {
             instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
         }
-    }}
+    }
+}

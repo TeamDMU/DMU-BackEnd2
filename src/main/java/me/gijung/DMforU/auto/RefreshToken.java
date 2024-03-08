@@ -3,7 +3,6 @@ package me.gijung.DMforU.auto;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 @Component

@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 @Builder
 public class DepartmentDto {
-
     private List<String> tokens;
     private String department;
 }

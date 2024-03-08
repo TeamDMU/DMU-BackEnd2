@@ -11,7 +11,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;

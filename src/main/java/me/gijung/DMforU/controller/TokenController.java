@@ -2,14 +2,9 @@ package me.gijung.DMforU.controller;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.AllArgsConstructor;
-import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.model.entity.Notice;
-import me.gijung.DMforU.repository.NoticeRepository;
-import me.gijung.DMforU.service.GoogleService;
-import me.gijung.DMforU.service.RedisService;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.transaction.annotation.Transactional;
+import me.gijung.DMforU.service.token.GoogleService;
+import me.gijung.DMforU.service.token.RedisService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,25 +14,6 @@ public class TokenController {
     private final GoogleService googleService;
     private final RedisService redisService;
 
-
-    private final NoticeRepository noticeRepository;
-    private final ApplicationEventPublisher eventPublisher;
-
-    @PostMapping("/db/test")
-    @Transactional
-    public void tset2(@RequestBody NoticeDto noticeDto) {
-        Notice notice = Notice.builder()
-                .title(noticeDto.getTitle())
-                .url(noticeDto.getUrl())
-                .type(noticeDto.getType())
-                .author(noticeDto.getAuthor())
-                .date(noticeDto.getDate())
-                .build();
-
-        noticeRepository.save(notice);
-        eventPublisher.publishEvent(notice);
-    }
-//******************************************************************8
     /**
      * 사용자 개인 설정 Topic 구독 API
      * @RequestBody
@@ -52,6 +28,7 @@ public class TokenController {
         redisService.updateToken(tokensDto);
         googleService.updateToken(tokensDto);
     }
+
     /**
      * 사용자 개인 설정 Topic 삭제 API
      * @RequestBody
@@ -64,5 +41,4 @@ public class TokenController {
         googleService.deleteToken(tokensDto);
         redisService.deleteToken(tokensDto);
     }
-
 }

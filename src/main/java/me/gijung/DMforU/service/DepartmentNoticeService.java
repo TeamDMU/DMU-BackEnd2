@@ -23,7 +23,6 @@ public class DepartmentNoticeService {
 
     private final DepartmentNoticeParser parser;
     private final NoticeRepository noticeRepository;
-
     private final ApplicationEventPublisher eventPublisher;
     /**
      * Major 열거형의 모든 값을 반복하여 모든 학과의 공지사항을 크롤링한다. <br>
@@ -31,8 +30,8 @@ public class DepartmentNoticeService {
      * 평일 오전 10시, 오후 17시 자동으로 메서드를 실행한다.
      */
 
-    @Transactional
     @Scheduled(cron = "0 0 10,17 * * MON-FRI")
+    @Transactional
     public void crawling() {
         for (Major major : Major.values()) {
             crawlMajorDepartment(major);

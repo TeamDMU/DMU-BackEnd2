@@ -2,20 +2,20 @@ package me.gijung.DMforU.service.redis;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
-import me.gijung.DMforU.model.dto.DepartmentDto;
 import me.gijung.DMforU.model.dto.TokensDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 @Service
 @RequiredArgsConstructor
 public class Token {
+
     private final RedisTemplate<String, String> redisTemplate;
+
     /**
      * Redis Server Token 업데이트
      * Set
@@ -34,6 +34,7 @@ public class Token {
             redisTemplate.opsForZSet().remove(token, String.valueOf(topic));
         });
     }
+
     private void processToken(TokensDto tokensDto, BiConsumer<String, Topic> tokenProcessor) {
         for (String token : tokensDto.getTokens()) {
             EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
@@ -46,5 +47,6 @@ public class Token {
         }
     }
 
+    // TODO: for 문 중첩을 안보이게 하는 메서드 생성
 
 }
