@@ -12,13 +12,15 @@ import org.springframework.stereotype.Service;
 public class GoogleService {
     private final GoogleToken googleToken;
 
-    public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException {
-        googleToken.updateToken(tokensDto);
+    public void updateToken(TokensDto tokensDto){
+        googleToken.update_Token(tokensDto);
     }
 
-    public void deleteToken(TokensDto tokensDto) throws FirebaseMessagingException {
-        googleToken.deleteToken(tokensDto);
+    public void deleteToken(TokensDto tokensDto){
+        googleToken.delete_Token(tokensDto);
     }
+
+    @Deprecated
     public void AllDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         googleToken.AllDeleteTopic(tokensDto);
     }
