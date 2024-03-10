@@ -1,14 +1,18 @@
 package me.gijung.DMforU.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import me.gijung.DMforU.config.Topic;
 
 import java.util.List;
 
-@Data
+@Getter
 @Builder
+@AllArgsConstructor
 public class TokensDto {
+
     private List<String> tokens;
     private List<Topic> topic;
 
