@@ -1,5 +1,6 @@
 package me.gijung.DMforU.utils;
 
+import me.gijung.DMforU.model.dto.TypeNoticeDto;
 import me.gijung.DMforU.model.dto.NoticeDto;
 import me.gijung.DMforU.model.entity.Notice;
 
@@ -17,6 +18,15 @@ public class NoticeMapper {
                 .title(notice.getTitle())
                 .author(notice.getAuthor())
                 .url(notice.getUrl())
+                .build();
+    }
+    public static TypeNoticeDto maoToDepartmentNotice(Notice notice) {
+        return TypeNoticeDto.builder()
+                .date(notice.getDate())
+                .title(notice.getTitle())
+                .author(notice.getAuthor())
+                .url(notice.getUrl())
+                .type(notice.getType())
                 .build();
     }
 }
