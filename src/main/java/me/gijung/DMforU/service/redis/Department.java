@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class Department {
+
     private final RedisTemplate<String, String> redisTemplate;
 
     public void update_department(DepartmentDto departmentDto) {
