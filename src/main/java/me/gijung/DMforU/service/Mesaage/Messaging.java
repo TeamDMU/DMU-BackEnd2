@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.MessageDto;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -20,7 +19,6 @@ public class Messaging implements FirebaseMessagingService<FirebaseMessaging>{
         return Message.builder()
                 .setTopic(messageDto.getTopic())
                 .setNotification(Notification.builder()
-                        .setTitle(messageDto.getTitle())
                         .setBody(messageDto.getBody())
                         .build())
                 .build();
