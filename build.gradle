@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     implementation 'org.hibernate.validator:hibernate-validator:6.1.6.Final'
+    testImplementation 'junit:junit:4.13.1'
 
 
     compileOnly 'org.projectlombok:lombok'
