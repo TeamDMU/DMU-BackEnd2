@@ -3,7 +3,7 @@
 //import com.google.firebase.messaging.FirebaseMessagingException;
 //import lombok.RequiredArgsConstructor;
 //import me.gijung.DMforU.model.dto.TokensDto;
-//import me.gijung.DMforU.service.GoogleService;
+//import me.gijung.DMforU.service.token.GoogleService;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.data.redis.connection.Message;

@@ -6,8 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Topic {
-//    menu("학식", "menu"),
-//    schedule("일정", "schedule"),
 
     exam("시험", "exam"),
     signup("수강", "signup"),

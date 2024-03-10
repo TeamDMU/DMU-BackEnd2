@@ -2,7 +2,6 @@ package me.gijung.DMforU.service.redis;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
-import me.gijung.DMforU.model.dto.DepartmentDto;
 import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.token.TokenService;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 @Service
@@ -37,6 +35,7 @@ public class Token implements TokenService<TokensDto> {
             redisTemplate.opsForZSet().remove(token, String.valueOf(topic));
         });
     }
+
     private void processToken(TokensDto tokensDto, BiConsumer<String, Topic> tokenProcessor) {
         for (String token : tokensDto.getTokens()) {
             EnumSet<Topic> topics = EnumSet.allOf(Topic.class);

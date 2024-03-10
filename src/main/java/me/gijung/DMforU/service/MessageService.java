@@ -24,6 +24,7 @@ public class MessageService {
     private Set<String> keys;
 
     public void send_message(Notice notice) throws FirebaseMessagingException {
+
         TypeNoticeDto typeNoticeDto = NoticeMapper.maoToDepartmentNotice(notice);
         String departmentValue = find_Department_value();
         //학과 공지사항
@@ -33,8 +34,8 @@ public class MessageService {
         //대학 공지사항
         if(typeNoticeDto.getType().equals("대학")){
             UniversityMessaging(typeNoticeDto);
-        }
 
+        }
     }
 
     //학과 Type 검색 [ In Redis ]
@@ -64,6 +65,7 @@ public class MessageService {
             boolean contains = typeNoticeDto
                     .getTitle()
                     .contains(String.valueOf(topic.getKoreanName()));
+
             if (contains) {
                 MessageDto messagedto = new MessageDto(topic.getEnglishName(), String.valueOf(topic.getKoreanName()));
                 Message message = Messaging.sendMessage(messagedto);

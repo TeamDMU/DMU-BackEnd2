@@ -17,6 +17,7 @@ import java.util.function.BiConsumer;
 @RequiredArgsConstructor
 public class GoogleToken implements TokenService<TokensDto> {
 
+
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
     //Google FCM서버에 기기별 구독 업데이트
@@ -61,4 +62,5 @@ public class GoogleToken implements TokenService<TokensDto> {
         for (Topic topic : topics) {
             instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
         }
-    }}
+    }
+}
