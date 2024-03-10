@@ -9,6 +9,8 @@ src/main/resources/*
 build
 .gradle
 .idea
+.gradle/*
+.idea/*
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
