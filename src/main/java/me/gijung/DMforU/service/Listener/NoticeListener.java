@@ -1,14 +1,10 @@
 package me.gijung.DMforU.service.Listener;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import jakarta.persistence.PostPersist;
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import me.gijung.DMforU.model.entity.Notice;
 import me.gijung.DMforU.service.MessageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component

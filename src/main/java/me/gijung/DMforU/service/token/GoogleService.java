@@ -12,20 +12,12 @@ import org.springframework.stereotype.Service;
 public class GoogleService implements TokenService<TokensDto> {
     private final GoogleToken googleToken;
 
-    public void updateToken(TokensDto tokensDto) {
-        try {
-            googleToken.updateToken(tokensDto);
-        } catch (FirebaseMessagingException exception) {
-            throw new IllegalArgumentException("FirebaseMessaging 예외 발생");
-        }
+    public void update_Token(TokensDto tokensDto) {
+        googleToken.update_Token(tokensDto);
     }
 
-    public void deleteToken(TokensDto tokensDto) {
-        try {
-            googleToken.deleteToken(tokensDto);
-        } catch (FirebaseMessagingException exception) {
-            throw new IllegalArgumentException("FirebaseMessaging 예외 발생");
-        }
+    public void delete_Token(TokensDto tokensDto) {
+        googleToken.delete_Token(tokensDto);
     }
 
     /**

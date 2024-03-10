@@ -10,6 +10,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableScheduling
 @EnableJpaAuditing
+@EnableAspectJAutoProxy
 public class Application {
     public static void main(String[] args) {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));

@@ -11,7 +11,6 @@ public class Department {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    // TODO: for 문 중첩 빼기
     public void update_department(DepartmentDto departmentDto) {
         for (String token : departmentDto.getTokens()) {
             redisTemplate.opsForZSet().add(token,departmentDto.getDepartment(), 100);

@@ -3,6 +3,7 @@
 
 # 노출되면 안되는 설정 파일 경로 설정
 src/main/resources/*
+**/*.log
 
 # Custom
 build
