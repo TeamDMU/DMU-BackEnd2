@@ -16,13 +16,4 @@ public class NoticeDto {
     private String title;
     private String author;
     private String url;
-    private String type;
-
-    public NoticeDto(Notice notice) {
-        this.title = notice.getTitle();
-        this.date = notice.getDate();
-        this.author = notice.getAuthor();
-        this.url = notice.getUrl();
-        this.type = notice.getType();
-    }
 }
