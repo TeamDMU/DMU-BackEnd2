@@ -6,60 +6,54 @@ import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
 import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.Mesaage.FirebaseMessagingService;
+import me.gijung.DMforU.service.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleToken{
+public class GoogleToken implements TokenService<TokensDto> {
+
     private final FirebaseMessagingService<FirebaseMessaging> firebaseMessaging;
 
-    /**
-     * FCM Topic 기기별 구독 메서드
-     * 여러대가 동시에 여러개의 토픽을 구독한다는 가정
-     * Token - List<Token>
-     * Topic - List<Topic>
-     */
     //Google FCM서버에 기기별 구독 업데이트
-    public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException {
-        FirebaseMessaging instance = firebaseMessaging
-                .getInstance();
-        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
-        List<Topic> topic1 = tokensDto.getTopic();
-        for (Topic topic : topics) {
-            if (topic1.contains(topic)) {
-                instance.subscribeToTopic(tokensDto.getTokens(), String.valueOf(topic));
+    public void update_Token(TokensDto tokensDto){
+        firebase_Send_Token(tokensDto, (tokens, topic) -> {
+            try {
+                firebaseMessaging.getInstance().subscribeToTopic(tokens, String.valueOf(topic));
+            } catch (FirebaseMessagingException e) {
+                throw new RuntimeException(e);
             }
-        }
+        });
     }
 
-    /**
-     * FCM Topic 기기별 삭제 메서드
-     * 여러대가 동시에 여러개의 토픽을 삭제한다는 가정
-     * Token - List<Token>
-     * Topic - List<Topic>
-     */
     //Google FCM서버에 기기별 구독 삭제
-    public void deleteToken(TokensDto tokensDto) throws FirebaseMessagingException {
-        FirebaseMessaging instance = firebaseMessaging
-                .getInstance();
+    public void delete_Token(TokensDto tokensDto){
+        firebase_Send_Token(tokensDto, (tokens, topic) -> {
+            try {
+                firebaseMessaging.getInstance().unsubscribeFromTopic(tokens, String.valueOf(topic));
+            } catch (FirebaseMessagingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    //
+    private void firebase_Send_Token(TokensDto tokensDto, BiConsumer<List<String>, Topic> tokenProcesss) {
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         List<Topic> topic1 = tokensDto.getTopic();
         for (Topic topic : topics) {
             if (topic1.contains(topic)) {
-                instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
+                tokenProcesss.accept(tokensDto.getTokens(), topic);
             }
         }
     }
 
-    /**
-     * FCM Topic 기기별  모두 삭제 메서드 ( 유효기간 만료에 사용 )
-     * Token - List<Token>
-     * Topic - List<Topic>
-     */
     //모든 카테고리 삭제
+    @Deprecated
     public void AllDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = firebaseMessaging
                 .getInstance();
