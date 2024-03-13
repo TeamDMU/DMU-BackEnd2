@@ -22,11 +22,11 @@ public class NoticeMapper {
     }
     public static TypeNoticeDto maoToDepartmentNotice(Notice notice) {
         return TypeNoticeDto.builder()
+                .type(notice.getType())
                 .date(notice.getDate())
                 .title(notice.getTitle())
                 .author(notice.getAuthor())
                 .url(notice.getUrl())
-                .type(notice.getType())
                 .build();
     }
 }
