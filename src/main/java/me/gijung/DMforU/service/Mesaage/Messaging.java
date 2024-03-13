@@ -9,26 +9,27 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class Messaging implements FirebaseMessagingService<FirebaseMessaging>{
-    @Override
-    public FirebaseMessaging getInstance() {
-        return FirebaseMessaging.getInstance();
-    }
+public class Messaging{
 
-    public static Message sendMessage(MessageDto messageDto) {
+
+    //대학공지
+    public static Message build_message(MessageDto messageDto) {
         return Message.builder()
                 .setTopic(messageDto.getTopic())
                 .setNotification(Notification.builder()
+                        .setTitle(messageDto.getTitle())
                         .setBody(messageDto.getBody())
                         .build())
                 .build();
     }
 
-    public static MulticastMessage sendMessage(Set<String> tokenList) {
+    
+    //학과공지
+    public static MulticastMessage build_message(MessageDto messageDto, Set<String> tokenList) {
         return MulticastMessage.builder()
                 .setNotification(Notification.builder()
-                        .setTitle("학과 알림 도착")
-                        .setBody("학과 공지가 기다리고 있어요!")
+                        .setTitle(messageDto.getTitle())
+                        .setBody(messageDto.getBody())
                         .build())
                 .addAllTokens(tokenList)
                 .build();

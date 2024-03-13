@@ -3,7 +3,7 @@ package me.gijung.DMforU.service.token;
 import lombok.AllArgsConstructor;
 
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.redis.Token;
+import me.gijung.DMforU.service.redis.RedisToken;
 
 import org.springframework.stereotype.Service;
 
@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RedisService {
 
-    private final Token token;
+    private final RedisToken redisToken;
 
-    public void updateToken(TokensDto tokensDto) {
+    public void update_Token(TokensDto tokensDto) {
 
-        token.update_Token(tokensDto);
+        redisToken.update_Token(tokensDto);
 
     }
 
-    public void deleteToken(TokensDto tokensDto) {
+    public void delete_Token(TokensDto tokensDto) {
 
-        token.delete_Token(tokensDto);
+        redisToken.delete_Token(tokensDto);
 
     }
 }

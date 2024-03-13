@@ -29,7 +29,7 @@ public class MessageService {
         String departmentValue = find_Department_value();
         //학과 공지사항
         if (departmentValue.equals(typeNoticeDto.getType())) {
-            DepartmentMessaging(keys);
+            DepartmentMessaging(keys, typeNoticeDto);
         }
         //대학 공지사항
         if(typeNoticeDto.getType().equals("대학")){
@@ -52,8 +52,9 @@ public class MessageService {
     }
 
     //학과 공지사항
-    private void DepartmentMessaging(Set<String> keys) throws FirebaseMessagingException {
-        MulticastMessage multicastMessage = Messaging.sendMessage(keys);
+    private void DepartmentMessaging(Set<String> keys, TypeNoticeDto typeNoticeDto) throws FirebaseMessagingException {
+        MessageDto messageDto = new MessageDto(typeNoticeDto);
+        MulticastMessage multicastMessage = Messaging.build_message(messageDto,keys);
         FirebaseMessaging.getInstance().sendEachForMulticast(multicastMessage);
     }
 
@@ -67,8 +68,8 @@ public class MessageService {
                     .contains(String.valueOf(topic.getKoreanName()));
 
             if (contains) {
-                MessageDto messagedto = new MessageDto(topic.getEnglishName(), String.valueOf(topic.getKoreanName()));
-                Message message = Messaging.sendMessage(messagedto);
+                MessageDto messagedto = new MessageDto(typeNoticeDto,topic.getEnglishName(), topic.getKoreanName());
+                Message message = Messaging.build_message(messagedto);
                 FirebaseMessaging.getInstance().send(message);
             }
         }
