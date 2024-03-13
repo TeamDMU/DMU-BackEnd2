@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleService implements TokenService<TokensDto> {
+public class GoogleService{
     private final GoogleToken googleToken;
 
     public void update_Token(TokensDto tokensDto) {
