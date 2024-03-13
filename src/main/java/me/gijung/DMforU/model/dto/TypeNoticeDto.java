@@ -11,10 +11,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TypeNoticeDto {
 
+    private String type;
     private LocalDate date;
     private String title;
     private String author;
     private String url;
-    private String type;
 
 }
