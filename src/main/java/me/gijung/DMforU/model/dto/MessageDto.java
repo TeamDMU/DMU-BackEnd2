@@ -4,18 +4,35 @@ import lombok.*;
 import lombok.Builder;
 @Builder
 @Getter
-@NoArgsConstructor
+@AllArgsConstructor
 public class MessageDto {
 
-    private final static String TITLE_MESSAGE = "키워드 알림 도착";
-    private final String setBody = " 키워드가 포함된 공지가 기다리고 있어요!";
+    private final static String TITLE_MESSAGE = " 키워드 알림 도착";
+
+    private String title;
     private String topic;
     private String body;
 
 
-    public MessageDto(String topic, String Inbody) {
+    //대학 공지사항
+    public MessageDto(TypeNoticeDto typeNoticeDto,String topic, String title) {
+        this.title = builder_title(title);
         this.topic = topic;
-        this.body = Inbody + setBody;
+        this.body = typeNoticeDto.getTitle();
+    }
 
+    //학과 공지사항
+    public MessageDto(TypeNoticeDto typeNoticeDto) {
+        this.title = builder_title(typeNoticeDto.getType());
+        this.body = typeNoticeDto.getTitle();
+    }
+
+    private String builder_title(String message) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[ ");
+        sb.append(message);
+        sb.append(" ] ");
+        sb.append(TITLE_MESSAGE);
+        return sb.toString();
     }
 }
