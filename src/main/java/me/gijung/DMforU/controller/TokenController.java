@@ -2,7 +2,7 @@ package me.gijung.DMforU.controller;
 
 import lombok.AllArgsConstructor;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.GoogleService;
+import me.gijung.DMforU.service.token.GoogleService;
 import me.gijung.DMforU.service.token.RedisService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +16,11 @@ public class TokenController {
 
     //redisService.updateToken = Token 유효시간 갱신 및 Token Redis Server에 등록
     //messageService.updateToken = Google FCM token & Topic 등록
-    @PostMapping("/updagte_topic")
+    @PostMapping("/update_topic")
     public void update_topic(@RequestBody TokensDto tokensDto){
 
-        redisService.updateToken(tokensDto);
-        googleService.updateToken(tokensDto);
+        redisService.update_Token(tokensDto);
+        googleService.update_Token(tokensDto);
 
     }
 
@@ -29,8 +29,8 @@ public class TokenController {
     @PostMapping("/delete_topic")
     public void delete_topic(@RequestBody TokensDto tokensDto){
 
-        googleService.deleteToken(tokensDto);
-        redisService.deleteToken(tokensDto);
+        googleService.delete_Token(tokensDto);
+        redisService.delete_Token(tokensDto);
 
     }
 }
