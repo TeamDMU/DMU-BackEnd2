@@ -1,4 +1,4 @@
-package me.gijung.DMforU.service.firebase;
+package me.gijung.DMforU.service.token;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
