@@ -1,4 +1,4 @@
-package me.gijung.DMforU.service.redis;
+package me.gijung.DMforU.service.token;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 @Service
@@ -19,9 +20,12 @@ public class RedisToken implements TokenService<TokensDto> {
 
     //Redis Server Token Update
     public void update_Token(TokensDto tokensDto) {
-        processToken(tokensDto, (token, topic) -> {
-            redisTemplate.opsForZSet().add(token, String.valueOf(topic), 1);
-        });
+        for (String tokens : tokensDto.getTokens()) {
+            redisTemplate.opsForZSet().removeRange(tokens, 1, -1);
+            processToken(tokensDto, (token, topic) -> {
+                redisTemplate.opsForZSet().add(token, String.valueOf(topic), -1);
+            });
+        }
     }
 
     //Redis Server Token Delete
@@ -33,9 +37,8 @@ public class RedisToken implements TokenService<TokensDto> {
 
     private void processToken(TokensDto tokensDto, BiConsumer<String, Topic> tokenProcessor) {
         for (String token : tokensDto.getTokens()) {
-            EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
             List<Topic> topic1 = tokensDto.getTopic();
-            for (Topic topic : topics) {
+            for (Topic topic : Topic.values()) {
                 if (topic1.contains(topic)) {
                     tokenProcessor.accept(token, topic);
                 }

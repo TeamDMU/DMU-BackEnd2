@@ -1,11 +1,10 @@
-package me.gijung.DMforU.service.firebase;
+package me.gijung.DMforU.service.token;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
