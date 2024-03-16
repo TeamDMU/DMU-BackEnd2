@@ -26,10 +26,14 @@
 //    //Service 로직 시간 측정
 //    @Around("pointcut()")
 //    public void time_lapse(ProceedingJoinPoint joinPoint) throws Throwable {
+//        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+//        Method method = signature.getMethod();
+//        Class<?> declaringClass = method.getDeclaringClass();
 //        StopWatch stopWatch = new StopWatch();
 //        stopWatch.start();
 //        joinPoint.proceed();
 //        stopWatch.stop();
+//        log.info(declaringClass.getSimpleName());
 //        log.info(stopWatch.prettyPrint());
 //        log.info(String.valueOf(stopWatch.getTotalTimeSeconds()));
 //    }
