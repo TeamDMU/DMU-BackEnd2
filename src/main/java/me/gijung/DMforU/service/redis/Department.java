@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class Department {
 
-    private static String englishName;
-
     private final RedisTemplate<String, String> redisTemplate;
 
     public void update_department(DepartmentDto departmentDto) {

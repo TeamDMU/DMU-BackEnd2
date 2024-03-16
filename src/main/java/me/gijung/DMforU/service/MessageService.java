@@ -24,7 +24,6 @@ public class MessageService {
     private Set<String> keys;
 
     public void send_message(Notice notice) throws FirebaseMessagingException {
-
         TypeNoticeDto typeNoticeDto = NoticeMapper.maoToDepartmentNotice(notice);
         String departmentValue = find_Department_value();
         //학과 공지사항
@@ -34,7 +33,6 @@ public class MessageService {
         //대학 공지사항
         if(typeNoticeDto.getType().equals("대학")){
             UniversityMessaging(typeNoticeDto);
-
         }
     }
 
@@ -43,7 +41,8 @@ public class MessageService {
         String value = null;
         keys = redisTemplate.keys("*");
         for (String key : keys) {
-            Set<String> values = redisTemplate.opsForZSet().range(key, -1, -1);
+            Set<String> values = redisTemplate.opsForZSet().range(key, 0, 0);
+            System.out.println(values);
             if (values != null && !values.isEmpty()) {
                 value = values.iterator().next();
             }
@@ -73,6 +72,5 @@ public class MessageService {
                 FirebaseMessaging.getInstance().send(message);
             }
         }
-
     }
 }

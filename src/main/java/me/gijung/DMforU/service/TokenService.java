@@ -15,14 +15,15 @@ public class TokenService {
 
     public void update_token(TokensDto tokensDto) {
 
-
         redisToken.update_Token(tokensDto);
         googleToken.update_Token(tokensDto);
 
     }
 
     public void delete_token(TokensDto tokensDto) {
+
         redisToken.delete_Token(tokensDto);
         googleToken.delete_Token(tokensDto);
+
     }
 }

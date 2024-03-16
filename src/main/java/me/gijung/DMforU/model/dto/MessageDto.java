@@ -12,19 +12,21 @@ public class MessageDto {
     private String title;
     private String topic;
     private String body;
-
+    private String url;
 
     //대학 공지사항
     public MessageDto(TypeNoticeDto typeNoticeDto,String topic, String title) {
         this.title = builder_title(title);
         this.topic = topic;
         this.body = typeNoticeDto.getTitle();
+        this.url = typeNoticeDto.getUrl();
     }
 
     //학과 공지사항
     public MessageDto(TypeNoticeDto typeNoticeDto) {
         this.title = builder_title(typeNoticeDto.getType());
         this.body = typeNoticeDto.getTitle();
+        this.url = typeNoticeDto.getUrl();
     }
 
     private String builder_title(String message) {

@@ -20,6 +20,7 @@ public class Messaging{
                         .setTitle(messageDto.getTitle())
                         .setBody(messageDto.getBody())
                         .build())
+                .putData("url", messageDto.getUrl())
                 .build();
     }
 
@@ -32,6 +33,7 @@ public class Messaging{
                         .setBody(messageDto.getBody())
                         .build())
                 .addAllTokens(tokenList)
+                .putData("url", messageDto.getUrl())
                 .build();
     }
 }
