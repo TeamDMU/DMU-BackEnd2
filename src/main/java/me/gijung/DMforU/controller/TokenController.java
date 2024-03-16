@@ -19,22 +19,6 @@ public class TokenController {
 
     private final TokenService tokenService;
 
-    private final NoticeRepository noticeRepository;
-    private final ApplicationEventPublisher eventPublisher;
-    private final MessageService messageService;
-
-    @PostMapping("/test")
-    @Transactional
-    public void test(@RequestBody Notice notice) {
-        noticeRepository.save(notice);
-        eventPublisher.publishEvent(notice);
-    }
-
-    @PostMapping("/test2")
-    public void test2(@RequestBody Notice notice) throws FirebaseMessagingException {
-        messageService.send_message(notice);
-    }
-
     //redisService.updateToken = Token 유효시간 갱신 및 Token Redis Server에 등록
     //messageService.updateToken = Google FCM token & Topic 등록
     @PostMapping("/update_topic")
