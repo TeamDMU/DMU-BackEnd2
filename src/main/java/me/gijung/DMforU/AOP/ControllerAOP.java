@@ -20,7 +20,7 @@ public class ControllerAOP {
 
 
     @Pointcut("execution(* me.gijung.DMforU.controller..*.*(..))")
-    public void pointcut() {
+    public void pointCut() {
     }
 
 //    //Controller 시간
@@ -35,8 +35,8 @@ public class ControllerAOP {
 //    }
 
     // Controller 메소드 수행이 성공하면 , Method이름 경로 기록
-    @AfterReturning("pointcut()")
-    public void Controller_log(JoinPoint joinPoint) {
+    @AfterReturning("pointCut()")
+    public void controllerLog(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         ServletRequestAttributes attribute = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

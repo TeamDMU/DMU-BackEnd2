@@ -16,7 +16,7 @@ public class MessageDto {
 
     //대학 공지사항
     public MessageDto(TypeNoticeDto typeNoticeDto,String topic, String title) {
-        this.title = builder_title(title);
+        this.title = builderTitle(title);
         this.topic = topic;
         this.body = typeNoticeDto.getTitle();
         this.url = typeNoticeDto.getUrl();
@@ -24,12 +24,12 @@ public class MessageDto {
 
     //학과 공지사항
     public MessageDto(TypeNoticeDto typeNoticeDto) {
-        this.title = builder_title(typeNoticeDto.getType());
+        this.title = builderTitle(typeNoticeDto.getType());
         this.body = typeNoticeDto.getTitle();
         this.url = typeNoticeDto.getUrl();
     }
 
-    private String builder_title(String message) {
+    private String builderTitle(String message) {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
         sb.append(message);
