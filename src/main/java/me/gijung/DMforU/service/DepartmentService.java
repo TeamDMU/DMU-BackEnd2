@@ -11,11 +11,11 @@ public class DepartmentService {
 
     private final Department department;
 
-    public void update_department(DepartmentDto departmentDto) {
-        department.update_department(departmentDto);
+    public void updateDepartment(DepartmentDto departmentDto) {
+        department.updateDepartment(departmentDto);
     }
 
-    public void delete_department(DepartmentDto departmentDto) {
-        department.delete_department(departmentDto);
+    public void deleteDepartment(DepartmentDto departmentDto) {
+        department.deleteDepartment(departmentDto);
     }
 }
