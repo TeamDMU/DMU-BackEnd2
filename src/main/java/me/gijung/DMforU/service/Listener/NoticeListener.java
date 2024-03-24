@@ -16,6 +16,6 @@ public class NoticeListener {
     // DB에 새로운 데이터가 추가되는 순간, 아래의 메서드가 호출
     @TransactionalEventListener
     public void messageListener(Notice notice) throws FirebaseMessagingException {
-        messageService.send_message(notice);
+        messageService.sendMessage(notice);
     }
 }

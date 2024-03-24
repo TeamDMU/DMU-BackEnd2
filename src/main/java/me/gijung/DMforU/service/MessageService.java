@@ -23,9 +23,9 @@ public class MessageService {
     private RedisTemplate<String, String> redisTemplate;
     private Set<String> keys;
 
-    public void send_message(Notice notice) throws FirebaseMessagingException {
+    public void sendMessage(Notice notice) throws FirebaseMessagingException {
         TypeNoticeDto typeNoticeDto = NoticeMapper.maoToDepartmentNotice(notice);
-        String departmentValue = find_Department_value();
+        String departmentValue = findDepartmentValue();
         //학과 공지사항
         if (departmentValue.equals(typeNoticeDto.getType())) {
             DepartmentMessaging(keys, typeNoticeDto);
@@ -37,7 +37,7 @@ public class MessageService {
     }
 
     //학과 Type 검색 [ In Redis ]
-    private String find_Department_value() {
+    private String findDepartmentValue() {
         String value = null;
         keys = redisTemplate.keys("*");
         for (String key : keys) {
@@ -53,7 +53,7 @@ public class MessageService {
     //학과 공지사항
     private void DepartmentMessaging(Set<String> keys, TypeNoticeDto typeNoticeDto) throws FirebaseMessagingException {
         MessageDto messageDto = new MessageDto(typeNoticeDto);
-        MulticastMessage multicastMessage = Messaging.build_message(messageDto,keys);
+        MulticastMessage multicastMessage = Messaging.buildMessage(messageDto,keys);
         FirebaseMessaging.getInstance().sendEachForMulticast(multicastMessage);
     }
 
@@ -68,7 +68,7 @@ public class MessageService {
 
             if (contains) {
                 MessageDto messagedto = new MessageDto(typeNoticeDto,topic.getEnglishName(), topic.getKoreanName());
-                Message message = Messaging.build_message(messagedto);
+                Message message = Messaging.buildMessage(messagedto);
                 FirebaseMessaging.getInstance().send(message);
             }
         }

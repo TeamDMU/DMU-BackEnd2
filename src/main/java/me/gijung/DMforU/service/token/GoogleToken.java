@@ -17,8 +17,8 @@ public class GoogleToken implements TokenService<TokensDto> {
 
 
     //Google FCM서버에 기기별 구독 업데이트
-    public void update_Token(TokensDto tokensDto){
-        firebase_Send_Token(tokensDto, (tokens, topic) -> {
+    public void updateToken(TokensDto tokensDto){
+        firebaseSendToken(tokensDto, (tokens, topic) -> {
             try {
                 FirebaseMessaging.getInstance().subscribeToTopic(tokens, String.valueOf(topic));
             } catch (FirebaseMessagingException e) {
@@ -28,8 +28,8 @@ public class GoogleToken implements TokenService<TokensDto> {
     }
 
     //Google FCM서버에 기기별 구독 삭제
-    public void delete_Token(TokensDto tokensDto){
-        firebase_Send_Token(tokensDto, (tokens, topic) -> {
+    public void deleteToken(TokensDto tokensDto){
+        firebaseSendToken(tokensDto, (tokens, topic) -> {
             try {
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(tokens, String.valueOf(topic));
             } catch (FirebaseMessagingException e) {
@@ -39,7 +39,7 @@ public class GoogleToken implements TokenService<TokensDto> {
     }
 
     //
-    private void firebase_Send_Token(TokensDto tokensDto, BiConsumer<List<String>, Topic> tokenProcesss) {
+    private void firebaseSendToken(TokensDto tokensDto, BiConsumer<List<String>, Topic> tokenProcesss) {
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         List<Topic> topic1 = tokensDto.getTopic();
         for (Topic topic : topics) {
@@ -50,7 +50,6 @@ public class GoogleToken implements TokenService<TokensDto> {
     }
 
     //모든 카테고리 삭제
-    @Deprecated
     public void AllDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = FirebaseMessaging
                 .getInstance();

@@ -23,13 +23,13 @@ public class TokenController {
     //messageService.updateToken = Google FCM token & Topic 등록
     @PostMapping("/update_topic")
     public void update_topic(@RequestBody TokensDto tokensDto) {
-        tokenService.update_token(tokensDto);
+        tokenService.updateToken(tokensDto);
     }
 
 
     //Topic 구독 취소, 추후에 무결성 검증 로직 추가
     @PostMapping("/delete_topic")
     public void delete_topic(@RequestBody TokensDto tokensDto) {
-        tokenService.delete_token(tokensDto);
+        tokenService.deleteToken(tokensDto);
     }
 }
