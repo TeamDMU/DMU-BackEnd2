@@ -2,6 +2,8 @@ package me.gijung.DMforU.config;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
+import me.gijung.DMforU.model.dto.TokensDto;
+import me.gijung.DMforU.service.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
@@ -19,7 +21,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class RedisConfiguration {
 
-//    private final GoogleService googleService;
+    private final TokenService googleService;
 
     @Value("${spring.data.redis.host}")
     private String host;
@@ -34,28 +36,28 @@ public class RedisConfiguration {
     }
 
 //    //Token 만료시 자동으로 Google FCM Server에 Token삭제 요청 전송
-//    @Bean
-//    RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
-//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        container.addMessageListener(new MessageListener() {
-//            @Override
-//            public void onMessage(Message message, byte[] pattern) {
-//                String expiredKey = new String(message.getBody());
-//                TokensDto tokensDto = TokensDto
-//                        .builder()
-//                        .tokens(Collections.singletonList(expiredKey))
-//                        .build();
-//                try {
-//                    googleService.AllDeleteTopic(tokensDto);
-//                    System.out.println("전부 삭제 완료");
-//                } catch (FirebaseMessagingException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }, new PatternTopic("__keyevent@*__:expired"));
-//        return container;
-//    }
+    @Bean
+    RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(new MessageListener() {
+            @Override
+            public void onMessage(Message message, byte[] pattern) {
+                String expiredKey = new String(message.getBody());
+                TokensDto tokensDto = TokensDto
+                        .builder()
+                        .tokens(Collections.singletonList(expiredKey))
+                        .build();
+                try {
+                    googleService.allDeleteToken(tokensDto);
+                    System.out.println("전부 삭제 완료");
+                } catch (FirebaseMessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, new PatternTopic("__keyevent@*__:expired"));
+        return container;
+    }
 
     // RedisTemplate 빈 설정
     // 직렬화 하지 않으면 cli모드에서 데이터 조회시 데이터 깨짐 현상

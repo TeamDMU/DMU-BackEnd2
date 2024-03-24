@@ -1,5 +1,6 @@
 package me.gijung.DMforU.service;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.token.GoogleToken;
@@ -13,17 +14,23 @@ public class TokenService {
     private final GoogleToken googleToken;
     private final RedisToken redisToken;
 
-    public void update_token(TokensDto tokensDto) {
+    public void updateToken(TokensDto tokensDto) {
 
-        redisToken.update_Token(tokensDto);
-        googleToken.update_Token(tokensDto);
+        redisToken.updateToken(tokensDto);
+        googleToken.updateToken(tokensDto);
 
     }
 
-    public void delete_token(TokensDto tokensDto) {
+    public void deleteToken(TokensDto tokensDto) {
 
-        redisToken.delete_Token(tokensDto);
-        googleToken.delete_Token(tokensDto);
+        redisToken.deleteToken(tokensDto);
+        googleToken.deleteToken(tokensDto);
+
+    }
+
+    public void allDeleteToken(TokensDto tokensDto) throws FirebaseMessagingException {
+
+        googleToken.AllDeleteTopic(tokensDto);
 
     }
 }

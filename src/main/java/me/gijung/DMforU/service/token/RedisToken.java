@@ -19,7 +19,7 @@ public class RedisToken implements TokenService<TokensDto> {
     private final RedisTemplate<String, String> redisTemplate;
 
     //Redis Server Token Update
-    public void update_Token(TokensDto tokensDto) {
+    public void updateToken(TokensDto tokensDto) {
         for (String tokens : tokensDto.getTokens()) {
             redisTemplate.opsForZSet().removeRange(tokens, 1, -1);
             processToken(tokensDto, (token, topic) -> {
@@ -29,7 +29,7 @@ public class RedisToken implements TokenService<TokensDto> {
     }
 
     //Redis Server Token Delete
-    public void delete_Token(TokensDto tokensDto) {
+    public void deleteToken(TokensDto tokensDto) {
         processToken(tokensDto, (token, topic) -> {
             redisTemplate.opsForZSet().remove(token, String.valueOf(topic));
         });

@@ -13,7 +13,7 @@ public class Messaging{
 
 
     //대학공지
-    public static Message build_message(MessageDto messageDto) {
+    public static Message buildMessage(MessageDto messageDto) {
         return Message.builder()
                 .setTopic(messageDto.getTopic())
                 .setNotification(Notification.builder()
@@ -26,7 +26,7 @@ public class Messaging{
 
     
     //학과공지
-    public static MulticastMessage build_message(MessageDto messageDto, Set<String> tokenList) {
+    public static MulticastMessage buildMessage(MessageDto messageDto, Set<String> tokenList) {
         return MulticastMessage.builder()
                 .setNotification(Notification.builder()
                         .setTitle(messageDto.getTitle())
