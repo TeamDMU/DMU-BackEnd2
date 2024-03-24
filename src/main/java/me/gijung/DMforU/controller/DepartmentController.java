@@ -15,12 +15,12 @@ public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    @PostMapping("/update_department")
+    @PostMapping("/updateDepartment")
     public void update_department(@RequestBody DepartmentDto departmentDto) {
         departmentService.updateDepartment(departmentDto);
     }
 
-    @PostMapping("/delete_department")
+    @PostMapping("/deleteDepartment")
     public void delete_department(@RequestBody DepartmentDto departmentDto) {
         departmentService.deleteDepartment(departmentDto);
     }
