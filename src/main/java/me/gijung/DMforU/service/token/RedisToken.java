@@ -3,20 +3,34 @@ package me.gijung.DMforU.service.token;
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.config.Topic;
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.token.TokenService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 @Service
 @RequiredArgsConstructor
-public class RedisToken implements TokenService<TokensDto> {
+@Qualifier("redisToken")
+public class RedisToken implements Token<TokensDto> {
 
     private final RedisTemplate<String, String> redisTemplate;
+
+    public void createToken(TokensDto tokensDto) {
+        processToken(tokensDto, (token, topic) -> {
+            redisTemplate.opsForZSet().add(token, String.valueOf(topic), -1);
+            redisTemplate.expire(token,360,TimeUnit.HOURS);
+        });
+    }
+
+    public void refreshToken(TokensDto tokensDto) {
+        for (String token : tokensDto.getTokens()) {
+            redisTemplate.expire(token,360,TimeUnit.HOURS);
+        }
+    }
+
 
     //Redis Server Token Update
     public void updateToken(TokensDto tokensDto) {
