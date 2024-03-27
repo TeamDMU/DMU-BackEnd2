@@ -11,6 +11,11 @@ public class DepartmentService {
 
     private final Department department;
 
+
+    public void createDepartment(DepartmentDto departmentDto) {
+        department.createDepartment(departmentDto);
+    }
+
     public void updateDepartment(DepartmentDto departmentDto) {
         department.updateDepartment(departmentDto);
     }
