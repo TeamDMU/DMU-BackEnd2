@@ -29,14 +29,15 @@ public class TokenController {
 
     //redisService.updateToken = Token 유효시간 갱신 및 Token Redis Server에 등록
     //messageService.updateToken = Google FCM token & Topic 등록
-    @PostMapping("/update_topic")
-    public void updateTopic(@RequestBody TokensDto tokensDto) throws FirebaseMessagingException, ExecutionException, InterruptedException {
+    @PostMapping("/updateTopic")
+    public void update_topic(@RequestBody TokensDto tokensDto) throws ExecutionException, FirebaseMessagingException, InterruptedException {
         tokenService.updateToken(tokensDto);
     }
 
     //Topic 구독 취소, 추후에 무결성 검증 로직 추가
-    @PostMapping("/delete_topic")
-    public void deleteTopic(@RequestBody TokensDto tokensDto) {
+
+    @PostMapping("/deleteTopic")
+    public void delete_topic(@RequestBody TokensDto tokensDto) {
         tokenService.deleteToken(tokensDto);
     }
 }

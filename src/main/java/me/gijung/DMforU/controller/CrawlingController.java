@@ -36,29 +36,30 @@ public class CrawlingController {
     }
 
     @GetMapping("/departmentNotice/{department}")
-    public List<NoticeDto> getDepartmentNotice(@PathVariable String department,
+    public ResponseEntity<List<NoticeDto>> getDepartmentNotice(@PathVariable String department,
                                                @RequestParam(name = "page", defaultValue = "1") int page,
                                                @RequestParam(name = "size", defaultValue = "20") int size) {
         List<NoticeDto> departmentNotices = departmentNoticeService.findDepartmentNotices(page, size, department);
 
-        return departmentNotices;
+        return ResponseEntity.ok().body(departmentNotices);
     }
 
     @GetMapping("/universityNotice")
-    public List<NoticeDto> getUniversityNotice(@RequestParam(name = "page", defaultValue = "1") int page,
-                                               @RequestParam(name = "size", defaultValue = "20") int size) {
+    public ResponseEntity<List<NoticeDto>> getUniversityNotice(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size) {
         List<NoticeDto> universityNotices = universityNoticeService.findUniversityNotices(page, size);
 
-        return universityNotices;
+        return ResponseEntity.ok().body(universityNotices);
     }
 
     @GetMapping("/notice/{searchWord}")
-    public List<NoticeDto> getNoticeByKeyword(@PathVariable String searchWord,
+    public ResponseEntity<List<NoticeDto>> getNoticeByKeyword(@PathVariable String searchWord,
                                               @RequestParam(name = "department") String department,
                                               @RequestParam(name = "page", defaultValue = "1") int page,
                                               @RequestParam(name = "size", defaultValue = "20") int size) {
         List<NoticeDto> notices = noticeService.getNotices(searchWord, department, page, size);
 
-        return notices;
+        return ResponseEntity.ok().body(notices);
     }
 }
