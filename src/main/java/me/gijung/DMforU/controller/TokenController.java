@@ -16,13 +16,13 @@ public class TokenController {
     private final TokenService tokenService;
 
     //기존 Token TTL Refresh
-    @PostMapping("/refresh_token")
+    @PostMapping("/refreshToken")
     public void refreshTopic(@RequestBody TokensDto tokensDto){
         tokenService.refreshToken(tokensDto);
     }
 
     //신규 Token 생성 URL
-    @PostMapping("/create_topic")
+    @PostMapping("/createTopic")
     public void createTopic(@RequestBody TokensDto tokensDto){
         tokenService.createToken(tokensDto);
     }
