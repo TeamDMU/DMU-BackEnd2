@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.MessageDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -26,7 +27,7 @@ public class Messaging{
 
     
     //학과공지
-    public static MulticastMessage buildMessage(MessageDto messageDto, Set<String> tokenList) {
+    public static MulticastMessage buildMessage(MessageDto messageDto, List<String> tokenList) {
         return MulticastMessage.builder()
                 .setNotification(Notification.builder()
                         .setTitle(messageDto.getTitle())
