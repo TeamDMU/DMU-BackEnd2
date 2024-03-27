@@ -11,8 +11,18 @@ public class Department {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    public void updateDepartment(DepartmentDto departmentDto) {
+
+    public void createDepartment(DepartmentDto departmentDto) {
         for (String token : departmentDto.getTokens()) {
+            redisTemplate.opsForZSet().add(token,departmentDto.getDepartment(), -2);
+        }
+    }
+
+
+    public void updateDepartment(DepartmentDto departmentDto) {
+
+        for (String token : departmentDto.getTokens()) {
+            redisTemplate.opsForZSet().removeRange(token, 0, 0);
             redisTemplate.opsForZSet().add(token,departmentDto.getDepartment(), -2);
         }
     }
