@@ -13,8 +13,5 @@ public interface Token<T> {
 
     default void refreshToken(T t) {}
 
-    default void selectDeleteTopic(T t) throws FirebaseMessagingException {
-    }
-
 
 }
