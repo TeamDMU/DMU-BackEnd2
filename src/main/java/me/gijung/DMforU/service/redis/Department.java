@@ -1,8 +1,6 @@
 package me.gijung.DMforU.service.redis;
 
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.config.Major;
-import me.gijung.DMforU.config.Topic;
 import me.gijung.DMforU.model.dto.DepartmentDto;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,6 @@ public class Department {
     public void updateDepartment(DepartmentDto departmentDto) {
         for (String token : departmentDto.getTokens()) {
             redisTemplate.opsForZSet().add(token,departmentDto.getDepartment(), -2);
-//            redisTemplate.expire(token, 100, TimeUnit.SECONDS);
         }
     }
 
