@@ -1,10 +1,7 @@
 package me.gijung.DMforU.service.token;
 
 
-import org.springframework.stereotype.Service;
-
-@Service
-public interface TokenService<T> {
+public interface Token<T> {
 
     void updateToken(T t);
 
