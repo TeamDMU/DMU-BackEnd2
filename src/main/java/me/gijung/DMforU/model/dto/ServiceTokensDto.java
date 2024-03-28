@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ServiceTokensDto {
-
     private String tokens;
     private List<Topic> topic;
 }
