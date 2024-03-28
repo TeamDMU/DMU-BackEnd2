@@ -1,7 +1,7 @@
 package me.gijung.DMforU.service;
 
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.dto.DepartmentDto;
+import me.gijung.DMforU.model.dto.ServiceDepartmentDto;
 import me.gijung.DMforU.service.redis.Department;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ public class DepartmentService {
     private final Department department;
 
 
-    public void createDepartment(DepartmentDto departmentDto) {
+    public void createDepartment(ServiceDepartmentDto departmentDto) {
         department.createDepartment(departmentDto);
     }
 
-    public void updateDepartment(DepartmentDto departmentDto) {
+    public void updateDepartment(ServiceDepartmentDto departmentDto) {
         department.updateDepartment(departmentDto);
     }
 
-    public void deleteDepartment(DepartmentDto departmentDto) {
+    public void deleteDepartment(ServiceDepartmentDto departmentDto) {
         department.deleteDepartment(departmentDto);
     }
 }

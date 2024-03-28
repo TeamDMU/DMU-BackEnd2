@@ -6,7 +6,6 @@ import me.gijung.DMforU.model.dto.MessageDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

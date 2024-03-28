@@ -20,7 +20,6 @@ import java.util.Set;
 public class MessageService {
 
     private RedisTemplate<String, String> redisTemplate;
-
     public void sendMessage(Notice notice) throws FirebaseMessagingException {
         TypeNoticeDto typeNoticeDto = NoticeMapper.maoToDepartmentNotice(notice);
         List<String> tokenList = findDepartmentValue(typeNoticeDto.getType());

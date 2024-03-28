@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 @Component
 @Slf4j
 public class ServiceAOP {
-    @Pointcut("execution(* me.gijung.DMforU.service..*.*(..))")
+    @Pointcut("execution(* me.gijung.DMforU.service.TokenService..*.*(..))")
     public void pointcut() {
     }
 

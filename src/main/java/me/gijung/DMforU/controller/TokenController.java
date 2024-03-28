@@ -1,9 +1,13 @@
 package me.gijung.DMforU.controller;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import me.gijung.DMforU.model.dto.TokensDto;
+import me.gijung.DMforU.model.dto.RequestTokenDto;
+import me.gijung.DMforU.model.entity.Notice;
+import me.gijung.DMforU.repository.NoticeRepository;
 import me.gijung.DMforU.service.TokenService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
@@ -17,27 +21,20 @@ public class TokenController {
 
     //기존 Token TTL Refresh
     @PostMapping("/refreshToken")
-    public void refreshTopic(@RequestBody TokensDto tokensDto){
+    public void refreshTopic(@RequestBody RequestTokenDto tokensDto){
         tokenService.refreshToken(tokensDto);
-    }
-
-    //신규 Token 생성 URL
-    @PostMapping("/createTopic")
-    public void createTopic(@RequestBody TokensDto tokensDto){
-        tokenService.createToken(tokensDto);
     }
 
     //redisService.updateToken = Token 유효시간 갱신 및 Token Redis Server에 등록
     //messageService.updateToken = Google FCM token & Topic 등록
     @PostMapping("/updateTopic")
-    public void update_topic(@RequestBody TokensDto tokensDto) throws ExecutionException, FirebaseMessagingException, InterruptedException {
-        tokenService.updateToken(tokensDto);
+    public void updateTopic(@RequestBody RequestTokenDto tokensDto) throws FirebaseMessagingException, ExecutionException, InterruptedException {
+        tokenService.updateTopic(tokensDto);
     }
 
     //Topic 구독 취소, 추후에 무결성 검증 로직 추가
-
     @PostMapping("/deleteTopic")
-    public void delete_topic(@RequestBody TokensDto tokensDto) {
-        tokenService.deleteToken(tokensDto);
+    public void deleteTopic(@RequestBody RequestTokenDto tokensDto) {
+        tokenService.deleteTopic(tokensDto);
     }
 }
