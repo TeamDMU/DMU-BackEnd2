@@ -32,27 +32,27 @@ public class NoticeMapper {
 
     //RequestTokenDto -> ServiceTokensDto
     // Token Update, Delete, Refresh 사용
-    public static ServiceTokensDto RequestTokenDtoToServiceTokensDto(RequestTokenDto requestTokenDto) {
-        return ServiceTokensDto.builder()
-                .tokens(requestTokenDto.getTokens())
+    public static TokensDto RequestTokenDtoToServiceTokensDto(RequestTokenDto requestTokenDto) {
+        return TokensDto.builder()
+                .token(requestTokenDto.getToken())
                 .topic(requestTokenDto.getTopic())
                 .build();
     }
 
     //RequestInitDto -> ServiceTokensDto
     //초기 앱 진입시 Token 및 Topic 생성에 사용
-    public static ServiceTokensDto RequestTokenDtoToServiceTokensDto(RequestInitDto requestInitDto) {
-        return ServiceTokensDto.builder()
-                .tokens(requestInitDto.getTokens())
+    public static TokensDto RequestTokenDtoToServiceTokensDto(InitRequestDto requestInitDto) {
+        return TokensDto.builder()
+                .token(requestInitDto.getToken())
                 .topic(requestInitDto.getTopic())
                 .build();
     }
 
     //RequestInitDto -> ServiceDepartmentDto
     //초기 앱 진입시 학과 생성에 사용
-    public static ServiceDepartmentDto RequestInitDtoToServiceDepartmentDto(RequestInitDto requestInitDto) {
-        return ServiceDepartmentDto.builder()
-                .tokens(requestInitDto.getTokens())
+    public static DepartmentDto RequestInitDtoToServiceDepartmentDto(InitRequestDto requestInitDto) {
+        return DepartmentDto.builder()
+                .token(requestInitDto.getToken())
                 .department(requestInitDto.getDepartment())
                 .build();
     }
