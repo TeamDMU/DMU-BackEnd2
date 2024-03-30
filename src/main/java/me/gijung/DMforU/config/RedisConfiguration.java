@@ -3,8 +3,8 @@ package me.gijung.DMforU.config;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.dto.ServiceTokensDto;
 
+import me.gijung.DMforU.model.dto.TokensDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
@@ -46,9 +46,9 @@ public class RedisConfiguration {
             @Override
             public void onMessage(Message message, byte[] pattern) {
                 String expiredKey = new String(message.getBody());
-                ServiceTokensDto tokensDto = ServiceTokensDto
+                TokensDto tokensDto = TokensDto
                         .builder()
-                        .tokens(expiredKey)
+                        .token(expiredKey)
                         .build();
                 try {
                     AllDeleteTopic(tokensDto);
@@ -70,12 +70,12 @@ public class RedisConfiguration {
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));  // Value: 직렬화에 사용할 Object 사용하기
         return redisTemplate;
     }
-    private void AllDeleteTopic(ServiceTokensDto tokensDto) throws FirebaseMessagingException {
+    private void AllDeleteTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         FirebaseMessaging instance = FirebaseMessaging
                 .getInstance();
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         for (Topic topic : topics) {
-            instance.unsubscribeFromTopic(Collections.singletonList(tokensDto.getTokens()), String.valueOf(topic));
+            instance.unsubscribeFromTopic(Collections.singletonList(tokensDto.getToken()), String.valueOf(topic));
         }
     }
 }
