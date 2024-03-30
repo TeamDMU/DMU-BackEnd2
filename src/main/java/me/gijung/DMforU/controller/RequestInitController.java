@@ -1,7 +1,7 @@
 package me.gijung.DMforU.controller;
 
 import lombok.AllArgsConstructor;
-import me.gijung.DMforU.model.dto.RequestInitDto;
+import me.gijung.DMforU.model.dto.InitRequestDto;
 import me.gijung.DMforU.service.InitService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ public class RequestInitController {
     private final InitService initService;
 
     @PostMapping("/createInit")
-    public void createTokenDepartment(@RequestBody RequestInitDto requestInitDto) {
+    public void createTokenDepartment(@RequestBody InitRequestDto requestInitDto) {
         initService.createTokenDepartment(requestInitDto);
     }
 
