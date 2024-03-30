@@ -10,8 +10,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
-public class RequestInitDto {
-    private String tokens;
-    private String department;
+public class TokensDto {
+    private String token;
     private List<Topic> topic;
 }

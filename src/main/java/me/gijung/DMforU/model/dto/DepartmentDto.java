@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @Getter
 @AllArgsConstructor
-public class ServiceDepartmentDto {
-    private String tokens;
+public class DepartmentDto {
+    private String token;
     private String department;
 }

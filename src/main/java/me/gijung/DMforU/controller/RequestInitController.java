@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/token/v1/dmu")
-public class InitController {
+public class RequestInitController {
 
     private final InitService initService;
 
