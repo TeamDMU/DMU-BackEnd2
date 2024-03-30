@@ -1,9 +1,9 @@
 package me.gijung.DMforU.service;
 
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.dto.RequestInitDto;
-import me.gijung.DMforU.model.dto.ServiceDepartmentDto;
-import me.gijung.DMforU.model.dto.ServiceTokensDto;
+import me.gijung.DMforU.model.dto.DepartmentDto;
+import me.gijung.DMforU.model.dto.InitRequestDto;
+import me.gijung.DMforU.model.dto.TokensDto;
 import me.gijung.DMforU.service.redis.Department;
 import me.gijung.DMforU.service.token.Token;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ import static me.gijung.DMforU.utils.NoticeMapper.RequestTokenDtoToServiceTokens
 @RequiredArgsConstructor
 public class InitService {
 
-    private final Token<ServiceTokensDto> googleToken;
-    private final Token<ServiceTokensDto> redisToken;
-    private final DepartmentService departmentService;
+    private final Token<TokensDto> googleToken;
+    private final Token<TokensDto> redisToken;
+    private final Department department;
 
-    public void createTokenDepartment(RequestInitDto requestInitDto) {
-        departmentService.createDepartment(mapToRequestInitDto2(requestInitDto));
-        redisToken.createToken(mapToRequestInitDto1(requestInitDto));
-        googleToken.createToken(mapToRequestInitDto1(requestInitDto));
+    public void createTokenDepartment(InitRequestDto requestInitDto) {
+        department.createDepartment(mapToInitRequestDto(requestInitDto));
+        redisToken.createToken(mapToInitRequestDto1(requestInitDto));
+        googleToken.createToken(mapToInitRequestDto1(requestInitDto));
     }
 
-    private ServiceTokensDto mapToRequestInitDto1(RequestInitDto requestInitDto) {
+    private TokensDto mapToInitRequestDto1(InitRequestDto requestInitDto) {
         return RequestTokenDtoToServiceTokensDto(requestInitDto);
     }
-    private ServiceDepartmentDto mapToRequestInitDto2(RequestInitDto requestInitDto){
+    private DepartmentDto mapToInitRequestDto(InitRequestDto requestInitDto){
         return RequestInitDtoToServiceDepartmentDto(requestInitDto);
     }
 }
