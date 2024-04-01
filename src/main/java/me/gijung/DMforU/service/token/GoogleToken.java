@@ -19,9 +19,9 @@ public class GoogleToken implements Token<TokensDto> {
 
     //Google FCM서버에 기기별 구독 업데이트
     public void createToken(TokensDto tokensDto) {
-        firebaseSendToken(tokensDto, (tokens, topic) -> {
+        firebaseSendToken(tokensDto, (token, topic) -> {
             try {
-                FirebaseMessaging.getInstance().subscribeToTopic(tokens, String.valueOf(topic));
+                FirebaseMessaging.getInstance().subscribeToTopic(token, String.valueOf(topic));
             } catch (FirebaseMessagingException e) {
                 throw new RuntimeException(e);
             }
@@ -30,9 +30,9 @@ public class GoogleToken implements Token<TokensDto> {
 
     public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException {
         deleteAllTopic(tokensDto);
-        firebaseSendToken(tokensDto, (tokens, topic) -> {
+        firebaseSendToken(tokensDto, (token, topic) -> {
             try {
-                FirebaseMessaging.getInstance().subscribeToTopic(tokens, String.valueOf(topic));
+                FirebaseMessaging.getInstance().subscribeToTopic(token, String.valueOf(topic));
             } catch (FirebaseMessagingException e) {
                 throw new RuntimeException(e);
             }
@@ -49,20 +49,19 @@ public class GoogleToken implements Token<TokensDto> {
             }
         });
     }
-
     private void firebaseSendToken(TokensDto tokensDto, BiConsumer<List<String>, Topic> tokenProcesss) {
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         List<Topic> topic1 = tokensDto.getTopic();
         for (Topic topic : topics) {
             if (topic1.contains(topic)) {
-                tokenProcesss.accept(tokensDto.getTokens(), topic);
+                tokenProcesss.accept(Collections.singletonList(tokensDto.getToken()), topic);
             }
         }
     }
 
-    private synchronized void deleteAllTopic(TokensDto tokensDto) throws FirebaseMessagingException {
+    private void deleteAllTopic(TokensDto tokensDto) throws FirebaseMessagingException {
         for (Topic value : Topic.values()) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(value));
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(Collections.singletonList(tokensDto.getToken()), String.valueOf(value));
         }
     }
 }

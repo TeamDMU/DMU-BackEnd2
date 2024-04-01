@@ -2,7 +2,7 @@ package me.gijung.DMforU.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.gijung.DMforU.model.dto.DepartmentDto;
-import me.gijung.DMforU.service.DepartmentService;
+import me.gijung.DMforU.service.redis.Department;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DepartmentController {
 
-    private final DepartmentService departmentService;
-
-    @PostMapping("/createDepartment")
-    public void createDepartment(@RequestBody DepartmentDto departmentDto) {
-        departmentService.createDepartment(departmentDto);
-    }
+    private final Department departmentService;
 
     @PostMapping("/updateDepartment")
     public void updateDepartment(@RequestBody DepartmentDto departmentDto) {

@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class DepartmentDto {
-    private List<String> tokens;
+    private String token;
     private String department;
-
 }

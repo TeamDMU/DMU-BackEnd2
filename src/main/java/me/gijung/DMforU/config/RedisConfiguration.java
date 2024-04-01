@@ -3,8 +3,8 @@ package me.gijung.DMforU.config;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.dto.TokensDto;
 
+import me.gijung.DMforU.model.dto.TokensDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.Message;
@@ -48,7 +48,7 @@ public class RedisConfiguration {
                 String expiredKey = new String(message.getBody());
                 TokensDto tokensDto = TokensDto
                         .builder()
-                        .tokens(Collections.singletonList(expiredKey))
+                        .token(expiredKey)
                         .build();
                 try {
                     AllDeleteTopic(tokensDto);
@@ -75,7 +75,7 @@ public class RedisConfiguration {
                 .getInstance();
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         for (Topic topic : topics) {
-            instance.unsubscribeFromTopic(tokensDto.getTokens(), String.valueOf(topic));
+            instance.unsubscribeFromTopic(Collections.singletonList(tokensDto.getToken()), String.valueOf(topic));
         }
     }
 }

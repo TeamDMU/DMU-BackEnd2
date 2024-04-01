@@ -26,20 +26,16 @@ public class RedisToken implements Token<TokensDto> {
     }
 
     public void refreshToken(TokensDto tokensDto) {
-        for (String token : tokensDto.getTokens()) {
-            redisTemplate.expire(token,30,TimeUnit.DAYS);
-        }
+            redisTemplate.expire(tokensDto.getToken(),30,TimeUnit.DAYS);
     }
 
 
     //Redis Server Token Update
     public void updateToken(TokensDto tokensDto) {
-        for (String tokens : tokensDto.getTokens()) {
-            redisTemplate.opsForZSet().removeRange(tokens, 1, -1);
+            redisTemplate.opsForZSet().removeRange(tokensDto.getToken(), 1, -1);
             processToken(tokensDto, (token, topic) -> {
                 redisTemplate.opsForZSet().add(token, String.valueOf(topic), -1);
             });
-        }
     }
 
     //Redis Server Token Delete
@@ -50,13 +46,11 @@ public class RedisToken implements Token<TokensDto> {
     }
 
     private void processToken(TokensDto tokensDto, BiConsumer<String, Topic> tokenProcessor) {
-        for (String token : tokensDto.getTokens()) {
             List<Topic> topic1 = tokensDto.getTopic();
             for (Topic topic : Topic.values()) {
                 if (topic1.contains(topic)) {
-                    tokenProcessor.accept(token, topic);
+                    tokenProcessor.accept(tokensDto.getToken(), topic);
                 }
-            }
         }
     }
 }

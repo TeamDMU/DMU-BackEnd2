@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 @Component
 @Slf4j
 public class ServiceAOP {
-    @Pointcut("execution(* me.gijung.DMforU.service..*.*(..))")
+    @Pointcut("execution(* me.gijung.DMforU.service.token..*.*(..))")
     public void pointcut() {
     }
 
@@ -32,5 +32,6 @@ public class ServiceAOP {
         log.info(declaringClass.getSimpleName());
         log.info(stopWatch.prettyPrint());
         log.info(String.valueOf(stopWatch.getTotalTimeSeconds()));
+        log.info(String.valueOf(Thread.currentThread()));
     }
 }
