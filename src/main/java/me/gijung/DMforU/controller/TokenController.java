@@ -1,13 +1,9 @@
 package me.gijung.DMforU.controller;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import me.gijung.DMforU.model.dto.RequestTokenDto;
-import me.gijung.DMforU.model.entity.Notice;
-import me.gijung.DMforU.repository.NoticeRepository;
 import me.gijung.DMforU.service.TokenService;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
