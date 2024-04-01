@@ -32,5 +32,6 @@ public class ServiceAOP {
         log.info(declaringClass.getSimpleName());
         log.info(stopWatch.prettyPrint());
         log.info(String.valueOf(stopWatch.getTotalTimeSeconds()));
+        log.info(String.valueOf(Thread.currentThread()));
     }
 }
