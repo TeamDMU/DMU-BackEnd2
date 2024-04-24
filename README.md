@@ -7,6 +7,8 @@
 | [GiJungPark](https://github.com/GiJungPark) |[LeeJongWon](https://github.com/LJW22222) |
 |    식단, 일정, 공지사항 크롤링 서비스 제작<br/>AWS 서버 구축    | FCM을 활용한 알림 전송<br/>Redis를 활용한 구독 시스템 제작  |
 
+<br><br>
+
 ## Tech Stack
 ### Develop Environment
 <img src="https://img.shields.io/badge/IntellJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> 
@@ -19,6 +21,8 @@
 <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=Spring&logoColor=white"> 
 <img src="https://img.shields.io/badge/Jsoup 1.17.2-007396?style=for-the-badge&logo=java&logoColor=white"> 
 <img src="https://img.shields.io/badge/firebase 9.2.0-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+
+<br><br>
 
 ## Architecture
 ### AWS
