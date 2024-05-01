@@ -8,10 +8,9 @@ import me.gijung.DMforU.config.Topic;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class InitRequestDto {
+@AllArgsConstructor
+public class TopicRequestDto {
     private String token;
-    private String department;
     private List<Topic> topics;
 }

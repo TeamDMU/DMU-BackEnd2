@@ -21,10 +21,12 @@ public class Messaging{
                         .setBody(messageDto.getBody())
                         .build())
                 .putData("url", messageDto.getUrl())
+                .putData("title", messageDto.getTitle())
+                .putData("body", messageDto.getBody())
                 .build();
     }
 
-    
+
     //학과공지
     public static MulticastMessage buildMessage(MessageDto messageDto, List<String> tokenList) {
         return MulticastMessage.builder()
@@ -34,6 +36,8 @@ public class Messaging{
                         .build())
                 .addAllTokens(tokenList)
                 .putData("url", messageDto.getUrl())
+                .putData("title", messageDto.getTitle())
+                .putData("body", messageDto.getBody())
                 .build();
     }
 }

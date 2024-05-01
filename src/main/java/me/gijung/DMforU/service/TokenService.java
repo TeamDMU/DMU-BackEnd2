@@ -2,42 +2,38 @@ package me.gijung.DMforU.service;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
-import me.gijung.DMforU.model.dto.RequestTokenDto;
-
 import me.gijung.DMforU.model.dto.TokensDto;
-import me.gijung.DMforU.service.token.Token;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import java.util.concurrent.ExecutionException;
 
-import static me.gijung.DMforU.utils.NoticeMapper.RequestTokenDtoToServiceTokensDto;
+import me.gijung.DMforU.service.token.GoogleToken;
+import me.gijung.DMforU.service.token.RedisToken;
+import me.gijung.DMforU.service.token.Token;
+import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
 public class TokenService {
 
-    private final Token<TokensDto> googleToken;
-    private final Token<TokensDto> redisToken;
+    private final GoogleToken googleToken;
+    private final RedisToken redisToken;
 
-    //토큰 생명주기 연장
-    public void refreshToken(RequestTokenDto tokensDto) {
-        redisToken.refreshToken(mapToRequestTokenDto(tokensDto));
+    public void refreshToken(String token) {
+        redisToken.refreshToken(token);
     }
 
-
-    //토픽 업데이트
-//    @Async("customThreadPool")
-    public void updateTopic(RequestTokenDto tokensDto) throws FirebaseMessagingException, ExecutionException, InterruptedException {
-        redisToken.updateToken(mapToRequestTokenDto(tokensDto));
-        googleToken.updateToken(mapToRequestTokenDto(tokensDto));
+    public void createToken(TokensDto tokensDto) {
+        redisToken.createToken(tokensDto);
+        googleToken.createToken(tokensDto);
     }
 
-    public void deleteTopic(RequestTokenDto tokensDto) {
-        redisToken.deleteToken(mapToRequestTokenDto(tokensDto));
-        googleToken.deleteToken(mapToRequestTokenDto(tokensDto));
+    public void updateToken(TokensDto tokensDto) throws FirebaseMessagingException, ExecutionException, InterruptedException {
+        redisToken.updateToken(tokensDto);
+        googleToken.updateToken(tokensDto);
     }
 
-    private TokensDto mapToRequestTokenDto(RequestTokenDto requestTokenDto) {
-        return RequestTokenDtoToServiceTokensDto(requestTokenDto);
+    public void deleteToken(String token) {
+        redisToken.deleteToken(token);
+        googleToken.deleteToken(token);
     }
 }

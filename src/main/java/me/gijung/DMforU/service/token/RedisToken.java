@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 @Service
 @RequiredArgsConstructor
 @Qualifier("redisToken")
-public class RedisToken implements Token<TokensDto> {
+public class RedisToken {
 
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -25,32 +25,34 @@ public class RedisToken implements Token<TokensDto> {
         });
     }
 
-    public void refreshToken(TokensDto tokensDto) {
-            redisTemplate.expire(tokensDto.getToken(),30,TimeUnit.DAYS);
+    public void refreshToken(String token) {
+        redisTemplate.expire(token,30,TimeUnit.DAYS);
     }
 
 
     //Redis Server Token Update
     public void updateToken(TokensDto tokensDto) {
-            redisTemplate.opsForZSet().removeRange(tokensDto.getToken(), 1, -1);
+        for (String tokens : tokensDto.getTokens()) {
+            redisTemplate.opsForZSet().removeRange(tokens, 1, -1);
             processToken(tokensDto, (token, topic) -> {
                 redisTemplate.opsForZSet().add(token, String.valueOf(topic), -1);
             });
+        }
     }
 
     //Redis Server Token Delete
-    public void deleteToken(TokensDto tokensDto) {
-        processToken(tokensDto, (token, topic) -> {
-            redisTemplate.opsForZSet().remove(token, String.valueOf(topic));
-        });
+    public void deleteToken(String token) {
+        redisTemplate.opsForZSet().removeRange(token, 1, -1);
     }
 
     private void processToken(TokensDto tokensDto, BiConsumer<String, Topic> tokenProcessor) {
+        for (String token : tokensDto.getTokens()) {
             List<Topic> topic1 = tokensDto.getTopic();
             for (Topic topic : Topic.values()) {
                 if (topic1.contains(topic)) {
-                    tokenProcessor.accept(tokensDto.getToken(), topic);
+                    tokenProcessor.accept(token, topic);
                 }
+            }
         }
     }
 }
