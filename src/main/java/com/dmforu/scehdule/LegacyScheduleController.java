@@ -10,13 +10,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/schedule")
-public class ScheduleController {
+@RequestMapping("/api/v1/dmu/schedule")
+public class LegacyScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @GetMapping("/v1")
-    public ResponseEntity<List<Schedule.Year>> getSchedule() {
-        return ResponseEntity.ok().body(scheduleService.getData());
+    @GetMapping
+    public ResponseEntity<List<YearSchedule>> getScheduler() {
+        return ResponseEntity.ok().body(scheduleService.getDataLegacy());
     }
 }
