@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "구버전 학사일정")
+@Tag(name = "[구버전] 학사일정")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/dmu/schedule")
