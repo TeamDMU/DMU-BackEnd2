@@ -1,4 +1,4 @@
-package com.dmforu.scehdule;
+package com.dmforu.schedule;
 
 import com.dmforu.crawling.parser.Parser;
 import lombok.RequiredArgsConstructor;

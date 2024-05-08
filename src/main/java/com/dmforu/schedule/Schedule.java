@@ -1,4 +1,4 @@
-package com.dmforu.scehdule;
+package com.dmforu.schedule;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
