@@ -1,9 +1,9 @@
 package com.dmforu.crawling.parser;
 
 import com.dmforu.crawling.WebPageLoader;
-import com.dmforu.scehdule.MonthSchedule;
-import com.dmforu.scehdule.Schedule;
-import com.dmforu.scehdule.YearSchedule;
+import com.dmforu.schedule.MonthSchedule;
+import com.dmforu.schedule.Schedule;
+import com.dmforu.schedule.YearSchedule;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
