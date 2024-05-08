@@ -16,7 +16,7 @@ public class CafeteriaController {
     private final CafeteriaService cafeteriaService;
 
     @GetMapping
-    public ResponseEntity<List<WeeklyMenu>> getDiet() {
+    public ResponseEntity<List<Diet>> getDiet() {
         return ResponseEntity.ok().body(cafeteriaService.getData());
     }
 }

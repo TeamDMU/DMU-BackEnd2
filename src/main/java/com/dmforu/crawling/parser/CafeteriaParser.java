@@ -1,6 +1,6 @@
 package com.dmforu.crawling.parser;
 
-import com.dmforu.cafeteria.WeeklyMenu;
+import com.dmforu.cafeteria.Diet;
 import com.dmforu.crawling.WebPageLoader;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.nodes.Document;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CafeteriaParser implements Parser<WeeklyMenu> {
+public class CafeteriaParser implements Parser<Diet> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
@@ -25,15 +25,15 @@ public class CafeteriaParser implements Parser<WeeklyMenu> {
     private String DMU_DIET_URL;
 
     @Override
-    public List<WeeklyMenu> parse() {
+    public List<Diet> parse() {
 
-        List<WeeklyMenu> result = new ArrayList<>();
+        List<Diet> result = new ArrayList<>();
 
         Document document = WebPageLoader.getHTML(DMU_DIET_URL);
 
         Elements rows = document.select("div.table_1 table tbody tr");
         for (Element row : rows) {
-            WeeklyMenu item = parseDietItemFromRow(row);
+            Diet item = parseDietItemFromRow(row);
 
             if (item != null) {
                 result.add(item);
@@ -44,7 +44,7 @@ public class CafeteriaParser implements Parser<WeeklyMenu> {
     }
 
 
-    private WeeklyMenu parseDietItemFromRow(Element row) {
+    private Diet parseDietItemFromRow(Element row) {
         Elements columns = row.select("th, td");
 
         // 요일 출력
@@ -64,6 +64,6 @@ public class CafeteriaParser implements Parser<WeeklyMenu> {
         String menuElement = menuColumn != null ? menuColumn.text() : null;
         String[] menus = !StringUtils.isEmpty(menuElement) ? menuElement.split(", ") : new String[] {};
 
-        return new WeeklyMenu(parsedDate, menus);
+        return new Diet(parsedDate, menus);
     }
 }

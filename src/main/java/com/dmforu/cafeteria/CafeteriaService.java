@@ -10,9 +10,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CafeteriaService {
 
-    private final Parser<WeeklyMenu> cafeteriaParser;
+    private final Parser<Diet> cafeteriaParser;
 
-    public List<WeeklyMenu> getData() {
+    public List<Diet> getData() {
         return cafeteriaParser.parse();
     }
 }
