@@ -1,4 +1,4 @@
-package com.dmforu.scehdule;
+package com.dmforu.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
