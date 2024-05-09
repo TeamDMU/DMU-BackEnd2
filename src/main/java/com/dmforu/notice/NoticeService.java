@@ -24,8 +24,8 @@ public class NoticeService {
      * @param size       페이지당 공지사항의 수
      * @return 페이지에 해당하는 공지사항 목록
      */
-    public List<NoticeRequest> getNotices(String searchWord, String department, int page, int size) {
-        Page<Notice> result = noticeRepository.findByTitleContainingSearchWordAndDepartment(searchWord, department,
+    public List<NoticeRequest> findNoticesBySearchWord(String searchWord, String department, int page, int size) {
+        Page<Notice> result = noticeRepository.findBySearchWordAndDepartment(searchWord, department,
                 PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "date")));
 
         return result.map(NoticeRequest::toDto).getContent();

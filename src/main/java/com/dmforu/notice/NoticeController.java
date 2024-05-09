@@ -47,7 +47,7 @@ public class NoticeController {
                                                                   @RequestParam(name = "department") String department,
                                                                   @RequestParam(name = "page", defaultValue = "1") int page,
                                                                   @RequestParam(name = "size", defaultValue = "20") int size) {
-        List<NoticeRequest> notices = noticeService.getNotices(searchWord, department, page, size);
+        List<NoticeRequest> notices = noticeService.findNoticesBySearchWord(searchWord, department, page, size);
 
         return ResponseEntity.ok().body(notices);
     }
