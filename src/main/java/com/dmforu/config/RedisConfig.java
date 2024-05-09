@@ -1,4 +1,4 @@
-package com.dmforu.redis;
+package com.dmforu.config;
 
 import com.dmforu.subscribe.config.Topic;
 import com.dmforu.subscribe.dto.TokensDto;
@@ -23,7 +23,7 @@ import java.util.EnumSet;
 
 @Configuration
 @RequiredArgsConstructor
-public class RedisConfiguration {
+public class RedisConfig {
 
 
     @Value("${spring.data.redis.host}")
