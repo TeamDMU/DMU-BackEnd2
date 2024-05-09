@@ -33,5 +33,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
      * @return 키워드에 맞는 공지사항 페이지
      */
     @Query(value = "SELECT * FROM notice WHERE REPLACE(title, ' ', '') LIKE CONCAT('%', REPLACE(?1, ' ', ''), '%') AND type IN (?2, '대학')", nativeQuery = true)
-    Page<Notice> findByTitleContainingSearchWordAndDepartment(String searchWord, String department, Pageable pageable);
+    Page<Notice> findBySearchWordAndDepartment(String searchWord, String department, Pageable pageable);
 }
