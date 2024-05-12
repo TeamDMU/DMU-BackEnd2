@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.function.BiConsumer;
 @Service
 @Qualifier("googleToken")
 @RequiredArgsConstructor
-public class GoogleToken implements Token<TokensDto> {
+public class GoogleToken {
 
 
     //Google FCM서버에 기기별 구독 업데이트
@@ -42,15 +43,17 @@ public class GoogleToken implements Token<TokensDto> {
     }
 
     //Google FCM서버에 기기별 구독 삭제
-    public void deleteToken(TokensDto tokensDto){
-        firebaseSendToken(tokensDto, (tokens, topic) -> {
+    public void deleteToken(String token){
+        EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
+        for (Topic topic : topics) {
             try {
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(tokens, String.valueOf(topic));
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(Arrays.asList(token), String.valueOf(topic));
             } catch (FirebaseMessagingException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }
     }
+
     private void firebaseSendToken(TokensDto tokensDto, BiConsumer<List<String>, Topic> tokenProcesss) {
         EnumSet<Topic> topics = EnumSet.allOf(Topic.class);
         List<Topic> topic1 = tokensDto.getTopic();

@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 @Service
 @RequiredArgsConstructor
 @Qualifier("redisToken")
-public class RedisToken implements Token<TokensDto> {
+public class RedisToken {
 
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -25,7 +25,7 @@ public class RedisToken implements Token<TokensDto> {
         });
     }
 
-    public void refreshToken(TokensDto tokensDto) {
+    public void refreshToken(String token) {
 //        redisTemplate.expire(tokensDto.getToken(),30,TimeUnit.DAYS);
     }
 
@@ -39,10 +39,8 @@ public class RedisToken implements Token<TokensDto> {
     }
 
     //Redis Server Token Delete
-    public void deleteToken(TokensDto tokensDto) {
-        processToken(tokensDto, (token, topic) -> {
-            redisTemplate.opsForZSet().remove(token, String.valueOf(topic));
-        });
+    public void deleteToken(String token) {
+        redisTemplate.opsForZSet().removeRange(token, 1, -1);
     }
 
     private void processToken(TokensDto tokensDto, BiConsumer<String, Topic> tokenProcessor) {
