@@ -4,6 +4,8 @@ import com.dmforu.subscribe.dto.DepartmentDto;
 import com.dmforu.subscribe.dto.InitRequestDto;
 import com.dmforu.subscribe.dto.NoticeMapper;
 import com.dmforu.subscribe.dto.TokensDto;
+import com.dmforu.subscribe.token.GoogleToken;
+import com.dmforu.subscribe.token.RedisToken;
 import com.dmforu.subscribe.token.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class InitService {
 
-    private final Token<TokensDto> googleToken;
-    private final Token<TokensDto> redisToken;
+    private final GoogleToken googleToken;
+    private final RedisToken redisToken;
     private final Department department;
 
     public void createTokenDepartment(InitRequestDto requestInitDto) {
