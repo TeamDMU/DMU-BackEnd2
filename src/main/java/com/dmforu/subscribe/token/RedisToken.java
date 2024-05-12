@@ -21,12 +21,12 @@ public class RedisToken implements Token<TokensDto> {
     public void createToken(TokensDto tokensDto) {
         processToken(tokensDto, (token, topic) -> {
             redisTemplate.opsForZSet().add(token, String.valueOf(topic), -1);
-            redisTemplate.expire(token,30, TimeUnit.DAYS);
+//            redisTemplate.expire(token,30, TimeUnit.DAYS);
         });
     }
 
     public void refreshToken(TokensDto tokensDto) {
-        redisTemplate.expire(tokensDto.getToken(),30,TimeUnit.DAYS);
+//        redisTemplate.expire(tokensDto.getToken(),30,TimeUnit.DAYS);
     }
 
 
