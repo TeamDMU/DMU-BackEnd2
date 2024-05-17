@@ -1,12 +1,12 @@
-package com.dmforu.subscribe.v2;
+package com.dmforu.v2_subscrible;
 
 
-import com.dmforu.subscribe.v2.model.dto.DepartmentStatusDTO;
-import com.dmforu.subscribe.v2.model.dto.KeywordDTO;
-import com.dmforu.subscribe.v2.model.dto.KeywordStatusDTO;
-import com.dmforu.subscribe.v2.model.dto.RepectorTokensDTO;
-import com.dmforu.subscribe.v2.service.DepartmentService;
-import com.dmforu.subscribe.v2.service.TokenServiceV2;
+import com.dmforu.v2_subscrible.model.dto.DepartmentStatusDTO;
+import com.dmforu.v2_subscrible.model.dto.KeywordDTO;
+import com.dmforu.v2_subscrible.model.dto.KeywordStatusDTO;
+import com.dmforu.v2_subscrible.model.dto.InitTokensDTO;
+import com.dmforu.v2_subscrible.service.DepartmentService;
+import com.dmforu.v2_subscrible.service.TokenServiceV2;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,8 @@ public class SubscribeService {
     private final DepartmentService departmentService;
 
     // 애플리케이션 최초 Token 정보 등록
-    public void createInitTokenInformation(RepectorTokensDTO repectorTokensDto) {
-        tokenServiceV2.createInitTokenInformation(repectorTokensDto);
+    public void createInitTokenInformation(InitTokensDTO initTokensDto) {
+        tokenServiceV2.createInitTokenInformation(initTokensDto);
     }
 
     // 키워드 수정 및 추가
