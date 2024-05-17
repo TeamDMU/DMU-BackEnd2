@@ -1,9 +1,11 @@
-package com.dmforu.subscribe.v2;
+package com.dmforu.v2_subscrible;
 
-import com.dmforu.subscribe.v2.model.dto.DepartmentStatusDTO;
-import com.dmforu.subscribe.v2.model.dto.KeywordDTO;
-import com.dmforu.subscribe.v2.model.dto.KeywordStatusDTO;
-import com.dmforu.subscribe.v2.model.dto.RepectorTokensDTO;
+import com.dmforu.notice.Notice;
+import com.dmforu.v2_messaging.MessageServiceV2;
+import com.dmforu.v2_subscrible.model.dto.DepartmentStatusDTO;
+import com.dmforu.v2_subscrible.model.dto.KeywordDTO;
+import com.dmforu.v2_subscrible.model.dto.KeywordStatusDTO;
+import com.dmforu.v2_subscrible.model.dto.InitTokensDTO;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,10 +22,11 @@ public class SubscribeController {
 
     private final SubscribeService subscribeService;
 
+    //Tet URL
     @Operation(summary = "최초 Token 등록 API", description = "애플리케이션 최초 실행시 Token과 학과, 키워드를 등록한다.")
     @PostMapping("/registration")
-    public void createTokenDepartment(@RequestBody RepectorTokensDTO repectorTokensDto) {
-        subscribeService.createInitTokenInformation(repectorTokensDto);
+    public void createTokenDepartment(@RequestBody InitTokensDTO initTokensDto) {
+        subscribeService.createInitTokenInformation(initTokensDto);
     }
 
     @Operation(summary = "Keyword 수정 API", description = "애플리케이션 키워드를 수정 및 추가한다.")
