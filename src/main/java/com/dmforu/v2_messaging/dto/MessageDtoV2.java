@@ -19,7 +19,7 @@ public class MessageDtoV2 {
 
     //대학 공지사항
     public MessageDtoV2(NoticeDtoV2 noticeDtoV2, String keyword) {
-        this.title = builderTitle(noticeDtoV2.getType());
+        this.title = builderTitle(keyword);
         this.keyword = keyword;
         this.body = noticeDtoV2.getTitle();
         this.url = noticeDtoV2.getUrl();
