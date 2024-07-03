@@ -22,34 +22,34 @@ public class Token {
 
     @Convert(converter = StringListConvertor.class)
     @Column(length = 1000)
-//    @ElementCollection
     private List<String> keywordsList;
 
-    private int departmentOnOFF;
+    private boolean departmentOnOFF;
 
-    private int keywordOnOFF;
+    private boolean keywordOnOFF;
 
 
     @Builder
-    public Token(String token, String department, List<String> keywordsList, int departmentOnOFF, int keywordOnOFF) {
-
+    public Token(String token, String department, List<String> keywordsList, boolean departmentOnOFF, boolean keywordOnOFF) {
         this.token = token;
         this.department = department;
         this.keywordsList = keywordsList;
         this.departmentOnOFF = departmentOnOFF;
         this.keywordOnOFF = keywordOnOFF;
-
     }
 
     public void updateKeywords(List<String> keywordsList) {
         this.keywordsList = keywordsList;
     }
 
-    public void updateDepartmentStatus(int OnOFF) {
+    public void updateDepartmentStatus(boolean OnOFF) {
         this.departmentOnOFF = OnOFF;
     }
 
-    public void updateKeywordStatus(int OnOFF) {
+    public void updateKeywordStatus(boolean OnOFF) {
         this.keywordOnOFF = OnOFF;
+    }
+    public void updateDepartment(String department) {
+        this.department = department;
     }
 }
