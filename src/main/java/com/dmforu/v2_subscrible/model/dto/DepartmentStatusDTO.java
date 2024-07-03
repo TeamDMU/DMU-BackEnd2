@@ -6,6 +6,6 @@ import lombok.Data;
 public class DepartmentStatusDTO {
 
     private String token;
-    private int departmentOnOFF;
+    private boolean departmentOnOFF;
 
 }
