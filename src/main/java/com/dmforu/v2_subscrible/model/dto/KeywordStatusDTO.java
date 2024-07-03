@@ -6,6 +6,6 @@ import lombok.Data;
 public class KeywordStatusDTO {
 
     private String token;
-    private int keywordOnOFF;
+    private boolean keywordOnOFF;
 
 }
