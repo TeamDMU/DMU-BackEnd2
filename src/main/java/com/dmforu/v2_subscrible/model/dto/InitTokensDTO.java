@@ -11,7 +11,7 @@ public class InitTokensDTO {
     private String token;
     private String department;
     private List<String> keywordsList;
-    private int departmentOnOFF;
-    private int keywordOnOFF;
+    private boolean departmentOnOFF;
+    private boolean keywordOnOFF;
 
 }
