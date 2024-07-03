@@ -7,9 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Keywords {
 
-    // TODO: 리팩토링 대상
-    // exam -> EXAM, signup -> SIGNUP, speciallecture -> SPECIAL_LECTURE ...
-    // + 이미 상수명 자체가 영어인데 굳이 영어이름이 필요한가?
 
     EXAM("시험"),
     SIGN_UP("수강"),

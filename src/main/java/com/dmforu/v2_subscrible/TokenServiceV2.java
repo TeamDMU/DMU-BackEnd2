@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.token;
+package com.dmforu.v2_subscrible.keyword;
 
 import com.dmforu.v2_subscrible.model.dto.KeywordDTO;
 import com.dmforu.v2_subscrible.model.dto.KeywordStatusDTO;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TokenImplInformation{
+public class TokenInformation{
 
     private final TokenRepository tokenRepository;
     public void createInitTokenInformation(InitTokensDTO initTokensDto) {
@@ -25,16 +25,20 @@ public class TokenImplInformation{
     public void updateKeyword(KeywordDTO keywordDto) {
 
         Optional<Token> byId = tokenRepository.findById(keywordDto.getToken());
-        Token token = byId.get();
-        token.updateKeywords(keywordDto.getKeywordsList());
-
+        if (byId.isPresent()) {
+            Token token = byId.get();
+            token.updateKeywords(keywordDto.getKeywordsList());
+        }
+        
     }
 
     @Transactional
     public void updateKeywordStatus(KeywordStatusDTO keywordStatusDTO) {
         Optional<Token> byId = tokenRepository.findById(keywordStatusDTO.getToken());
-        Token token = byId.get();
-        token.updateKeywordStatus(keywordStatusDTO.getKeywordOnOFF());
+        if (byId.isPresent()) {
+            Token token = byId.get();
+            token.updateKeywordStatus(keywordStatusDTO.isKeywordOnOFF());
+        }
 
     }
 
