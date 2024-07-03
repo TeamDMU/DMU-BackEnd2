@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.department;
+package com.dmforu.v2_subscrible;
 
 import com.dmforu.v2_subscrible.model.dto.DepartmentDTO;
 import com.dmforu.v2_subscrible.model.dto.DepartmentStatusDTO;

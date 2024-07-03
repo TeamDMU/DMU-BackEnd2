@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.keyword;
+package com.dmforu.v2_subscrible;
 
 import com.dmforu.v2_subscrible.model.dto.KeywordDTO;
 import com.dmforu.v2_subscrible.model.dto.KeywordStatusDTO;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TokenInformation{
+public class TokenServiceV2 {
 
     private final TokenRepository tokenRepository;
     public void createInitTokenInformation(InitTokensDTO initTokensDto) {
@@ -29,7 +29,6 @@ public class TokenInformation{
             Token token = byId.get();
             token.updateKeywords(keywordDto.getKeywordsList());
         }
-        
     }
 
     @Transactional
