@@ -11,9 +11,10 @@ import java.util.List;
 
 public interface TokenRepository extends JpaRepository<Token, String> {
 
-    @Query("SELECT t FROM Token t WHERE t.departmentOnOFF = 1 AND t.department = :department")
-    List<Token> getDepartment(@Param("department") String department);
+    @Query("SELECT t.token FROM Token t WHERE t.departmentOnOFF = true AND t.department = :department")
+    List<String> getDepartment(@Param("department") String department);
 
-    @Query(value = "SELECT * FROM token WHERE keywords_list LIKE %:keyword%", nativeQuery = true)
-    List<Token> findByTokenInKeyword(@Param("keyword") String keyword);
+    @Query(value = "SELECT token.token FROM token WHERE keyword_onoff = true AND keywords_list LIKE %:keyword%", nativeQuery = true)
+    List<String> findByTokenInKeyword(@Param("keyword") String keyword);
+
 }
