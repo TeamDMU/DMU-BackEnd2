@@ -18,14 +18,17 @@ public class Token {
     @Id
     private String token;
 
+    @Column(nullable = true)
     private String department;
 
     @Convert(converter = StringListConvertor.class)
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = true)
     private List<String> keywordsList;
 
+    @Column(nullable = false)
     private boolean departmentOnOFF;
 
+    @Column(nullable = false)
     private boolean keywordOnOFF;
 
 

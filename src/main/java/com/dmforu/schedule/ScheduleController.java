@@ -13,13 +13,13 @@ import java.util.List;
 @Tag(name = "학사일정")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/schedule")
+@RequestMapping("/api/v1/schedule")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
     @Operation(summary = "학사일정 API", description = "현재년도를 기준으로 작년부터 내년 2월까지의 학사일정을 출력한다.")
-    @GetMapping("/v1")
+    @GetMapping
     public ResponseEntity<List<Schedule.Year>> getSchedule() {
         return ResponseEntity.ok().body(scheduleService.getData());
     }

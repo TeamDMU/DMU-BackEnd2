@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 
-@Tag(name="알림설정")
+@Tag(name="알림 설정")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/dmu/subscribe")
+@RequestMapping("/api/v1/subscribe")
 public class SubscribeController {
 
-    private final DepartmentService departmentService;
     private final TokenServiceV2 tokenServiceV2;
 
-
-    //Tet URL
     @Operation(summary = "최초 Token 등록 API", description = "애플리케이션 최초 실행시 Token과 학과, 키워드를 등록한다.")
     @PostMapping("/registration")
     public void createTokenDepartment(@RequestBody InitTokensDTO initTokensDto) {
@@ -34,13 +31,7 @@ public class SubscribeController {
         tokenServiceV2.updateKeyword(keywordDto);
     }
 
-    @Operation(summary = "학과 알림 상태 API", description = "학과 알림 상태를 변경한다.")
-    @PutMapping("/departmentStatus")
-    public void deleteDepartment(@RequestBody DepartmentStatusDTO departmentStatusDTO) {
-        departmentService.updateDepartmentStatus(departmentStatusDTO);
-    }
-
-    @Operation(summary = "키워드 알림 상태 API", description = "키워드 알림 상태를 수정한다.")
+    @Operation(summary = "키워드 알림 상태 변경 API", description = "키워드 알림 상태를 수정한다.")
     @PutMapping("/keywordStatus")
     public void updateDepartmentStatus(@RequestBody KeywordStatusDTO keywordStatusDTO) {
         tokenServiceV2.updateKeywordStatus(keywordStatusDTO);
@@ -49,7 +40,13 @@ public class SubscribeController {
     @Operation(summary = "학과 수정 API", description = "학과 정보를 수정한다.")
     @PutMapping("/department")
     public void updateDepartment(@RequestBody DepartmentDTO departmentDTO) {
-        departmentService.updateDepartment(departmentDTO);
+        tokenServiceV2.updateDepartment(departmentDTO);
+    }
+
+    @Operation(summary = "학과 알림 상태 변경 API", description = "학과 알림 상태를 변경한다.")
+    @PutMapping("/departmentStatus")
+    public void deleteDepartment(@RequestBody DepartmentStatusDTO departmentStatusDTO) {
+        tokenServiceV2.updateDepartmentStatus(departmentStatusDTO);
     }
 
 
