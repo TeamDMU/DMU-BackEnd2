@@ -1,10 +1,8 @@
 package com.dmforu.v2_messaging.util;
 
-import com.dmforu.v2_subscrible.config.Keywords;
+import com.dmforu.v2_subscribe.config.Keywords;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class KeywordFiltering {
