@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 @Tag(name="알림설정")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/dmu/subscribe")
+@RequestMapping("/api/v1/subscribe")
 public class SubscribeController {
 
     private final DepartmentService departmentService;
