@@ -1,11 +1,11 @@
-package com.dmforu.v2_subscrible;
+package com.dmforu.subscribe.service;
 
-import com.dmforu.v2_subscrible.model.dto.KeywordDTO;
-import com.dmforu.v2_subscrible.model.dto.KeywordStatusDTO;
-import com.dmforu.v2_subscrible.model.dto.InitTokensDTO;
-import com.dmforu.v2_subscrible.model.entity.Token;
-import com.dmforu.v2_subscrible.repository.TokenRepository;
-import com.dmforu.v2_subscrible.util.mapToEnitty;
+import com.dmforu.subscribe.dtoV2.KeywordDTO;
+import com.dmforu.subscribe.dtoV2.KeywordStatusDTO;
+import com.dmforu.subscribe.dtoV2.InitTokensDTO;
+import com.dmforu.subscribe.entity.Token;
+import com.dmforu.subscribe.repository.TokenRepository;
+import com.dmforu.subscribe.util.mapToEnitty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
