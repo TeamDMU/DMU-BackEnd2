@@ -1,8 +1,8 @@
-package com.dmforu.v2_subscrible;
+package com.dmforu.subscribe;
 
-import com.dmforu.notice.Notice;
-import com.dmforu.v2_messaging.MessageServiceV2;
-import com.dmforu.v2_subscrible.model.dto.*;
+import com.dmforu.subscribe.service.DepartmentService;
+import com.dmforu.subscribe.service.TokenServiceV2;
+import com.dmforu.subscribe.dtoV2.*;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 
-@Tag(name="알림설정")
+@Tag(name="신 버전 알림설정")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/dmu/subscribe")
@@ -20,9 +20,10 @@ public class SubscribeController {
     private final DepartmentService departmentService;
     private final TokenServiceV2 tokenServiceV2;
 
+
     @PostMapping("/test")
-    public void test(@RequestParam ) {
-        tokenServiceV2.createInitTokenInformation(initTokensDto);
+    public void test(@RequestParam String A, @RequestParam String B) {
+
     }
     //Tet URL
     @Operation(summary = "최초 Token 등록 API", description = "애플리케이션 최초 실행시 Token과 학과, 키워드를 등록한다.")
