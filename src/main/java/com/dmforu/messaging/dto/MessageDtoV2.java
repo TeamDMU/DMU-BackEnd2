@@ -1,4 +1,4 @@
-package com.dmforu.v2_messaging.dto;
+package com.dmforu.messaging.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

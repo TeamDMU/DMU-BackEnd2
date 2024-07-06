@@ -20,7 +20,10 @@ public class SubscribeController {
     private final DepartmentService departmentService;
     private final TokenServiceV2 tokenServiceV2;
 
-
+    @PostMapping("/test")
+    public void test(@RequestParam ) {
+        tokenServiceV2.createInitTokenInformation(initTokensDto);
+    }
     //Tet URL
     @Operation(summary = "최초 Token 등록 API", description = "애플리케이션 최초 실행시 Token과 학과, 키워드를 등록한다.")
     @PostMapping("/registration")
