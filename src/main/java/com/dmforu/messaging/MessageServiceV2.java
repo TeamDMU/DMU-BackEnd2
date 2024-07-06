@@ -1,15 +1,12 @@
-package com.dmforu.v2_messaging;
+package com.dmforu.messaging;
 
 import com.dmforu.notice.Notice;
-import com.dmforu.v2_messaging.dto.MessageDtoV2;
-import com.dmforu.v2_messaging.dto.NoticeDtoV2;
-import com.dmforu.v2_messaging.util.KeywordFiltering;
-import com.dmforu.v2_messaging.util.MessagingV2;
-import com.dmforu.v2_messaging.util.mapToDTO;
-import com.dmforu.v2_subscrible.config.Keywords;
-import com.dmforu.v2_subscrible.model.entity.Token;
-import com.dmforu.v2_subscrible.repository.TokenRepository;
-import com.google.firebase.messaging.FirebaseMessagingException;
+import com.dmforu.messaging.dto.MessageDtoV2;
+import com.dmforu.messaging.dto.NoticeDtoV2;
+import com.dmforu.messaging.util.KeywordFiltering;
+import com.dmforu.messaging.util.MessagingV2;
+import com.dmforu.messaging.util.mapToDTO;
+import com.dmforu.subscribe.repository.TokenRepository;
 import com.google.firebase.messaging.MulticastMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
