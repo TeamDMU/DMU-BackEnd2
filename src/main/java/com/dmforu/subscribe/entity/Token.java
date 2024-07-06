@@ -1,6 +1,6 @@
-package com.dmforu.v2_subscrible.model.entity;
+package com.dmforu.subscribe.entity;
 
-import com.dmforu.v2_subscrible.util.StringListConvertor;
+import com.dmforu.subscribe.util.StringListConvertor;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
