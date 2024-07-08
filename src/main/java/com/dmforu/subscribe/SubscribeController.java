@@ -34,7 +34,7 @@ public class SubscribeController {
     }
 
     @Operation(summary = "키워드 알림 상태 변경 API", description = "키워드 알림 상태를 수정한다.")
-    @PutMapping("/keywordStatus")
+    @PutMapping("/keyword/status")
     public void updateDepartmentStatus(@RequestBody KeywordStatusDTO keywordStatusDTO) {
         keywordService.updateKeywordStatus(keywordStatusDTO);
     }
@@ -46,7 +46,7 @@ public class SubscribeController {
     }
 
     @Operation(summary = "학과 알림 상태 변경 API", description = "학과 알림 상태를 변경한다.")
-    @PutMapping("/departmentStatus")
+    @PutMapping("/department/status")
     public void deleteDepartment(@RequestBody DepartmentStatusDTO departmentStatusDTO) {
         departmentService.updateDepartmentStatus(departmentStatusDTO);
     }
