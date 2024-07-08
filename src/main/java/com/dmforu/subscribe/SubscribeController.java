@@ -29,7 +29,7 @@ public class SubscribeController {
 
     @Operation(summary = "Keyword 수정 API", description = "애플리케이션 키워드를 수정 및 추가한다.")
     @PutMapping("/keyword")
-    public void updateTokenDepartment(@RequestBody KeywordDTO keywordDto) throws ExecutionException, FirebaseMessagingException, InterruptedException {
+    public void updateTokenDepartment(@RequestBody KeywordDTO keywordDto) {
         keywordService.updateKeyword(keywordDto);
     }
 
