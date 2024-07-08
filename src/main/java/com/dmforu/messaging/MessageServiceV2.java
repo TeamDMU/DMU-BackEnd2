@@ -27,7 +27,7 @@ public class MessageServiceV2 {
     private void noticeType(Notice notice){
         NoticeDtoV2 noticeDtoV2 = mapToDTO.noticeToNoticeDTO(notice);
         if (noticeDtoV2.getType().equals("대학")) {
-            unibersityMessage(noticeDtoV2);
+            universityMessage(noticeDtoV2);
         }else {
             departmentMessage(noticeDtoV2);
         }
@@ -40,7 +40,7 @@ public class MessageServiceV2 {
     }
 
     //특정 키워드가 속해있는 TokenList 조회 [ 대학 ]
-    private void unibersityMessage(NoticeDtoV2 noticeDtoV2) {
+    private void universityMessage(NoticeDtoV2 noticeDtoV2) {
         Set<String> list = KeywordFiltering.keywordFilter(noticeDtoV2.getTitle());
         for (String s : list) {
             List<String> byTokenInKeyword = tokenRepository.findByTokenInKeyword(s);
