@@ -22,12 +22,10 @@ public class DepartmentService {
         Optional<Token> byId = tokenRepository.findById(departmentStatusDTO.getToken());
         Token token = returnToken(byId);
         if (Objects.isNull(token)) {
-            System.out.println("Null Update Department Status!");
-            tokenRepository.save(
-                    new Token(departmentStatusDTO.getToken(), departmentStatusDTO.getDepartment(), null, true, false)
-            );
+            newToken(departmentStatusDTO.getToken(), departmentStatusDTO.getDepartment());
+        } else {
+            token.updateDepartmentStatus(departmentStatusDTO.isDepartmentOnOFF());
         }
-        token.updateDepartmentStatus(departmentStatusDTO.isDepartmentOnOFF());
     }
 
     @Transactional
@@ -35,15 +33,19 @@ public class DepartmentService {
         Optional<Token> byId = tokenRepository.findById(departmentDTO.getToken());
         Token token = returnToken(byId);
         if (Objects.isNull(token)) {
-            System.out.println("Null Update Department!");
-            tokenRepository.save(
-                    new Token(departmentDTO.getToken(), departmentDTO.getDepartment(), null, true, false)
-            );
+            newToken(departmentDTO.getToken(), departmentDTO.getDepartment());
+        } else {
+            token.updateDepartment(departmentDTO.getDepartment());
         }
-        token.updateDepartment(departmentDTO.getDepartment());
     }
 
     private Token returnToken(Optional<Token> token) {
         return token.orElse(null);
+    }
+
+    private void newToken(String token, String department) {
+        tokenRepository.save(
+                new Token(token, department, null, true, false)
+        );
     }
 }

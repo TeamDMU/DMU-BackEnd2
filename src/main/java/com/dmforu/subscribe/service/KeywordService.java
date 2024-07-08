@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,12 +33,10 @@ public class KeywordService {
         Optional<Token> byId = tokenRepository.findById(keywordDto.getToken());
         Token token = returnToken(byId);
         if (Objects.isNull(token)) {
-            System.out.println("Null Update Keyword!");
-            tokenRepository.save(
-                    new Token(keywordDto.getToken(), null, keywordDto.getKeywordsList(), false, true)
-            );
+            newToken(keywordDto.getToken(), keywordDto.getKeywordsList());
+        } else {
+            token.updateKeywords(keywordDto.getKeywordsList());
         }
-        token.updateKeywords(keywordDto.getKeywordsList());
     }
 
     @Transactional
@@ -45,15 +44,19 @@ public class KeywordService {
         Optional<Token> byId = tokenRepository.findById(keywordStatusDTO.getToken());
         Token token = returnToken(byId);
         if (Objects.isNull(token)) {
-            System.out.println("Null Update KeywordStatus!");
-            tokenRepository.save(
-                    new Token(keywordStatusDTO.getToken(), null, keywordStatusDTO.getKeywordsList(), false, true)
-            );
+            newToken(keywordStatusDTO.getToken(), keywordStatusDTO.getKeywordsList());
+        } else {
+            token.updateKeywordStatus(keywordStatusDTO);
         }
-        token.updateKeywordStatus(keywordStatusDTO);
     }
 
     private Token returnToken(Optional<Token> token) {
         return token.orElse(null);
+    }
+
+    private void newToken(String token, List<String> keywordList) {
+        tokenRepository.save(
+                new Token(token, null, keywordList, false, true)
+        );
     }
 }
