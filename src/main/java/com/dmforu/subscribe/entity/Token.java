@@ -1,5 +1,6 @@
 package com.dmforu.subscribe.entity;
 
+import com.dmforu.subscribe.dtoV2.KeywordStatusDTO;
 import com.dmforu.subscribe.util.StringListConvertor;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -18,14 +19,17 @@ public class Token {
     @Id
     private String token;
 
+    @Column(nullable = true)
     private String department;
 
     @Convert(converter = StringListConvertor.class)
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = true)
     private List<String> keywordsList;
 
+    @Column(nullable = false)
     private boolean departmentOnOFF;
 
+    @Column(nullable = false)
     private boolean keywordOnOFF;
 
 
@@ -46,8 +50,9 @@ public class Token {
         this.departmentOnOFF = OnOFF;
     }
 
-    public void updateKeywordStatus(boolean OnOFF) {
-        this.keywordOnOFF = OnOFF;
+    public void updateKeywordStatus(KeywordStatusDTO keywordStatusDTO) {
+//        this.keywordsList = keywordStatusDTO.getKeywordsList();
+        this.keywordOnOFF = keywordStatusDTO.isKeywordOnOFF();
     }
     public void updateDepartment(String department) {
         this.department = department;

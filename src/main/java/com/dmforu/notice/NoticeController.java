@@ -16,13 +16,13 @@ import java.util.List;
 @Tag(name="공지")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/notice")
+@RequestMapping("/api/v1/notice")
 public class NoticeController {
 
     private final NoticeService noticeService;
 
     @Operation(summary = "학과 공지 API", description = "해당하는 학과의 공지를 출력한다.<br>Page, Size의 default 값은 1, 20이다.")
-    @GetMapping("/department/v1")
+    @GetMapping("/department")
     public ResponseEntity<List<NoticeRequest>> getDepartmentNotice(@RequestParam(name = "department") String department,
                                                                    @RequestParam(name = "page", defaultValue = "1") int page,
                                                                    @RequestParam(name = "size", defaultValue = "20") int size) {
@@ -32,7 +32,7 @@ public class NoticeController {
     }
 
     @Operation(summary = "대학 공지 API", description = "대학 공지를 출력한다.<br>Page, Size의 default 값은 1, 20이다.")
-    @GetMapping("/university/v1")
+    @GetMapping("/university")
     public ResponseEntity<List<NoticeRequest>> getUniversityNotice(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "size", defaultValue = "20") int size) {
@@ -42,7 +42,7 @@ public class NoticeController {
     }
 
     @Operation(summary = "공지 검색 API", description = "해당하는 학과와 대학 공지에서 해당하는 공지를 출력한다.<br>Page, Size의 default 값은 1, 20이다.")
-    @GetMapping("/{searchWord}/v1")
+    @GetMapping("/{searchWord}")
     public ResponseEntity<List<NoticeRequest>> getNoticeByKeyword(@PathVariable String searchWord,
                                                                   @RequestParam(name = "department") String department,
                                                                   @RequestParam(name = "page", defaultValue = "1") int page,

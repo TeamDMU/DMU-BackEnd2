@@ -1,11 +1,10 @@
-package com.dmforu.v2_subscrible.repository;
+package com.dmforu.subscribe.repository;
 
-import com.dmforu.v2_subscrible.model.entity.Token;
+import com.dmforu.subscribe.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
 
 

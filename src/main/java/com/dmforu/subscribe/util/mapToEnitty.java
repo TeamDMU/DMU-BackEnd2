@@ -1,7 +1,7 @@
-package com.dmforu.v2_subscrible.util;
+package com.dmforu.subscribe.util;
 
-import com.dmforu.v2_subscrible.model.dto.InitTokensDTO;
-import com.dmforu.v2_subscrible.model.entity.Token;
+import com.dmforu.subscribe.dtoV2.InitTokensDTO;
+import com.dmforu.subscribe.entity.Token;
 
 public class mapToEnitty {
     public static Token tokenDtoMapToEntity(InitTokensDTO initTokensDto) {

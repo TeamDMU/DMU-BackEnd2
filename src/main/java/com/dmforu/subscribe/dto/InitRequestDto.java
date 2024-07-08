@@ -14,4 +14,7 @@ public class InitRequestDto {
     private String token;
     private String department;
     private List<Topic> topic;
+
+    InitRequestDto(){}
+
 }

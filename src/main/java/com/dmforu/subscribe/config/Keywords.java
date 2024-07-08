@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.config;
+package com.dmforu.subscribe.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

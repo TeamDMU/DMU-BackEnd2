@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.model.dto;
+package com.dmforu.subscribe.dtoV2;
 
 import lombok.Data;
 
@@ -8,4 +8,10 @@ public class DepartmentDTO {
     private String token;
     private String department;
 
+    public  DepartmentDTO(){}
+
+    public DepartmentDTO(String token, String department) {
+        this.token = token;
+        this.department = department;
+    }
 }

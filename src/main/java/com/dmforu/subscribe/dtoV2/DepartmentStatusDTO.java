@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.model.dto;
+package com.dmforu.subscribe.dtoV2;
 
 import lombok.Data;
 
@@ -6,6 +6,7 @@ import lombok.Data;
 public class DepartmentStatusDTO {
 
     private String token;
+    private String department;
     private boolean departmentOnOFF;
 
 }

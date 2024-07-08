@@ -1,4 +1,4 @@
-package com.dmforu.v2_subscrible.util;
+package com.dmforu.subscribe.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

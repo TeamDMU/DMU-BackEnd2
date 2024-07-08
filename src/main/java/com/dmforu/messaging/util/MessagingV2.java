@@ -1,6 +1,6 @@
-package com.dmforu.v2_messaging.util;
+package com.dmforu.messaging.util;
 
-import com.dmforu.v2_messaging.dto.MessageDtoV2;
+import com.dmforu.messaging.dto.MessageDtoV2;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 

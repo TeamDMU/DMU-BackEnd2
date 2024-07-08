@@ -1,7 +1,7 @@
-package com.dmforu.v2_messaging.util;
+package com.dmforu.messaging.util;
 
 import com.dmforu.notice.Notice;
-import com.dmforu.v2_messaging.dto.NoticeDtoV2;
+import com.dmforu.messaging.dto.NoticeDtoV2;
 
 public class mapToDTO {
 
