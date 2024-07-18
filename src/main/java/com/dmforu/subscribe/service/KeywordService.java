@@ -33,10 +33,21 @@ public class KeywordService {
         Optional<Token> byId = tokenRepository.findById(keywordDto.getToken());
         Token token = returnToken(byId);
         if (Objects.isNull(token)) {
-            newToken(keywordDto.getToken(), keywordDto.getKeywordsList());
-        } else {
-            token.updateKeywords(keywordDto.getKeywordsList());
+            if (keywordDto.getKeywordsList() == null || keywordDto.getKeywordsList().isEmpty()) {
+                newToken(keywordDto.getToken(), null);
+            } else {
+                newToken(keywordDto.getToken(), keywordDto.getKeywordsList());
+            }
+
+            return;
         }
+
+        if (keywordDto.getKeywordsList() == null || keywordDto.getKeywordsList().isEmpty()) {
+            token.updateKeywords(null);
+            return;
+        }
+
+        token.updateKeywords(keywordDto.getKeywordsList());
     }
 
     @Transactional
@@ -44,10 +55,17 @@ public class KeywordService {
         Optional<Token> byId = tokenRepository.findById(keywordStatusDTO.getToken());
         Token token = returnToken(byId);
         if (Objects.isNull(token)) {
-            newToken(keywordStatusDTO.getToken(), keywordStatusDTO.getKeywordsList());
-        } else {
-            token.updateKeywordStatus(keywordStatusDTO);
+            newToken(keywordStatusDTO.getToken(), keywordStatusDTO.getKeywordsList(), keywordStatusDTO.isKeywordOnOFF());
+            return;
         }
+
+        if (token.getKeywordsList() == null && keywordStatusDTO.getKeywordsList() != null && !keywordStatusDTO.getKeywordsList().isEmpty()) {
+            token.updateKeywords(keywordStatusDTO.getKeywordsList());
+            token.updateKeywordStatus(keywordStatusDTO);
+            return;
+        }
+
+        token.updateKeywordStatus(keywordStatusDTO);
     }
 
     private Token returnToken(Optional<Token> token) {
@@ -57,6 +75,12 @@ public class KeywordService {
     private void newToken(String token, List<String> keywordList) {
         tokenRepository.save(
                 new Token(token, null, keywordList, false, true)
+        );
+    }
+
+    private void newToken(String token, List<String> keywordList, boolean keywordOnOff) {
+        tokenRepository.save(
+                new Token(token, null, keywordList, false, keywordOnOff)
         );
     }
 }
