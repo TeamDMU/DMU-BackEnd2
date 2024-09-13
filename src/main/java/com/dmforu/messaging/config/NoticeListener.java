@@ -1,6 +1,6 @@
 package com.dmforu.messaging.config;
 
-import com.dmforu.messaging.MessageService;
+import com.dmforu.messaging.MessageServiceV2;
 import com.dmforu.notice.Notice;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @AllArgsConstructor
 public class NoticeListener {
 
-    private final MessageService messageService;
+    private final MessageServiceV2 messageService;
 
     // DB에 새로운 데이터가 추가되는 순간, 아래의 메서드가 호출
     @TransactionalEventListener
