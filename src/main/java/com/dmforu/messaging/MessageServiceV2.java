@@ -6,6 +6,7 @@ import com.dmforu.messaging.dto.NoticeDtoV2;
 import com.dmforu.messaging.util.KeywordFiltering;
 import com.dmforu.messaging.util.MessagingV2;
 import com.dmforu.messaging.util.mapToDTO;
+import com.dmforu.subscribe.entity.Token;
 import com.dmforu.subscribe.repository.TokenRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -64,4 +65,21 @@ public class MessageServiceV2 {
         FirebaseMessaging.getInstance().sendEachForMulticast(message);
     }
 
+    public boolean sendFullMessage(String title, String content) {
+
+        List<String> tokenList = tokenRepository.findAll()
+                .stream()
+                .map(Token::getToken)
+                .toList();
+
+        MulticastMessage message = MessagingV2.buildMessage(tokenList, title, content);
+
+        try {
+            FirebaseMessaging.getInstance().sendEachForMulticast(message);
+        } catch(FirebaseMessagingException ex) {
+            return false;
+        }
+
+        return true;
+    }
 }
