@@ -7,11 +7,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -63,7 +63,7 @@ public class CafeteriaParser implements Parser<Diet> {
         // 만일 식단의 작성 방법이 변경된다면 해당 로직 또한 변경의 필요성이 존재한다.
         Element menuColumn = columns.size() > 3 ? columns.get(3) : null;
         String menuElement = menuColumn != null ? menuColumn.text() : null;
-        String[] menus = !StringUtils.isEmpty(menuElement) ? menuElement.split(MENU_SEPARATOR) : new String[] {};
+        List menus = !menuElement.isBlank() ? Arrays.stream(menuElement.split(MENU_SEPARATOR)).toList() : new ArrayList<String>();
 
         return new Diet(parsedDate, menus);
     }
