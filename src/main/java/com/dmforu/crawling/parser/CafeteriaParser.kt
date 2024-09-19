@@ -2,41 +2,25 @@ package com.dmforu.crawling.parser
 
 import com.dmforu.cafeteria.Diet
 import com.dmforu.crawling.WebPageLoader
-import io.micrometer.common.util.StringUtils
-import lombok.RequiredArgsConstructor
 import org.jsoup.nodes.Element
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 @Service
-@RequiredArgsConstructor
-class CafeteriaParser : Parser<Diet?> {
+class CafeteriaParser : Parser<Diet> {
     override fun parse(): List<Diet> {
-        val diets: MutableList<Diet> = ArrayList()
-
         val document = WebPageLoader.getHTML(DMU_DIET_URL)
-
         val rows = document.select(TABLE_SELECTOR)
-        for (row in rows) {
-            val diet = parseDiet(row)
 
-            if (diet != null) {
-                diets.add(diet)
-            }
-        }
-
-        return diets
+        return rows.mapNotNull { row -> parseDiet(row) }
     }
-
 
     private fun parseDiet(row: Element): Diet? {
         val columns = row.select(DATA_SELECTOR)
 
         // 요일 출력
-        val dayElement = columns[0]
-        val day = dayElement.text()
+        val day = columns[0].text()
 
         // 짝수 컬럼에는 day 정보가 있는 위치에 "교직원식당"의 정보가 기입됨으로 넘겨야 함
         if (PASS_COLUMN == day) {
@@ -45,18 +29,23 @@ class CafeteriaParser : Parser<Diet?> {
 
         val parsedDate = LocalDate.parse(day.substring(0, 10), DATE_FORMATTER)
 
-        // 코리안 푸드 메뉴가 4번째 컬럼에 작성되기 때문에, 컬럼의 개수가 3개 이하라면 해당 날짜의 메뉴는 존재하지 않는 것으로 처리하였다.
+        // 코리안 푸드 메뉴가 4번째 컬럼에 작성된다.
         // 만일 식단의 작성 방법이 변경된다면 해당 로직 또한 변경의 필요성이 존재한다.
-        val menuColumn = if (columns.size > 3) columns[3] else null
+        val menuColumn = columns.getOrNull(3)
         val menuElement = menuColumn?.text()
-        val menus: List<*> = if (!StringUtils.isBlank(menuElement)) Arrays.stream(menuElement!!.split(MENU_SEPARATOR.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()).toList() else ArrayList<String>()
+
+        // 메뉴가 공백이 아니면 메뉴를 분리하여 리스트로 변환
+        val menus = menuElement?.takeIf { it.isNotBlank() }
+                ?.split(MENU_SEPARATOR)
+                ?.map { it.trim() }
+                ?: emptyList()
 
         return Diet(parsedDate, menus)
     }
 
     companion object {
-        private const val DMU_DIET_URL = "https://www.dongyang.ac.kr/diet/dongyang/1/view.do"
         private val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        private const val DMU_DIET_URL = "https://www.dongyang.ac.kr/diet/dongyang/1/view.do"
         private const val TABLE_SELECTOR = "div.table_1 table tbody tr"
         private const val DATA_SELECTOR = "th, td"
         private const val MENU_SEPARATOR = ", "
