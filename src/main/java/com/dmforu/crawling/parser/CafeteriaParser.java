@@ -2,6 +2,7 @@ package com.dmforu.crawling.parser;
 
 import com.dmforu.cafeteria.Diet;
 import com.dmforu.crawling.WebPageLoader;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -63,7 +64,7 @@ public class CafeteriaParser implements Parser<Diet> {
         // 만일 식단의 작성 방법이 변경된다면 해당 로직 또한 변경의 필요성이 존재한다.
         Element menuColumn = columns.size() > 3 ? columns.get(3) : null;
         String menuElement = menuColumn != null ? menuColumn.text() : null;
-        List menus = !menuElement.isBlank() ? Arrays.stream(menuElement.split(MENU_SEPARATOR)).toList() : new ArrayList<String>();
+        List menus = !StringUtils.isBlank(menuElement) ? Arrays.stream(menuElement.split(MENU_SEPARATOR)).toList() : new ArrayList<String>();
 
         return new Diet(parsedDate, menus);
     }
