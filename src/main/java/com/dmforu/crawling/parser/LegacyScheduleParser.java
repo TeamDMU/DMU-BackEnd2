@@ -1,14 +1,13 @@
 package com.dmforu.crawling.parser;
 
 import com.dmforu.crawling.WebPageLoader;
+import com.dmforu.schedule.LegacySchedule;
 import com.dmforu.schedule.MonthSchedule;
-import com.dmforu.schedule.Schedule;
 import com.dmforu.schedule.YearSchedule;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,12 +18,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LegacyScheduleParser implements Parser<YearSchedule> {
-
-    @Value("${server.time.zone}")
-    private String TIME_ZONE;
-
-    @Value("${dmu.url.scheduler}")
-    private String DMU_SCHEDULER_URL;
+    private static final String TIME_ZONE = "Asia/Seoul";
+    private static final String DMU_SCHEDULER_URL = "https://www.dongyang.ac.kr/dongyang/71/subview.do?year=";
 
     @Override
     public List<YearSchedule> parse() {
@@ -60,7 +55,7 @@ public class LegacyScheduleParser implements Parser<YearSchedule> {
     }
 
     private MonthSchedule fetchMonthSchedule(Element monthTable) {
-        List<Schedule> monthEntries = new ArrayList<>();
+        List<LegacySchedule> monthEntries = new ArrayList<>();
 
         // <p id="yearmonth20241">2024.1</p> p태그에서 "2024.1"을 문자열로 가져온다.
         // 이때, 월 정보만 필요하기 때문에 문자열 인덱스 5부터의 정보만을 가져온다.
@@ -69,20 +64,20 @@ public class LegacyScheduleParser implements Parser<YearSchedule> {
 
         Elements scheduleList = monthTable.select(".scheList li");
         for (Element schedule : scheduleList) {
-            Schedule scheduleEntry = parseSchedule(schedule);
+            LegacySchedule scheduleEntry = parseSchedule(schedule);
             monthEntries.add(scheduleEntry);
         }
 
         return new MonthSchedule(month, monthEntries);
     }
 
-    private Schedule parseSchedule(Element schedule) {
+    private LegacySchedule parseSchedule(Element schedule) {
         String dateText = schedule.select("dt span").text().replaceAll(" ", "");
         String[] dates = dateText.contains("~") ? dateText.split("~") : new String[]{dateText, dateText};
 
         String content = schedule.select("dd span").text();
 
-        return new Schedule(dates, content);
+        return new LegacySchedule(dates, content);
     }
 
 }

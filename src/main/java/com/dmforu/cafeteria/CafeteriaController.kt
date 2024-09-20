@@ -15,7 +15,6 @@ class CafeteriaController(
 ) {
     @GetMapping
     @Operation(summary = "식단표 API", description = "금주의 식단을 출력한다.<br>식단표는 매주 일요일에 갱신된다.<br>만약, 공휴일인 경우는 빈 리스트를 출력한다.")
-
     fun getDiet(): ResponseEntity<List<Diet>> {
         return ResponseEntity.ok().body(cafeteriaService.getData())
     }
