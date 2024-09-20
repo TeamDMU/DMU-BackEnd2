@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 data class Schedule(
         @Schema(description = "날짜", example = "[01.01(일), 01.01(일)]")
-        val date: Array<String>,
+        val date: List<String>,
 
         @Schema(description = "내용", example = "신정")
         val content: String

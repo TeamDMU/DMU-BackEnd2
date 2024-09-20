@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -89,7 +90,7 @@ public class ScheduleParser implements Parser<Schedule.Year> {
      */
     private Schedule parseSchedule(Element schedule) {
         String dateText = schedule.select(SCHEDULE_DATE_SELECTOR).text().replaceAll(" ", "");
-        String[] dates = dateText.contains("~") ? dateText.split("~") : new String[]{dateText, dateText};
+        List<String> dates = dateText.contains("~") ? Arrays.asList(dateText.split("~")) : Arrays.asList(dateText, dateText);
 
         String content = schedule.select(SCHEDULE_CONTENT_SELECTOR).text();
 
