@@ -12,12 +12,16 @@ object WebPageLoader {
      * @return URL에 접속하면 볼 수 있는 HTML을 반환
      */
     @JvmStatic
-    fun getHTML(url: String?): Document? {
+    fun getHTML(url: String?): Document {
+        if (url.isNullOrBlank()) {
+            throw IllegalArgumentException("URL이 비어있거나 잘못되었습니다.")
+        }
+
         return try {
             Jsoup.connect(url).get()
         } catch (e: IOException) {
-            // 값이 비어있는 상황을 에러 핸들링 해야함
-            null
+            // TODO: 페이지 로딩 실패나 네트워크 오류인 경우 핸들링을 해야함
+            throw IllegalArgumentException()
         }
     }
 }
